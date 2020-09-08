@@ -7,7 +7,7 @@ body{
 }
 
 footer{
-  height: 40px;
+  height: 70px;
   width: 100%;
   background-color: black;
   margin-top: 22px;
@@ -18,8 +18,39 @@ footer{
 }
 
 .top-link {
-  padding-top: 100px;
+  margin-top: 32px;
+  display: flex;
 }
+
+.top-link-tab {
+  display: block;
+  width: 25%;
+}
+/*リンクにマウスが乗ったら背景色を変更する*/
+.top-link-tab:hover {
+  background-color:#404094;
+  transition: 0.4s ;
+  text-decoration:none;
+}
+
+.pt-140 {
+  padding-top: 140px;
+}
+
+.font-20 {
+  font-size: 20px;
+}
+
+.site-header{
+  transition: .5s;
+  z-index: 999;
+}
+
+.site-header.hide{
+  transform: translateY(-100%);
+}
+
+
 .contents-left {
   width: 100%;
   background-color: white;
