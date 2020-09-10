@@ -20,20 +20,25 @@
       <!------------ ハンバーガーメニュー ------------>
       <nav class="global-nav">
         <ul class="global-nav__list font-alegreya font-weight-bold">
-          <li class="global-nav__item"><a href="">HOME</a></li>
-          @if (Route::has('login'))
-          <li class="global-nav__item"><a href="{{ route('register') }}">Register</a></li>
-          <li class="global-nav__item"><a href="{{ route('login') }}">Login</a></li>
-          @endif
           @if(Auth::check())
-          <li class="global-nav__item">
-            <a href="">Logout</a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-              @csrf
-            </form>
-          </li>
-          <li class="global-nav__item"><a href="">Favorite Player</a></li>
-          <li class="global-nav__item"><a href="">Favorite Brand</a></li>
+            <li class="global-nav__item"><a href="/">HOME</a></li>
+            <li class="global-nav__item">
+              <a class="dropdown-item" href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
+                Logout
+              </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+              </form>
+            </li>
+            <li class="global-nav__item"><a href="">Favorite Player</a></li>
+            <li class="global-nav__item"><a href="">Favorite Brand</a></li>
+            <li class="global-nav__item"><a href="">Player Analysis</a></li>
+          @else
+            <li class="global-nav__item"><a href="/">HOME</a></li>
+            <li class="global-nav__item"><a href="{{ route('register') }}">Register</a></li>
+            <li class="global-nav__item"><a href="{{ route('login') }}">Login</a></li>
           @endif
         </ul>
       </nav>

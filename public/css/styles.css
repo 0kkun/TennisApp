@@ -96,10 +96,6 @@ footer{
   background: hsla(180,50%,50%,0.7);
 }
 
-
-
-
-
 .contents-left {
   width: 100%;
   background-color: white;
@@ -169,6 +165,7 @@ td {
 }
 
 @media screen and (max-width: 585px) {
-  .top-link-tab {
-    display: none;
+    .top-link-tab {
+      display: none;
+  }
 }
