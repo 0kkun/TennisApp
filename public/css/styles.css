@@ -1,6 +1,7 @@
 
 body{
   width  : 100vw;
+  min-height: 700px;
   background-image: url("../img/img_background_tennis.jpeg");
   background-size: cover;
   position: relative;
@@ -23,9 +24,9 @@ footer{
 }
 
 .top-link-tab {
-  /* display: block; */
   width: 25%;
 }
+
 /*リンクにマウスが乗ったら背景色を変更する*/
 .top-link-tab:hover {
   background-color:#404094;
@@ -33,7 +34,15 @@ footer{
   text-decoration:none;
 }
 
+.p-tb-register {
+  padding-top: 75px;
+  padding-bottom: 80px;
+}
 
+.p-tb-rogin {
+  padding-top: 125px;
+  padding-bottom: 125px;
+}
 
 .pt-140 {
   padding-top: 140px;
@@ -52,6 +61,44 @@ footer{
   transform: translateY(-100%);
 }
 
+.welcome-body {
+  padding-top:300px;
+  padding-bottom: 145px;
+  min-height: 660px;
+}
+
+.subtitle-text{
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  line-height: normal;
+  font-size: 40px;
+  color: white;
+  text-align: center;
+  background-color: rgba( 200, 200, 200, 0.55 );
+
+}
+
+.welcome-btn {
+  width: 120px;
+  height: 40px;
+  font-size: 25px;
+  color: white;
+  border-radius: 27px;
+  background-color: black;
+  text-align: center;
+  margin:0 auto;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.welcome-btn:hover {
+  background: hsla(180,50%,50%,0.7);
+}
+
+
+
+
 
 .contents-left {
   width: 100%;
@@ -59,39 +106,47 @@ footer{
   border-radius :8px;
   box-shadow :0px 0px 5px silver;
 }
+
 .contents-head {
   border-radius :8px 8px 0px 0px;
 }
+
 li {
   line-height: 1;
   padding: 0.5em 0;
 }
+
 .list-box {
   height: 200px;
   overflow: scroll;
   padding-left: 10px;
   padding-right: 10px;
 }
+
 .movie-box {
   min-height: 520px;
 }
+
 .tour-box {
   min-height: 450px;
 }
 
 /* --------   contents-center ---------- */
+
 .contents-center {
   width: 100%;
   background-color: white;
   border-radius :8px;
   box-shadow :0px 0px 5px silver;
 }
+
 td {
   line-height: 1;
   padding: 0.5em 0;
 }
 
 /* --------   contents-right ---------- */
+
 .contents-right {
   width: 100%;
   height: 100%;
@@ -103,6 +158,7 @@ td {
 
 
 /* --------   contents-favorite ---------- */
+
 .contents-favorite {
   width: 100%;
   min-height: 500px;

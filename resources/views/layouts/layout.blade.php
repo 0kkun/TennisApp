@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="js/scroll.js"></script>
+    <script type="text/javascript" src="js/welcome.js"></script>
   </head>
 
 
@@ -20,11 +21,20 @@
       <nav class="global-nav">
         <ul class="global-nav__list font-alegreya font-weight-bold">
           <li class="global-nav__item"><a href="">HOME</a></li>
-          <li class="global-nav__item"><a href="">Register</a></li>
-          <li class="global-nav__item"><a href="">Login</a></li>
-          <li class="global-nav__item"><a href="">Logout</a></li>
+          @if (Route::has('login'))
+          <li class="global-nav__item"><a href="{{ route('register') }}">Register</a></li>
+          <li class="global-nav__item"><a href="{{ route('login') }}">Login</a></li>
+          @endif
+          @if(Auth::check())
+          <li class="global-nav__item">
+            <a href="">Logout</a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+              @csrf
+            </form>
+          </li>
           <li class="global-nav__item"><a href="">Favorite Player</a></li>
           <li class="global-nav__item"><a href="">Favorite Brand</a></li>
+          @endif
         </ul>
       </nav>
       <div class="hamburger" id="js-hamburger">
@@ -40,10 +50,12 @@
       </a>
       <!-- トップリンクバー -->
       <div class="top-link rounded text-center bg-info w-100 ">
+        @if(Auth::check())
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="/">Home</a>
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="#">Favorite Player</a>
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="#">Favorite Brand</a>
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="#">Player Analysis</a>
+        @endif
       </div>
 
     </header>
