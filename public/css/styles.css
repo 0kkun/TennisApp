@@ -27,21 +27,10 @@ footer{
   width: 25%;
 }
 
-/*リンクにマウスが乗ったら背景色を変更する*/
 .top-link-tab:hover {
   background-color:#404094;
   transition: 0.4s ;
   text-decoration:none;
-}
-
-.p-tb-register {
-  padding-top: 75px;
-  padding-bottom: 80px;
-}
-
-.p-tb-rogin {
-  padding-top: 125px;
-  padding-bottom: 125px;
 }
 
 .pt-140 {
@@ -61,10 +50,24 @@ footer{
   transform: translateY(-100%);
 }
 
+/* ---- login and register ---- */
+
+.p-tb-register {
+  padding-top: 65px;
+  padding-bottom: 60px;
+}
+
+.p-tb-rogin {
+  padding-top: 125px;
+  padding-bottom: 95px;
+}
+
+/* -------- welcome page ---------- */
+
 .welcome-body {
   padding-top:300px;
   padding-bottom: 145px;
-  min-height: 660px;
+  min-height: 645px;
 }
 
 .subtitle-text{
