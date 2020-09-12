@@ -1,8 +1,7 @@
 
 body{
   width  : 100vw;
-  min-height: 700px;
-  background-image: url("../img/img_background_tennis.jpeg");
+  background-image: url("../../img/img_background_tennis.jpeg");
   background-size: cover;
   position: relative;
 }
@@ -65,9 +64,8 @@ footer{
 /* -------- welcome page ---------- */
 
 .welcome-body {
-  padding-top:300px;
-  padding-bottom: 145px;
-  min-height: 645px;
+  padding-top:calc( (100vh / 2) - 70px );
+  height: calc( 100vh - 90px );
 }
 
 .subtitle-text{
@@ -99,64 +97,14 @@ footer{
   background: hsla(180,50%,50%,0.7);
 }
 
-.contents-left {
-  width: 100%;
-  background-color: white;
-  border-radius :8px;
-  box-shadow :0px 0px 5px silver;
+
+.login-wrapper {
+  height: calc( 100vh - 90px );
 }
 
-.contents-head {
-  border-radius :8px 8px 0px 0px;
+.register-wrapper {
+  height: calc( 100vh - 90px );
 }
-
-li {
-  line-height: 1;
-  padding: 0.5em 0;
-}
-
-.list-box {
-  height: 200px;
-  overflow: scroll;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-
-.movie-box {
-  min-height: 520px;
-}
-
-.tour-box {
-  min-height: 450px;
-}
-
-/* --------   contents-center ---------- */
-
-.contents-center {
-  width: 100%;
-  background-color: white;
-  border-radius :8px;
-  box-shadow :0px 0px 5px silver;
-}
-
-td {
-  line-height: 1;
-  padding: 0.5em 0;
-}
-
-/* --------   contents-right ---------- */
-
-.contents-right {
-  width: 100%;
-  height: 100%;
-  min-height: 500px;
-  background-color: white;
-  border-radius :8px;
-  box-shadow :0px 0px 5px silver;
-}
-
-
-/* --------   contents-favorite ---------- */
 
 .contents-favorite {
   width: 100%;

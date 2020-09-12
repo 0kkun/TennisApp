@@ -2,7 +2,7 @@
 
 @section('content')
   @if(Auth::check())
-    <div class="container-fluid pt-140">
+    <div class="top-wrapper container-fluid pt-140">
       <div class="row">
         <div class="col-sm-4 pt-3">
           @include('top.contents-left')

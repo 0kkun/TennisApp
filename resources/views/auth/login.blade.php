@@ -1,7 +1,8 @@
 @extends('layouts.layout')
 
 @section('content')
-    <div class="container-fluid pt-140">
+
+    <div class="login-wrapper container-fluid pt-140">
         <div class="row justify-content-center p-tb-rogin">
             <div class="col-md-7">
                 <div class="card">
