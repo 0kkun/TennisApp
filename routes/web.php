@@ -11,11 +11,7 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::get('/', 'TopController@index')->name('top.index');
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
