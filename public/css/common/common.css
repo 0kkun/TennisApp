@@ -106,6 +106,14 @@ footer{
   height: calc( 100vh - 90px );
 }
 
+.reset-wrapper {
+  height: calc( 100vh - 90px );
+}
+
+.email-wrapper {
+  height: calc( 100vh - 90px );
+}
+
 .contents-favorite {
   width: 100%;
   min-height: 500px;
