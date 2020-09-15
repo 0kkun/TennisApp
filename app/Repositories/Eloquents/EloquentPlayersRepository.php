@@ -10,17 +10,17 @@ use Illuminate\Support\Facades\DB;
 
 class EloquentPlayersRepository implements PlayersRepository
 {
-    protected $players_repository;
+    protected $players;
 
 
     /**
-    * @param object $players_repository
+    * @param object $players
     */
     public function __construct(
-        Player $players_repository
+        Player $players
     )
     {
-        $this->players_repository = $players_repository;
+        $this->players = $players;
     }
 
 
@@ -31,7 +31,7 @@ class EloquentPlayersRepository implements PlayersRepository
      */
     public function getAll(): Collection
     {
-        return $this->players_repository
+        return $this->players
                     ->get();
     }
 
@@ -50,6 +50,17 @@ class EloquentPlayersRepository implements PlayersRepository
 
 
     /**
+     * バルクインサート処理
+     *
+     * @param  Collection|Players|array $data
+     * @return void
+     */
+    public function bulkInsertOrUpdate($data): void
+    {
+        $this->players->bulkInsertOrUpdate($data);
+    }
+
+    /**
      * 名前で検索
      *
      * @param string|null $name_jp
@@ -58,7 +69,7 @@ class EloquentPlayersRepository implements PlayersRepository
      */
     public function searchPlayerByName(?string $name_jp, ?string $name_en): Collection
     {
-        return $this->players_repository
+        return $this->players
                     ->where('name_en', '=', $name_en)
                     ->where('name_jp', '=', $name_jp)
                     ->get();

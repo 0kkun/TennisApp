@@ -21,6 +21,17 @@ interface PlayersRepository
      */
     public function insertPlayersRecord(array $data): void;
 
+
+    /**
+     * バルクインサート
+     * テーブルに保存・更新する
+     * 
+     * @param array $data
+     * @return void
+     */
+    public function bulkInsertOrUpdate($data): void;
+
+
     /**
      * 名前で検索
      *

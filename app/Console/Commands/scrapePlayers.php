@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Weidner\Goutte\GoutteFacade;
 use App\Modules\BatchLogger;
 use Exception;
+use App\Repositories\Contracts\PlayersRepository;
+use Carbon\Carbon;
 
 class scrapePlayers extends Command
 {
@@ -15,6 +17,8 @@ class scrapePlayers extends Command
      * @var string
      */
     protected $signature = 'command:scrapePlayers';
+
+    private $players_repository;
 
     /**
      * The console command description.
@@ -28,9 +32,12 @@ class scrapePlayers extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        PlayersRepository $players_repository
+    )
     {
         parent::__construct();
+        $this->players_repository = $players_repository;
     }
 
     /**
@@ -44,9 +51,6 @@ class scrapePlayers extends Command
         $this->logger = new BatchLogger('scrapePlayers');
         $origin_data = array(); // 全テキスト取得用
 
-        // TODO: $dataの中に、'name_jp','name_en', 'wiki_url', 'age'を格納し保存できるようにする
-        // 名前一覧ページからはまず'name_jp','name_en', 'wiki_url'を格納する
-        // 取得した'name_jp'を使ってリンク先情報を取得し、ageを取得する
         try {
             $this->logger->write('取得開始', 'info', true);
 
@@ -106,25 +110,34 @@ class scrapePlayers extends Command
                     $side_bar_text = $goutte_detail->filter('.infobox')->text();
                     // 文字列の中から2桁の数値であり、かつ"歳"の直前である物を抽出
                     $age[$i] = $this->extract_age($side_bar_text);
-                    $this->info($i . ':' . $age[$i]);
+                    $this->info($i . ':' . $age[$i] . '歳');
                 } else {
                     $age[$i] = null;
                 }
             }
 
+            $today = Carbon::now();
+
             for ($i=0; $i<$count; $i++) {
                 $data[$i] = [
-                    'name_jp' => $name_jp[$i],
-                    'name_en' => $name_en[$i],
-                    'country' => $country[$i],
-                    'wiki_url' => $wiki_url[$i],
-                    'age' => $age[$i],
+                    'name_jp'    => $name_jp[$i],
+                    'name_en'    => $name_en[$i],
+                    'country'    => $country[$i],
+                    'wiki_url'   => $wiki_url[$i],
+                    'age'        => $age[$i],
+                    'created_at' => $today,
+                    'updated_at' => $today,
                 ];
             }
 
-            dd($data);
-
             $this->logger->write('取得完了', 'info' ,true);
+
+            // バルクインサートで保存
+            if (!empty($data)) {
+                $this->players_repository->bulkInsertOrUpdate($data);
+            }
+
+            $this->logger->write('保存完了', 'info' ,true);
             $this->logger->success();
 
         } catch (Exception $e) {
@@ -192,10 +205,13 @@ class scrapePlayers extends Command
             // 区切りカンマを削除
             $num_plain = preg_replace( '/,/', '', $num_half_width );
             // 小数の値として正規化
-            $num_float = (float) $num_plain;
+            $num_int = (int) $num_plain;
 
-            // 文字列で返す
-            return (int) $num_float;
+            if ( $num_int <= 15 ) {
+                $num_int = null;
+            }
+
+            return $num_int;
         } else {
             return null;
         }
