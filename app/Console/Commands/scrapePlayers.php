@@ -9,6 +9,13 @@ use Exception;
 use App\Repositories\Contracts\PlayersRepository;
 use Carbon\Carbon;
 
+/**
+ * [2020-09-17 02:52:18] local.INFO: [START] scrapePlayers  
+ * [2020-09-17 02:52:18] local.INFO: [scrapePlayers] 取得開始 : 0.074466943740845秒  
+ * [2020-09-17 02:53:44] local.INFO: [scrapePlayers] 取得完了 : 86.893354177475秒  
+ * [2020-09-17 02:53:45] local.INFO: [scrapePlayers] 保存完了 : 87.135699987411秒  
+ * [2020-09-17 02:53:45] local.INFO: [ END ] scrapePlayers 処理時間: 87.136131048203秒 
+ */
 class scrapePlayers extends Command
 {
     /**
@@ -159,6 +166,7 @@ class scrapePlayers extends Command
 
     /**
      * 正規表現で選手の日本語名だけを抽出
+     * TODO: 正規表現のリファクタやる
      *
      * @param array $all_data
      * @return array
@@ -182,6 +190,7 @@ class scrapePlayers extends Command
 
     /**
      * 正規表現で選手の英語名だけを抽出
+     * TODO: 正規表現のリファクタやる
      *
      * @param array $all_data
      * @return array
@@ -206,6 +215,7 @@ class scrapePlayers extends Command
 
     /**
      * 正規表現で選手の出身国だけを抽出
+     * TODO: 正規表現のリファクタやる
      *
      * @param array $all_data
      * @return array
@@ -265,6 +275,7 @@ class scrapePlayers extends Command
 
     /**
      * 年齢のみ抽出する
+     * TODO: 正規表現のリファクタやる
      *
      * @param string $subject (ソース文字列)
      * @return 抽出した数値 or null
