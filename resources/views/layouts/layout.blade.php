@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="/css/common/common.css">
     <link rel="stylesheet" href="/css/common/nav_menu.css">
     <link rel="stylesheet" href="/css/top/index.css">
+    <link rel="stylesheet" href="/css/favorite_player/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/js/top/scroll.js"></script>

@@ -39,7 +39,7 @@
   <div class="top-link rounded text-center bg-info w-100 ">
     @if(Auth::check())
     <a class="text-white font-20 font-alegreya top-link-tab p-1" href="/">Home</a>
-    <a class="text-white font-20 font-alegreya top-link-tab p-1" href="#">Favorite Player</a>
+    <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('favorite_player.index') }}">Favorite Player</a>
     <a class="text-white font-20 font-alegreya top-link-tab p-1" href="#">Favorite Brand</a>
     <a class="text-white font-20 font-alegreya top-link-tab p-1" href="#">Player Analysis</a>
     @endif
