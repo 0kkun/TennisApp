@@ -14,4 +14,5 @@
 
 
 Route::get('/', 'TopController@index')->name('top.index');
+Route::get('/favorite_player', 'FavoritePlayerController@index')->name('favorite_player.index');
 Auth::routes();
