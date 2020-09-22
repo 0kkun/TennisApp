@@ -6,7 +6,7 @@
 
       <div class="row">
 
-        <div class="col-sm-5 pt-5">
+        <div class="col-sm-5 pt-5 pl-5">
           <div class="form-group p-4 h4 bg-light rounded" style="height:300px;">
             <div class="font-alegreya h4 pb-2">Search Player</div>
             <div class="row">
@@ -45,7 +45,7 @@
           </div>
         </div>
 
-        <div class="col-sm-7 pt-3">
+        <div class="col-sm-7 pt-3 pr-4">
           <div class="favorite-contents-left">
             <div class="text-white bg-dark favorite-head text-center h4 font-alegreya">Player Lists</div>
             <table class="table m-0">
@@ -60,13 +60,28 @@
             <div class="favorite-tbody">
               <table class="table table-striped">
                 <tbody>
-                @foreach ($players as $player)
+                @foreach ($player_lists as $player)
                   <tr>
-                    <td class="favorite-td favorite-name-jp-w text-center">{{ $player['name_jp'] }}</td>
-                    <td class="favorite-td favorite-name-en-w text-center">{{ $player['name_en'] }}</td>
+                    <td class="favorite-td favorite-name-jp-w text-center"><a href="{{ $player['wiki_url'] }}">{{ $player['name_jp'] }}</a></td>
+                    <td class="favorite-td favorite-name-en-w text-center"><a href="{{ $player['wiki_url'] }}">{{ $player['name_en'] }}</a></td>
                     <td class="favorite-td favorite-country-w text-center">{{ $player['country'] }}</td>
                     <td class="favorite-td favorite-age-w text-center">{{ $player['age'] }}</td>
-                    <td class="favorite-td favorite-age-w text-center"><a class="favorite-add-btn bg-success text-white rounded p-1">add</a></td>
+
+                    <td class="favorite-td favorite-age-w text-center">
+                    @if ( $player['favorite_status'] == 0 )
+                      <form method="post" action="{{ route('favorite_player.add') }}">
+                        @csrf
+                        <input type="hidden" name="favorite_player_id" value="{{ $player['id'] }}">
+                        <button type="submit" class="favorite-add-btn bg-success text-white rounded p-1" style="width:66px;">add</button>
+                      </form>
+                    @else
+                      <form method="post" action="{{ route('favorite_player.remove') }}">
+                        @csrf
+                        <input type="hidden" name="favorite_player_id" value="{{ $player['id'] }}">
+                        <button type="submit" class="favorite-add-btn bg-danger text-white rounded p-1" style="width:66px;">remove</button>
+                      </form>
+                    @endif
+                    </td>
                   </tr>
                 @endforeach
                 </tbody>
