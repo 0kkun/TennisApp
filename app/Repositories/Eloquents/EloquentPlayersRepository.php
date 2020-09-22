@@ -7,6 +7,8 @@ use App\Repositories\Contracts\PlayersRepository;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+
 
 class EloquentPlayersRepository implements PlayersRepository
 {
@@ -44,8 +46,8 @@ class EloquentPlayersRepository implements PlayersRepository
      */
     public function insertPlayersRecord(array $data): void
     {
-      // まとめて保存したいのでinsertを使用
-      DB::table('players')->insert($data);
+        // まとめて保存したいのでinsertを使用
+        DB::table('players')->insert($data);
     }
 
 
