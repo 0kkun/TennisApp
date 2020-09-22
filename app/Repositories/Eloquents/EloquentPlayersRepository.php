@@ -5,10 +5,6 @@ namespace App\Repositories\Eloquents;
 use App\Models\Player;
 use App\Repositories\Contracts\PlayersRepository;
 use Illuminate\Support\Collection;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Auth;
-
 
 class EloquentPlayersRepository implements PlayersRepository
 {
@@ -39,19 +35,6 @@ class EloquentPlayersRepository implements PlayersRepository
 
 
     /**
-     * レコード保存
-     *
-     * @param array $data
-     * @return void
-     */
-    public function insertPlayersRecord(array $data): void
-    {
-        // まとめて保存したいのでinsertを使用
-        DB::table('players')->insert($data);
-    }
-
-
-    /**
      * バルクインサート処理
      *
      * @param  Collection|Players|array $data
@@ -61,6 +44,7 @@ class EloquentPlayersRepository implements PlayersRepository
     {
         $this->players->bulkInsertOrUpdate($data);
     }
+
 
     /**
      * 名前で検索

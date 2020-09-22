@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FavoritePlayer;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\PlayersRepository;
 use App\Repositories\Contracts\FavoritePlayersRepository;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 
 class FavoritePlayerController extends Controller
 {
     private $players_repository;
     private $favorite_players_repository;
+
 
     /**
      * リポジトリをDI
@@ -39,7 +37,7 @@ class FavoritePlayerController extends Controller
         $players = $this->players_repository->getAll()->toArray();
         $favorite_player_ids = $this->favorite_players_repository->getAll()->pluck('player_id')->toArray();
 
-        $player_lists = $this->makePlayerLists($players, $favorite_player_ids);
+        $player_lists = $this->makePlayerLists( $players, $favorite_player_ids );
 
         return view('favorite_player.index', compact('player_lists'));
     }
@@ -51,13 +49,13 @@ class FavoritePlayerController extends Controller
      * @param Request $request
      * @return void
      */
-    public function add(Request $request)
+    public function add( Request $request )
     {
         $data['player_id'] = $request->favorite_player_id;
 
         // バルクインサートで保存
-        if (!empty($data)) {
-            $this->favorite_players_repository->bulkInsertOrUpdate($data);
+        if ( !empty($data) ) {
+            $this->favorite_players_repository->bulkInsertOrUpdate( $data );
         }
 
         return redirect()->route('favorite_player.index');
@@ -70,20 +68,18 @@ class FavoritePlayerController extends Controller
      * @param Request $request
      * @return void
      */
-    public function remove(Request $request)
+    public function remove( Request $request )
     {
         $favorite_player_id = $request->favorite_player_id;
 
-        $this->favorite_players_repository->deleteRecord($favorite_player_id);
+        $this->favorite_players_repository->deleteRecord( $favorite_player_id );
 
         return redirect()->route('favorite_player.index');
     }
 
 
-
     /**
-     * お気に入り選手に登録されている場合はフラグを立てるメソッド
-     * お気に入り選手を先頭にソートしてから返す
+     * お気に入り選手に登録されている場合はフラグを立てつつ、一覧表示用のデータを作成
      *
      * @param array $players
      * @param array $favorite_players
@@ -95,16 +91,16 @@ class FavoritePlayerController extends Controller
 
         foreach ( $players as $index => $player ) {
 
-            $player_lists[$index]['id'] = $player['id'];
-            $player_lists[$index]['name_jp'] = $player['name_jp'];
-            $player_lists[$index]['name_en'] = $player['name_en'];
-            $player_lists[$index]['country'] = $player['country'];
-            $player_lists[$index]['wiki_url'] = $player['wiki_url'];
-            $player_lists[$index]['age'] = $player['age'];
+            $player_lists[$index]['id']              = $player['id'];
+            $player_lists[$index]['name_jp']         = $player['name_jp'];
+            $player_lists[$index]['name_en']         = $player['name_en'];
+            $player_lists[$index]['country']         = $player['country'];
+            $player_lists[$index]['wiki_url']        = $player['wiki_url'];
+            $player_lists[$index]['age']             = $player['age'];
             $player_lists[$index]['favorite_status'] = 0;
 
             if ( count($favorite_player_ids) > 0 ) {
-                for ($i=0; $i<count($favorite_player_ids); $i++) {
+                for ( $i=0; $i<count($favorite_player_ids); $i++ ) {
                     if ( $player_lists[$index]['id'] === $favorite_player_ids[$i] ) {
                         $player_lists[$index]['favorite_status'] = 1;
                     }
@@ -112,9 +108,8 @@ class FavoritePlayerController extends Controller
             }
         }
 
-        $key = 'favorite_status';
-        $player_lists = $this->sortByKey($player_lists, $key);
-
+        $based_key = 'favorite_status';
+        $player_lists = $this->sortByKey( $player_lists, $based_key );
 
         return $player_lists;
     }
@@ -127,14 +122,14 @@ class FavoritePlayerController extends Controller
      * @param string $key
      * @return array
      */
-    private function sortByKey( array $player_lists, string $based_key): array
+    private function sortByKey( array $player_lists, string $based_key ): array
     {
-        foreach ($player_lists as $key => $value) {
+        // ソート用の配列を用意
+        foreach ( $player_lists as $key => $value ) {
             $sort[$key] = $value[$based_key];
         }
 
-        // ソート用の配列を用意して、降順でソート
-        array_multisort($sort, SORT_DESC, $player_lists);
+        array_multisort( $sort, SORT_DESC, $player_lists );
 
         return $player_lists;
     }

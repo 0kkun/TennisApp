@@ -13,6 +13,7 @@ interface FavoritePlayersRepository
      */  
     public function getAll(): Collection;
 
+
     /**
      * バルクインサート
      * テーブルに保存・更新する
@@ -30,5 +31,4 @@ interface FavoritePlayersRepository
      * @return void
      */
     public function deleteRecord(int $favorite_player_id): void;
-
 }

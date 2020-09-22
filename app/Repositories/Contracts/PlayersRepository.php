@@ -13,14 +13,6 @@ interface PlayersRepository
      */  
     public function getAll(): Collection;
 
-    /**
-     * レコード保存
-     *
-     * @param array $data
-     * @return void
-     */
-    public function insertPlayersRecord(array $data): void;
-
 
     /**
      * バルクインサート

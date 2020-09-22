@@ -5,13 +5,12 @@ namespace App\Repositories\Eloquents;
 use App\Models\FavoritePlayer;
 use App\Repositories\Contracts\FavoritePlayersRepository;
 use Illuminate\Support\Collection;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
 {
     protected $favorite_players;
+
 
     /**
     * @param object $favorite_players
