@@ -41,10 +41,6 @@ class FavoritePlayerController extends Controller
 
         $player_lists = $this->makePlayerLists($players, $favorite_player_ids);
 
-        // echo('<pre>');
-        // var_dump($player_lists);
-        // echo('<pre>');
-
         return view('favorite_player.index', compact('player_lists'));
     }
 
@@ -115,6 +111,30 @@ class FavoritePlayerController extends Controller
                 }
             }
         }
+
+        $key = 'favorite_status';
+        $player_lists = $this->sortByKey($player_lists, $key);
+
+
+        return $player_lists;
+    }
+
+
+    /**
+     * 渡したキーのバリューに基づいて配列をソートする
+     *
+     * @param array $player_lists
+     * @param string $key
+     * @return array
+     */
+    private function sortByKey( array $player_lists, string $based_key): array
+    {
+        foreach ($player_lists as $key => $value) {
+            $sort[$key] = $value[$based_key];
+        }
+
+        // ソート用の配列を用意して、降順でソート
+        array_multisort($sort, SORT_DESC, $player_lists);
 
         return $player_lists;
     }
