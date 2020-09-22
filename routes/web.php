@@ -15,4 +15,6 @@
 
 Route::get('/', 'TopController@index')->name('top.index');
 Route::get('/favorite_player', 'FavoritePlayerController@index')->name('favorite_player.index');
+Route::post('/favorite_player/add', 'FavoritePlayerController@add')->name('favorite_player.add');
+Route::post('/favorite_player/remove', 'FavoritePlayerController@remove')->name('favorite_player.remove');
 Auth::routes();
