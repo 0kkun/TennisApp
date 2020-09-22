@@ -34,4 +34,11 @@ class Player extends Model
             'updated_at',
         ];
     }
+
+    /* ---------- リレーション定義 ---------- */
+
+    public function favoritePlayer()
+    {
+        return $this->hasMany(FavoritePlayer::class);
+    }
 }
