@@ -70,9 +70,9 @@ class EloquentPlayersRepository implements PlayersRepository
                         if($age == 19) {
                             $query->where( 'age', '<', 20 );
                         } else if ($age == 20) {
-                            $query->where( 'age', '>=', 20 );
+                            $query->whereBetween( 'age', [20, 29] );
                         } else if ($age == 30) {
-                            $query->where( 'age', '>=', 30 );
+                            $query->whereBetween( 'age', [30, 39] );
                         }  else if ($age == 40) {
                             $query->where( 'age', '>=', 40 );
                         }

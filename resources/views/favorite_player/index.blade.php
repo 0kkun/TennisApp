@@ -32,8 +32,8 @@
                   <select class="form-control mb-1" name="age">
                     <option value=""> All </option>
                     <option value="19">under 20</option>
-                    <option value="20">over 20</option>
-                    <option value="30">over 30</option>
+                    <option value="20">Between 20 ~ 29</option>
+                    <option value="30">Between 30 ~ 39</option>
                     <option value="40">over 40</option>
                   </select>
 
