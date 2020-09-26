@@ -47,17 +47,48 @@ class EloquentPlayersRepository implements PlayersRepository
 
 
     /**
-     * 名前で検索
+     * 名前で検索。渡すのは英語でも日本語でもOK。
      *
-     * @param string|null $name_jp
-     * @param string|null $name_en
+     * @param array $inputs
      * @return Collection
      */
-    public function searchPlayerByName(?string $name_jp, ?string $name_en): Collection
+    public function searchPlayers( array $inputs ): Collection
+    {
+        $name = $inputs['name'] ?? null;
+        $country = $inputs['country'] ?? null;
+        $age = $inputs['age'] ?? null;
+
+        return $this->players
+                    ->when( !empty($name) , function ($query) use ($name) {
+                        $query->orWhere( 'name_jp', 'like', '%' . $name . '%' )
+                                ->orWhere( 'name_en', 'like', '%' . $name . '%' );
+                    })
+                    ->when( !empty($country) , function ($query) use ($country) {
+                        $query->where( 'country', $country );
+                    })
+                    ->when( !empty($age) , function ($query) use ($age) {
+                        if($age == 19) {
+                            $query->where( 'age', '<', 20 );
+                        } else if ($age == 20) {
+                            $query->where( 'age', '>=', 20 );
+                        } else if ($age == 30) {
+                            $query->where( 'age', '>=', 30 );
+                        }  else if ($age == 40) {
+                            $query->where( 'age', '>=', 40 );
+                        }
+                    })
+                    ->get();
+    }
+
+    /**
+     * 全ての国名を取得する
+     *
+     * @return Collection
+     */
+    public function getAllCountryNames(): Collection
     {
         return $this->players
-                    ->where('name_en', '=', $name_en)
-                    ->where('name_jp', '=', $name_jp)
-                    ->get();
+                    ->get()
+                    ->pluck('country');
     }
 }

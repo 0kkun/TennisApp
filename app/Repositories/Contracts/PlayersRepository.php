@@ -27,8 +27,15 @@ interface PlayersRepository
     /**
      * 名前で検索
      *
-     * @var string $name
+     * @param array $inputs
      * @return Collection
      */
-    public function searchPlayerByName(?string $name_jp, ?string $name_en): Collection;
+    public function searchPlayers( array $inputs ): Collection;
+
+    /**
+     * 全ての国名を取得
+     *
+     * @return Collection
+     */
+    public function getAllCountryNames(): Collection;
 }

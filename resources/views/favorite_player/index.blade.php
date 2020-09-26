@@ -18,25 +18,27 @@
               </div>
 
               <div class="col-9">
-                <form action="" method="post">
-                  <input class="form-control mb-1" type="name" name="name" placeholder="Please input keywords...">
+                <form action="{{ route( 'favorite_player.index') }}" method="GET">
+                  @csrf
+                  <input class="form-control mb-1" type="text" name="name" value="{{ $params['name_jp'] ?? '' }}" plceholder="Please input keywords...">
 
                   <select class="form-control mb-1" name="country">
-                    <option value="サンプル1"> --- </option>
-                    <option value="サンプル1">日本</option>
-                    <option value="サンプル2">アメリカ</option>
+                    <option value=""> All </option>
+                    @foreach ( $country_names as $key => $country )
+                      <option value="{{ $country }}"> {{ $country }} </option>
+                    @endforeach
                   </select>
 
-                  <select class="form-control mb-1" name="country">
-                    <option value="サンプル1"> --- </option>
-                    <option value="サンプル1">under 20</option>
-                    <option value="サンプル1">over 20</option>
-                    <option value="サンプル1">over 30</option>
-                    <option value="サンプル2">over 40</option>
+                  <select class="form-control mb-1" name="age">
+                    <option value=""> All </option>
+                    <option value="19">under 20</option>
+                    <option value="20">over 20</option>
+                    <option value="30">over 30</option>
+                    <option value="40">over 40</option>
                   </select>
 
                   <div class="text-right">
-                    <input class="btn btn-primary mt-1" style="cursor: pointer;" type="submit" name="submit" value="Search">
+                    <button class="btn btn-primary mt-1" type="submit">Search</button>
                   </div>
                 </form>
               </div>

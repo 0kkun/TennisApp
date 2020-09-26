@@ -5,25 +5,29 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\PlayersRepository;
 use App\Repositories\Contracts\FavoritePlayersRepository;
+use App\Services\FavoritePlayer\FavoritePlayerServiceInterface;
+use App\Services\FavoritePlayerInterface;
 
 class FavoritePlayerController extends Controller
 {
     private $players_repository;
     private $favorite_players_repository;
-
+    private $favorite_player_service;
 
     /**
      * リポジトリをDI
      * 
-     * @param PlayersRepository $players_repositor
+     * @param PlayersRepository $players_repository
      */
     public function __construct(
         PlayersRepository $players_repository,
-        FavoritePlayersRepository $favorite_players_repository
+        FavoritePlayersRepository $favorite_players_repository,
+        FavoritePlayerServiceInterface $favorite_player_service
     )
     {
         $this->players_repository = $players_repository;
         $this->favorite_players_repository = $favorite_players_repository;
+        $this->favorite_player_service = $favorite_player_service;
     }
 
 
@@ -32,14 +36,27 @@ class FavoritePlayerController extends Controller
      *
      * @return void
      */
-    public function index()
+    public function index( Request $request )
     {
-        $players = $this->players_repository->getAll()->toArray();
+        // 入力された検索パラメータ取得
+        $inputs = $request->all();
+
+        $params = [
+            'name'    => $inputs['name'] ?? '',
+            'country' => $inputs['country'] ?? '',
+            'age'     => $inputs['age'] ?? '',
+        ];
+
+        $players = $this->favorite_player_service->searchPlayers($inputs)->toArray();
+
         $favorite_player_ids = $this->favorite_players_repository->getAll()->pluck('player_id')->toArray();
 
         $player_lists = $this->makePlayerLists( $players, $favorite_player_ids );
 
-        return view('favorite_player.index', compact('player_lists'));
+        $country_all = $this->players_repository->getAllCountryNames()->toArray();
+        $country_names = array_unique($country_all);
+
+        return view('favorite_player.index', compact('player_lists','params','country_names'));
     }
 
 
@@ -124,6 +141,9 @@ class FavoritePlayerController extends Controller
      */
     private function sortByKey( array $player_lists, string $based_key ): array
     {
+        // ここの配列宣言は必須。
+        $sort = array();
+
         // ソート用の配列を用意
         foreach ( $player_lists as $key => $value ) {
             $sort[$key] = $value[$based_key];
