@@ -30,8 +30,7 @@ class EloquentAtpRankingsRepository implements AtpRankingsRepository
     public function getAll(): Collection
     {
         $latest_date = $this->atp_rankings
-                            ->max('ymd')
-                            ->first();
+                            ->max('ymd');
 
         return $this->atp_rankings
                     ->where('ymd', '=', $latest_date)
