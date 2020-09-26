@@ -149,7 +149,7 @@ class scrapePlayers extends Command
     {
         $origin_data = array();
 
-        // 全てのテキスト取得
+        // 全てのテキスト取得。&をつけないと直接渡しできない。
         $goutte->filter('ul li')->each(function ($node) use (&$origin_data) {
             // ノードが空の時のエラーハンドリング
             if ( $node->count() > 0 ) {
