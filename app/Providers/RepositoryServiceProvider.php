@@ -13,7 +13,8 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public $models = [
         'Players',
-        'FavoritePlayers'
+        'FavoritePlayers',
+        'AtpRankings'
     ];
 
 

@@ -26,7 +26,7 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
     /**
      * ログインユーザーの登録したお気に入り選手レコードを取得
      *
-     * @return void
+     * @return Collection
      */
     public function getAll(): Collection
     {
