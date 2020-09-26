@@ -47,7 +47,7 @@ class EloquentPlayersRepository implements PlayersRepository
 
 
     /**
-     * 名前で検索。渡すのは英語でも日本語でもOK。
+     * 検索機能
      *
      * @param array $inputs
      * @return Collection
@@ -81,14 +81,17 @@ class EloquentPlayersRepository implements PlayersRepository
     }
 
     /**
-     * 全ての国名を取得する
+     * 全ての国名を取得し、重複削除して一意にして返す
      *
-     * @return Collection
+     * @return array
      */
-    public function getAllCountryNames(): Collection
+    public function getAllCountryNames(): array
     {
-        return $this->players
-                    ->get()
-                    ->pluck('country');
+        $country_all = $this->players
+                            ->get()
+                            ->pluck('country')
+                            ->toArray();
+
+        return array_unique($country_all);
     }
 }

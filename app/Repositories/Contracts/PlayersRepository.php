@@ -35,7 +35,7 @@ interface PlayersRepository
     /**
      * 全ての国名を取得
      *
-     * @return Collection
+     * @return array
      */
-    public function getAllCountryNames(): Collection;
+    public function getAllCountryNames(): array;
 }

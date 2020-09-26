@@ -53,8 +53,7 @@ class FavoritePlayerController extends Controller
 
         $player_lists = $this->makePlayerLists( $players, $favorite_player_ids );
 
-        $country_all = $this->players_repository->getAllCountryNames()->toArray();
-        $country_names = array_unique($country_all);
+        $country_names = $this->players_repository->getAllCountryNames();
 
         return view('favorite_player.index', compact('player_lists','params','country_names'));
     }
