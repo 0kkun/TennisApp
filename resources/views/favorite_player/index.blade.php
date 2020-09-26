@@ -20,21 +20,56 @@
               <div class="col-9">
                 <form action="{{ route( 'favorite_player.index') }}" method="GET">
                   @csrf
-                  <input class="form-control mb-1" type="text" name="name" value="{{ $params['name_jp'] ?? '' }}" plceholder="Please input keywords...">
+                  <input class="form-control mb-1" type="text" name="name" value="{{ $params['name'] ?? '' }}" plceholder="Please input keywords...">
 
                   <select class="form-control mb-1" name="country">
-                    <option value=""> All </option>
-                    @foreach ( $country_names as $key => $country )
-                      <option value="{{ $country }}"> {{ $country }} </option>
-                    @endforeach
+                    @if ( empty($params['country']) )
+                      <option value=""> All </option>
+                      @foreach ( $country_names as $key => $country )
+                        <option value="{{ $country }}"> {{ $country }} </option>
+                      @endforeach
+                    @else
+                      <option value="{{ $params['country'] }}"> {{ $params['country']}} </option>
+                      <option value=""> All </option>
+                      @foreach ( $country_names as $key => $country )
+                        <option value="{{ $country }}"> {{ $country }} </option>
+                      @endforeach
+                    @endif
+
                   </select>
 
                   <select class="form-control mb-1" name="age">
-                    <option value=""> All </option>
-                    <option value="19">under 20</option>
-                    <option value="20">Between 20 ~ 29</option>
-                    <option value="30">Between 30 ~ 39</option>
-                    <option value="40">over 40</option>
+                      @if ( $params['age'] == 19 )
+                        <option value="19">under 20</option>
+                        <option value=""> All </option>
+                        <option value="20">Between 20 ~ 29</option>
+                        <option value="30">Between 30 ~ 39</option>
+                        <option value="40">over 40</option>
+                      @elseif ( $params['age'] == 20 )
+                        <option value="20">Between 20 ~ 29</option>
+                        <option value=""> All </option>
+                        <option value="19">under 20</option>
+                        <option value="30">Between 30 ~ 39</option>
+                        <option value="40">over 40</option>
+                      @elseif ( $params['age'] == 30 )
+                        <option value="30">Between 30 ~ 39</option>
+                        <option value=""> All </option>
+                        <option value="19">under 20</option>
+                        <option value="20">Between 20 ~ 29</option>
+                        <option value="40">over 40</option>
+                      @elseif ( $params['age'] == 40 )
+                        <option value="40">over 40</option>
+                        <option value=""> All </option>
+                        <option value="19">under 20</option>
+                        <option value="20">Between 20 ~ 29</option>
+                        <option value="30">Between 30 ~ 39</option>
+                      @else
+                        <option value=""> All </option>
+                        <option value="19">under 20</option>
+                        <option value="20">Between 20 ~ 29</option>
+                        <option value="30">Between 30 ~ 39</option>
+                        <option value="40">over 40</option>
+                      @endif
                   </select>
 
                   <div class="text-right">
