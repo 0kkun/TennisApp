@@ -1,7 +1,6 @@
 .favorite-player-wrapper {
-  height: calc( 100vh - 90px );
+  /* height: calc( 100vh - 90px ); */
 }
-
 .favorite-contents-left {
   width: 100%;
   background-color: white;

@@ -6,7 +6,7 @@
 
       <div class="row">
 
-        <div class="col-sm-5 pt-5 pl-5">
+        <div class="col-sm-5 pt-5">
           <div class="form-group p-4 h4 bg-light rounded" style="height:300px;">
             <div class="font-alegreya h4 pb-2">Search Player</div>
             <div class="row">
