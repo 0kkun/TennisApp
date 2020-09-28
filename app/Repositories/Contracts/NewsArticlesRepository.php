@@ -3,15 +3,16 @@
 namespace App\Repositories\Contracts;
 
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 interface NewsArticlesRepository
 {
     /**
      * 全レコードを取得
      *
-     * @return mixed
+     * @return LengthAwarePaginator
      */  
-    public function getAll();
+    public function getAll(): LengthAwarePaginator;
 
 
     /**
@@ -22,4 +23,15 @@ interface NewsArticlesRepository
      * @return void
      */
     public function bulkInsertOrUpdate($data): void;
+
+
+
+
+    /**
+     * 選手名を元に記事を取得する
+     *
+     * @param array $player_names
+     * @return LengthAwarePaginator
+     */
+    public function getArticleByPlayerNames(array $player_names): LengthAwarePaginator;
 }

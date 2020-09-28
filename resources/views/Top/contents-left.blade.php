@@ -1,10 +1,8 @@
-
-
 <div class="top-contents-left">
   <div class="top-contents-head text-center bg-dark text-white h4 font-alegreya">Player News</div>
   <div class="top-left-list-box">
-    <ul>
-      @if ( !empty($news_articles) )
+    @if ( !empty($news_articles) )
+      <ul>
         @foreach ( $news_articles as $index => $news_article )
           @if ( $index % 2 === 0 )
             <li class="top-left-li pl-1 bg-gray"><a href="{{ $news_article['url'] }}" id="open">{{ $news_article['title'] }}</a></li>
@@ -12,12 +10,12 @@
             <li class="top-left-li pl-1 bg-light"><a href="{{ $news_article['url'] }}" id="open">{{ $news_article['title'] }}</a></li>
           @endif
         @endforeach
-      @endif
-    </ul>
-    <!-- ページネーション -->
-    <div class="p-3 text-center">
-      {{ $news_articles->appends((request()->query()))->links() }}
-    </div>
+      </ul>
+      <!-- ページネーション -->
+      <div class="p-3 text-center">
+        {{ $news_articles->appends((request()->query()))->links() }}
+      </div>
+    @endif
   </div>
 </div>
 

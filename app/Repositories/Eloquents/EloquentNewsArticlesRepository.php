@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquents;
 use App\Models\NewsArticle;
 use App\Repositories\Contracts\NewsArticlesRepository;
 use Illuminate\Support\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentNewsArticlesRepository implements NewsArticlesRepository
 {
@@ -25,9 +26,9 @@ class EloquentNewsArticlesRepository implements NewsArticlesRepository
     /**
      * 全レコード取得
      *
-     * @return mixed
+     * @return LengthAwarePaginator
      */
-    public function getAll()
+    public function getAll(): LengthAwarePaginator
     {
         return $this->news_articles
                     ->orderBy('id', 'desc')
@@ -44,5 +45,24 @@ class EloquentNewsArticlesRepository implements NewsArticlesRepository
     public function bulkInsertOrUpdate($data): void
     {
         $this->news_articles->bulkInsertOrUpdate($data);
+    }
+
+
+    /**
+     * 選手名を元に記事を取得する
+     *
+     * @param array $player_names
+     * @return LengthAwarePaginator
+     */
+    public function getArticleByPlayerNames( array $player_names): LengthAwarePaginator
+    {
+        return $this->news_articles
+                    ->where( function ($query) use ($player_names) {
+                        for ($i=0; $i<count($player_names); $i++) {
+                            $query->orWhere('title', 'like', '%' . $player_names[$i] . '%');
+                        }
+                    })
+                    ->orderBy('id', 'desc')
+                    ->paginate(20);
     }
 }
