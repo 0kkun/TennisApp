@@ -9,9 +9,9 @@ interface NewsArticlesRepository
     /**
      * 全レコードを取得
      *
-     * @return Collection
+     * @return mixed
      */  
-    public function getAll(): Collection;
+    public function getAll();
 
 
     /**

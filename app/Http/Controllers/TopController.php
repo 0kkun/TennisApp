@@ -36,7 +36,7 @@ class TopController extends Controller
     public function index()
     {
         $atp_rankings = $this->atp_rankings_repository->getAll()->toArray();
-        $news_articles = $this->news_articles_repository->getAll()->toArray();
+        $news_articles = $this->news_articles_repository->getAll();
 
         return view('top.index', compact('atp_rankings', 'news_articles'));
     }

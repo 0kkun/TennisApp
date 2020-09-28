@@ -25,12 +25,13 @@ class EloquentNewsArticlesRepository implements NewsArticlesRepository
     /**
      * 全レコード取得
      *
-     * @return void
+     * @return mixed
      */
-    public function getAll(): Collection
+    public function getAll()
     {
         return $this->news_articles
-                    ->get();
+                    ->orderBy('id', 'desc')
+                    ->paginate(20);
     }
 
 

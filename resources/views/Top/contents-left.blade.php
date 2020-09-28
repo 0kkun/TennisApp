@@ -14,6 +14,10 @@
         @endforeach
       @endif
     </ul>
+    <!-- ページネーション -->
+    <div class="p-3 text-center">
+      {{ $news_articles->appends((request()->query()))->links() }}
+    </div>
   </div>
 </div>
 
