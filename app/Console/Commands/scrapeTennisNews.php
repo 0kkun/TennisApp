@@ -52,10 +52,36 @@ class scrapeTennisNews extends Command
             $url       = array();
             $post_time = array();
 
-            $goutte = GoutteFacade::request('GET', 'https://sports.yahoo.co.jp/news/list?id=tennis');
+            $goutte1 = GoutteFacade::request('GET', 'https://sports.yahoo.co.jp/news/list?id=tennis');
             sleep(1);
 
-            $goutte->filter('.textNews')->each(function ($node) use (&$title, &$url, &$post_time) {
+            $goutte1->filter('.textNews')->each(function ($node) use (&$title, &$url, &$post_time) {
+                if ( $node->count() > 0 ) {
+                    array_push( $title, $node->filter('.articleTitle')->text() );
+                    array_push( $url, $node->filter('.articleUrl')->attr('href') );
+                    array_push( $post_time, $node->filter('.postTime')->text() );
+                } else {
+                    $this->info("スクレイピング実行できませんでした。");
+                }
+            });
+
+            $goutte2 = GoutteFacade::request('GET', 'https://sports.yahoo.co.jp/news/list?id=tennis&fmi=tennis&p=2');
+            sleep(1);
+
+            $goutte2->filter('.textNews')->each(function ($node) use (&$title, &$url, &$post_time) {
+                if ( $node->count() > 0 ) {
+                    array_push( $title, $node->filter('.articleTitle')->text() );
+                    array_push( $url, $node->filter('.articleUrl')->attr('href') );
+                    array_push( $post_time, $node->filter('.postTime')->text() );
+                } else {
+                    $this->info("スクレイピング実行できませんでした。");
+                }
+            });
+
+            $goutte3 = GoutteFacade::request('GET', 'https://sports.yahoo.co.jp/news/list?id=tennis&fmi=tennis&p=3');
+            sleep(1);
+
+            $goutte3->filter('.textNews')->each(function ($node) use (&$title, &$url, &$post_time) {
                 if ( $node->count() > 0 ) {
                     array_push( $title, $node->filter('.articleTitle')->text() );
                     array_push( $url, $node->filter('.articleUrl')->attr('href') );
