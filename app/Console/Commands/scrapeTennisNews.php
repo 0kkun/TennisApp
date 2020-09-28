@@ -5,8 +5,10 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Weidner\Goutte\GoutteFacade;
 use App\Modules\BatchLogger;
+use App\Repositories\Contracts\NewsArticlesRepository;
 use Exception;
 use Carbon\Carbon;
+
 
 class scrapeTennisNews extends Command
 {
@@ -15,15 +17,22 @@ class scrapeTennisNews extends Command
 
     protected $description = 'テニスのニュースをスクレイピングで取得し保存するコマンド';
 
+    private $news_articles_repository;
+
+
     /**
-     * Create a new command instance.
+     * リポジトリのコンストラクタ
      *
-     * @return void
+     * @param NewsArticlesRepository $news_articles_repository
      */
-    public function __construct()
+    public function __construct(
+        NewsArticlesRepository $news_articles_repository
+    )
     {
         parent::__construct();
+        $this->news_articles_repository = $news_articles_repository;
     }
+
 
     /**
      * テニスニュースをスクレイピングで取得しDBへ保存する
@@ -33,31 +42,46 @@ class scrapeTennisNews extends Command
      */
     public function handle()
     {
-        $is_sync = $this->option('sync'); 
+        $is_sync = $this->option('sync');
 
+        $this->info("実行開始");
         $this->logger = new BatchLogger( 'scrapeTennisNews' );
 
-        $title = array();
-        $url = array();
-        $post_time = array();
+        try {
+            $title     = array();
+            $url       = array();
+            $post_time = array();
 
-        $goutte = GoutteFacade::request('GET', 'https://sports.yahoo.co.jp/news/list?id=tennis');
-        sleep(1);
+            $goutte = GoutteFacade::request('GET', 'https://sports.yahoo.co.jp/news/list?id=tennis');
+            sleep(1);
 
-        $goutte->filter('.textNews')->each(function ($node) use (&$title, &$url, &$post_time) {
-            if ( $node->count() > 0 ) {
-                array_push( $title, $node->filter('.articleTitle')->text() );
-                array_push( $url, $node->filter('.articleUrl')->attr('href') );
-                array_push( $post_time, $node->filter('.postTime')->text() );
-            } else {
-                $this->info("スクレイピング実行できませんでした。");
+            $goutte->filter('.textNews')->each(function ($node) use (&$title, &$url, &$post_time) {
+                if ( $node->count() > 0 ) {
+                    array_push( $title, $node->filter('.articleTitle')->text() );
+                    array_push( $url, $node->filter('.articleUrl')->attr('href') );
+                    array_push( $post_time, $node->filter('.postTime')->text() );
+                } else {
+                    $this->info("スクレイピング実行できませんでした。");
+                }
+            });
+
+            // バルクインサート用に加工
+            $article_data = $this->makeInsertValue( $title, $url, $post_time );
+
+            // バルクインサートで保存
+            if ( !empty($article_data) ) {
+                $this->news_articles_repository->bulkInsertOrUpdate( $article_data );
             }
-        });
 
-        $tennis_news_data = $this->makeInsertValue( $title, $url, $post_time );
+            $this->info("保存完了");
+            $this->logger->write('保存完了', 'info' ,true);
+            $this->logger->success();
 
-        dd($tennis_news_data);
-
+        } catch (Exception $e) {
+            $this->logger->exception($e);
+        }
+        unset($this->logger);
+        $this->info("実行終了");
     }
 
 

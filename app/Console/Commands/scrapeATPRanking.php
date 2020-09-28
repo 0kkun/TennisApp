@@ -92,7 +92,7 @@ class scrapeATPRanking extends Command
             $ranking_data = $this->makeInsertValue( $rank, $name, $country, $point );
 
             // バルクインサートで保存
-            if (!empty($ranking_data)) {
+            if ( !empty($ranking_data) ) {
                 $this->atp_rankings_repository->bulkInsertOrUpdate($ranking_data);
             }
 
