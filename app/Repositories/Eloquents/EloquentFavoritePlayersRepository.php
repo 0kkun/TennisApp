@@ -65,4 +65,21 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
           ->where('player_id', $favorite_player_id)
           ->delete();
     }
+
+
+    /**
+     * ログインユーザーが持っているお気に入り選手の名前・出身を取得する
+     *
+     * @return Collection
+     */
+    public function getFavoritePlayerData(): Collection
+    {
+        $current_user_id = Auth::user()->id;
+
+        return $this->favorite_players
+                    ->where('user_id', '=', $current_user_id)
+                    ->with('players')
+                    ->join('players', 'favorite_players.player_id', 'players.id')
+                    ->get();
+    }
 }

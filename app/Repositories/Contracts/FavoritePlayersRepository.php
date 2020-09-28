@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 interface FavoritePlayersRepository
 {
     /**
-     * 全レコードを取得
+     * ログインユーザーが持っているお気に入り選手の全レコードを取得
      *
      * @return Collection
      */  
@@ -31,4 +31,12 @@ interface FavoritePlayersRepository
      * @return void
      */
     public function deleteRecord(int $favorite_player_id): void;
+
+
+    /**
+     * ログインユーザーが持っているお気に入り選手の名前・出身を取得する
+     *
+     * @return Collection
+     */
+    public function getFavoritePlayerData(): Collection;
 }
