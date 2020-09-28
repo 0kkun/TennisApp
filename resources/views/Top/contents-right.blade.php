@@ -14,13 +14,15 @@
     <div class="top-right-tbody">
       <table class="table table-striped">
         <tbody>
-          @foreach ( $atp_rankings as $ranking )
-            <tr>
-              <td class="top-contents-right-td top-right-table-rank-w text-center">{{ $ranking['rank'] }}</td>
-              <td class="top-contents-right-td top-right-table-name-w text-center">{{ $ranking['name'] }}</td>
-              <td class="top-contents-right-td top-right-table-point-w text-right">{{ $ranking['point'] }}pt</td>
-            </tr>
-          @endforeach
+          @if ( !empty($atp_rankings) )
+            @foreach ( $atp_rankings as $ranking )
+              <tr>
+                <td class="top-contents-right-td top-right-table-rank-w text-center">{{ $ranking['rank'] }}</td>
+                <td class="top-contents-right-td top-right-table-name-w text-center">{{ $ranking['name'] }}</td>
+                <td class="top-contents-right-td top-right-table-point-w text-right">{{ $ranking['point'] }}pt</td>
+              </tr>
+            @endforeach
+          @endif
         </tbody>
       </table>
     </div>
