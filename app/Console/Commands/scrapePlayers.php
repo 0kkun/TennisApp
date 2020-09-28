@@ -18,26 +18,16 @@ use Carbon\Carbon;
  */
 class scrapePlayers extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'command:scrapePlayers';
+
+    protected $description = '選手の情報をwikiからスクレイピングで取得し保存するコマンド';
 
     private $players_repository;
 
     /**
-     * The console command description.
+     * リポジトリのコンストラクタ
      *
-     * @var string
-     */
-    protected $description = '[Player] 選手の情報をwikiからスクレイピングで取得するコマンド';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
+     * @param PlayersRepository $players_repository
      */
     public function __construct(
         PlayersRepository $players_repository

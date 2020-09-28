@@ -14,13 +14,14 @@ class scrapeATPRanking extends Command
 
     protected $signature = 'command:scrapeATPRanking {--sync : 同期処理}';
 
-    protected $description = 'ATPランキングをスクレイピングで取得するコマンド';
+    protected $description = 'ATPランキングをスクレイピングで取得し保存するコマンド';
 
     private $atp_rankings_repository;
+
     /**
-     * Create a new command instance.
+     * リポジトリのコンストラクタ
      *
-     * @return void
+     * @param AtpRankingsRepository $atp_rankings_repository
      */
     public function __construct(
         AtpRankingsRepository $atp_rankings_repository
@@ -47,6 +48,8 @@ class scrapeATPRanking extends Command
          * ->attr('href')   属性を取得
          * ->eq(0)          同一タグがある場合、登場順番を指定できる
          */
+
+        $is_sync = $this->option('sync');
 
         $this->info("実行開始");
         $this->logger = new BatchLogger( 'scrapeATPRanking' );
@@ -86,7 +89,7 @@ class scrapeATPRanking extends Command
                 }
             });
 
-            $ranking_data = $this->makeInsertValue( $rank,$name,$country,$point );
+            $ranking_data = $this->makeInsertValue( $rank, $name, $country, $point );
 
             // バルクインサートで保存
             if (!empty($ranking_data)) {
