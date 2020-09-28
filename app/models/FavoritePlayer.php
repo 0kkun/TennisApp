@@ -30,13 +30,13 @@ class FavoritePlayer extends Model
 
     /* ---------- リレーション定義 ---------- */
 
-    public function player()
+    public function players()
     {
-        return $this->hasMany(Player::class);
+        return $this->belongsTo(Player::class);
     }
 
-    public function user()
+    public function users()
     {
-        return $this->hasMany(Usesr::class);
+        return $this->belongsTo(Usesr::class);
     }
 }
