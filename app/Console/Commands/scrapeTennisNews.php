@@ -38,23 +38,23 @@ class scrapeTennisNews extends Command
         $this->logger = new BatchLogger( 'scrapeTennisNews' );
 
         $title = array();
-        $news_url = array();
+        $url = array();
         $post_time = array();
 
         $goutte = GoutteFacade::request('GET', 'https://sports.yahoo.co.jp/news/list?id=tennis');
         sleep(1);
 
-        $goutte->filter('.textNews')->each(function ($node) use (&$title, &$news_url, &$post_time) {
+        $goutte->filter('.textNews')->each(function ($node) use (&$title, &$url, &$post_time) {
             if ( $node->count() > 0 ) {
                 array_push( $title, $node->filter('.articleTitle')->text() );
-                array_push( $news_url, $node->filter('.articleUrl')->attr('href') );
+                array_push( $url, $node->filter('.articleUrl')->attr('href') );
                 array_push( $post_time, $node->filter('.postTime')->text() );
             } else {
                 $this->info("スクレイピング実行できませんでした。");
             }
         });
 
-        $tennis_news_data = $this->makeInsertValue( $title, $news_url, $post_time );
+        $tennis_news_data = $this->makeInsertValue( $title, $url, $post_time );
 
         dd($tennis_news_data);
 
@@ -69,7 +69,7 @@ class scrapeTennisNews extends Command
      * @param array $post_time
      * @return array
      */
-    private function makeInsertValue( array $title, array $news_url, array $post_time ): array
+    private function makeInsertValue( array $title, array $url, array $post_time ): array
     {
         $count = count( $title );
         $today = Carbon::now();
@@ -79,7 +79,7 @@ class scrapeTennisNews extends Command
         for ( $i=0; $i<$count; $i++ ) {
             $value[$i] = [
                 'title'      => $title[$i],
-                'news_url'   => $news_url[$i],
+                'url'   => $url[$i],
                 'post_time'  => $post_time[$i],
                 'created_at' => $today,
                 'updated_at' => $today
