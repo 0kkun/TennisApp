@@ -9,9 +9,11 @@
     <link rel="stylesheet" href="/css/common/reset.css">
     <link rel="stylesheet" href="/css/common/common.css">
     <link rel="stylesheet" href="/css/common/nav_menu.css">
+    <link rel="stylesheet" href="/css/common/modal.css">
     <link rel="stylesheet" href="/css/top/index.css">
     <link rel="stylesheet" href="/css/favorite_player/index.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300">
+    <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script type="text/javascript" src="/js/top/scroll.js"></script>
     <script type="text/javascript" src="/js/common/welcome.js"></script>
@@ -26,5 +28,6 @@
 
     @include('shared.footer')
     <script type="text/javascript" src="/js/common/nav_menu.js"></script>
+    <script type="text/javascript" src="/js/common/modal.js"></script>
   </body>
 </html>

@@ -1,3 +1,5 @@
+
+
 <div class="top-contents-left">
   <div class="top-contents-head text-center bg-dark text-white h4 font-alegreya">Player News</div>
   <div class="top-left-list-box">
@@ -5,9 +7,9 @@
       @if ( !empty($news_articles) )
         @foreach ( $news_articles as $index => $news_article )
           @if ( $index % 2 === 0 )
-            <li class="top-left-li pl-1 bg-gray"><a href="{{ $news_article['url'] }}">{{ $news_article['title'] }}</a></li>
+            <li class="top-left-li pl-1 bg-gray"><a href="{{ $news_article['url'] }}" id="open">{{ $news_article['title'] }}</a></li>
           @else
-            <li class="top-left-li pl-1 bg-light"><a href="{{ $news_article['url'] }}">{{ $news_article['title'] }}</a></li>
+            <li class="top-left-li pl-1 bg-light"><a href="{{ $news_article['url'] }}" id="open">{{ $news_article['title'] }}</a></li>
           @endif
         @endforeach
       @endif
