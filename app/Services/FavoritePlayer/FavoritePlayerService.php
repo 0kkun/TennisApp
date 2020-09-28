@@ -16,7 +16,7 @@ class FavoritePlayerService implements FavoritePlayerServiceInterface
      * @param PlayersRepository $players_repository
      */
     public function __construct(
-      PlayersRepository $players_repository
+        PlayersRepository $players_repository
     )
     {
         $this->players_repository = $players_repository;

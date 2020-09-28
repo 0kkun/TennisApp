@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Repositories\Contracts\PlayersRepository;
 use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Services\FavoritePlayer\FavoritePlayerServiceInterface;
-use App\Services\FavoritePlayerInterface;
 
 class FavoritePlayerController extends Controller
 {

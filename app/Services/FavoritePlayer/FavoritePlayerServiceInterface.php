@@ -7,5 +7,11 @@ use Illuminate\Support\Collection;
 interface FavoritePlayerServiceInterface
 {
 
-  public function searchPlayers( array $inputs ): Collection;
+    /**
+     * 選手検索
+     *
+     * @param array $inputs
+     * @return Collection
+     */
+    public function searchPlayers( array $inputs ): Collection;
 }
