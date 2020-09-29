@@ -8,6 +8,8 @@ use App\Repositories\Contracts\AtpRankingsRepository;
 use App\Repositories\Contracts\NewsArticlesRepository;
 use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Services\Top\TopServiceInterface;
+use App\Repositories\Contracts\TourInformationsRepository;
+use Carbon\Carbon;
 
 class TopController extends Controller
 {
@@ -15,6 +17,7 @@ class TopController extends Controller
     private $news_articles_repository;
     private $favorite_players_repository;
     private $top_service;
+    private $tour_informations_repository;
 
     /**
      * リポジトリをDI
@@ -25,7 +28,8 @@ class TopController extends Controller
         AtpRankingsRepository $atp_rankings_repository,
         NewsArticlesRepository $news_articles_repository,
         FavoritePlayersRepository $favorite_players_repository,
-        TopServiceInterface $top_service
+        TopServiceInterface $top_service,
+        TourInformationsRepository $tour_informations_repository
 
     )
     {
@@ -33,6 +37,7 @@ class TopController extends Controller
         $this->news_articles_repository = $news_articles_repository;
         $this->favorite_players_repository = $favorite_players_repository;
         $this->top_service = $top_service;
+        $this->tour_informations_repository = $tour_informations_repository;
     }
 
 
@@ -47,7 +52,16 @@ class TopController extends Controller
 
         $news_articles = $this->top_service->getArticleByFavoritePlayer();
 
-        return view('top.index', compact('atp_rankings', 'news_articles'));
+        $tour_informations = $this->tour_informations_repository->getAll()->toArray();
+
+        $today = Carbon::today();
+
+        return view('top.index', compact(
+            'atp_rankings',
+            'news_articles',
+            'tour_informations',
+            'today'
+        ));
     }
 
 

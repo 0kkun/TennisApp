@@ -4,7 +4,7 @@
     <table class="table table-striped m-0">
       <thead>
         <tr class="thead-dark">
-          <th class="top-center-table-date-w text-center">Date</th>
+          <th class="top-center-table-date-w text-center">Start Date</th>
           <th class="top-center-table-name-w text-center">Name</th>
           <th class="top-center-table-category-w text-center">Category</th>
         </tr>
@@ -13,107 +13,23 @@
     <div class="table table-striped top-center-tbody mb-0">
       <table>
         <tbody class="w-100">
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-          <tr>
-            <td class="top-contents-center-td top-center-table-date-w text-center">2020/01/01</td>
-            <td class="top-contents-center-td top-center-table-name-w text-center">US Open</td>
-            <td class="top-contents-center-td top-center-table-category-w">1500pt</td>
-          </tr>
-
+          @if( !empty( $tour_informations) )
+            @foreach ( $tour_informations as $tour )
+              @if ( $tour['start_date'] <= $today && $tour['end_date'] >= $today )
+                <tr>
+                  <td class="top-contents-center-td top-center-table-date-w text-center text-info font-weight-bold">{{ $tour['start_date'] }}</td>
+                  <td class="top-contents-center-td top-center-table-name-w text-center text-info font-weight-bold">{{ $tour['name'] }}</td>
+                  <td class="top-contents-center-td top-center-table-category-w text-info font-weight-bold">{{ $tour['category'] }}</td>
+                </tr>
+              @else
+                <tr>
+                  <td class="top-contents-center-td top-center-table-date-w text-center font-16">{{ $tour['start_date'] }}</td>
+                  <td class="top-contents-center-td top-center-table-name-w text-center font-16">{{ $tour['name'] }}</td>
+                  <td class="top-contents-center-td top-center-table-category-w font-16">{{ $tour['category'] }}</td>
+                </tr>
+              @endif
+            @endforeach
+          @endif
         </tbody>
       </table>
     </div>
