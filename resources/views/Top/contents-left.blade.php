@@ -5,9 +5,17 @@
       <ul>
         @foreach ( $news_articles as $index => $news_article )
           @if ( $index % 2 === 0 )
-            <li class="top-left-li pl-1 bg-gray"><a href="{{ $news_article['url'] }}" id="open">{{ $news_article['title'] }}</a></li>
+            @if ( $news_article['post_time'] == $today->format('Y-m-d') )
+              <li class="top-left-li pl-1 bg-gray font-weight-bold"><a href="{{ $news_article['url'] }}" id="open">{{ $news_article['title'] }} - {{$news_article['post_time']}} <span class="text-danger">new!</span></a></li>
+            @else
+              <li class="top-left-li pl-1 bg-gray"><a href="{{ $news_article['url'] }}" id="open">{{ $news_article['title'] }} - {{$news_article['post_time']}}</a></li>
+            @endif
           @else
-            <li class="top-left-li pl-1 bg-light"><a href="{{ $news_article['url'] }}" id="open">{{ $news_article['title'] }}</a></li>
+            @if ( $news_article['post_time'] == $today->format('Y-m-d') )
+              <li class="top-left-li pl-1 bg-light font-weight-bold"><a href="{{ $news_article['url'] }}" id="open">{{ $news_article['title'] }} - {{$news_article['post_time']}} <span class="text-danger">new!</span></a></li>
+            @else
+              <li class="top-left-li pl-1 bg-light"><a href="{{ $news_article['url'] }}" id="open">{{ $news_article['title'] }} - {{$news_article['post_time']}}</a></li>
+            @endif
           @endif
         @endforeach
       </ul>

@@ -44,6 +44,10 @@ footer{
   font-size: 16px;
 }
 
+.font-14 {
+  font-size: 14px;
+}
+
 .bg-gray {
   background-color: rgb(215, 213, 213);
 }

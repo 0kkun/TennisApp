@@ -62,7 +62,7 @@ class EloquentNewsArticlesRepository implements NewsArticlesRepository
                             $query->orWhere('title', 'like', '%' . $player_names[$i] . '%');
                         }
                     })
-                    ->orderBy('id', 'desc')
+                    ->orderBy('post_time', 'desc')
                     ->paginate(20);
     }
 }

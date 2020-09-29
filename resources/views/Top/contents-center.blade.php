@@ -17,15 +17,15 @@
             @foreach ( $tour_informations as $tour )
               @if ( $tour['start_date'] <= $today && $tour['end_date'] >= $today )
                 <tr>
-                  <td class="top-contents-center-td top-center-table-date-w text-center text-info font-weight-bold">{{ $tour['start_date'] }}</td>
-                  <td class="top-contents-center-td top-center-table-name-w text-center text-info font-weight-bold">{{ $tour['name'] }}</td>
-                  <td class="top-contents-center-td top-center-table-category-w text-info font-weight-bold">{{ $tour['category'] }}</td>
+                  <td class="top-contents-center-td top-center-table-date-w text-center text-info font-weight-bold font-14">{{ $tour['start_date'] }}</td>
+                  <td class="top-contents-center-td top-center-table-name-w text-center text-info font-weight-bold font-14">{{ $tour['name'] }}</td>
+                  <td class="top-contents-center-td top-center-table-category-w text-info font-weight-bold font-14">{{ $tour['category'] }}</td>
                 </tr>
               @else
                 <tr>
-                  <td class="top-contents-center-td top-center-table-date-w text-center font-16">{{ $tour['start_date'] }}</td>
-                  <td class="top-contents-center-td top-center-table-name-w text-center font-16">{{ $tour['name'] }}</td>
-                  <td class="top-contents-center-td top-center-table-category-w font-16">{{ $tour['category'] }}</td>
+                  <td class="top-contents-center-td top-center-table-date-w text-center font-14">{{ $tour['start_date'] }}</td>
+                  <td class="top-contents-center-td top-center-table-name-w text-center font-14">{{ $tour['name'] }}</td>
+                  <td class="top-contents-center-td top-center-table-category-w font-14">{{ $tour['category'] }}</td>
                 </tr>
               @endif
             @endforeach
