@@ -15,7 +15,8 @@ class RepositoryServiceProvider extends ServiceProvider
         'Players',
         'FavoritePlayers',
         'AtpRankings',
-        'NewsArticles'
+        'NewsArticles',
+        'TourInformations'
     ];
 
 
