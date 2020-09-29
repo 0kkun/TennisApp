@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquents;
 use App\Models\TourInformation;
 use App\Repositories\Contracts\TourInformationsRepository;
 use Illuminate\Support\Collection;
+use Carbon\Carbon;
 
 class EloquentTourInformationsRepository implements TourInformationsRepository
 {
@@ -29,7 +30,11 @@ class EloquentTourInformationsRepository implements TourInformationsRepository
      */
     public function getAll(): Collection
     {
+        $today = Carbon::today()->subDays(7);
+
         return $this->tour_informations
+                    ->where( 'start_date', '>=', $today )
+                    ->orderBy( 'start_date','asc' )
                     ->get();
     }
 
