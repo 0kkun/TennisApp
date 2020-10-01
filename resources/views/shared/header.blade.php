@@ -14,8 +14,8 @@
               @csrf
           </form>
         </li>
-        <li class="global-nav__item"><a href="">Favorite Player</a></li>
-        <li class="global-nav__item"><a href="">Favorite Brand</a></li>
+        <li class="global-nav__item"><a href="{{ route('favorite_player.index') }}">Favorite Player</a></li>
+        <li class="global-nav__item"><a href="{{ route('favorite_brand.index') }}">Favorite Brand</a></li>
         <li class="global-nav__item"><a href="">Player Analysis</a></li>
       @else
         <li class="global-nav__item"><a href="/">HOME</a></li>
@@ -40,7 +40,7 @@
     @if(Auth::check())
     <a class="text-white font-20 font-alegreya top-link-tab p-1" href="/">Home</a>
     <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('favorite_player.index') }}">Favorite Player</a>
-    <a class="text-white font-20 font-alegreya top-link-tab p-1" href="#">Favorite Brand</a>
+    <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('favorite_brand.index') }}">Favorite Brand</a>
     <a class="text-white font-20 font-alegreya top-link-tab p-1" href="#">Player Analysis</a>
     @endif
   </div>
