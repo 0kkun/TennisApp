@@ -29,4 +29,11 @@ class Brand extends Model
             'country',
         ];
     }
+
+    /* ---------- リレーション定義 ---------- */
+
+    public function favoriteBrand()
+    {
+        return $this->hasMany(FavoriteBrand::class);
+    }
 }
