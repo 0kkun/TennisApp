@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Weidner\Goutte\GoutteFacade;
 use App\Modules\BatchLogger;
-use App\Repositories\Contracts\NewsArticlesRepository;
+use App\Repositories\Contracts\BrandNewsArticlesRepository;
 use Exception;
 use Carbon\Carbon;
 
@@ -15,14 +15,20 @@ class scrapeBrandNews extends Command
 
     protected $description = 'ブランドのニュースをスクレイピングで取得し保存するコマンド';
 
+    private $brand_news_articles_repository;
+
+
     /**
-     * Create a new command instance.
+     * リポジトリのコンストラクタ
      *
-     * @return void
+     * @param BrandNewsArticlesRepository $brand_news_articles_repository
      */
-    public function __construct()
+    public function __construct(
+        BrandNewsArticlesRepository $brand_news_articles_repository
+    )
     {
         parent::__construct();
+        $this->brand_news_articles_repository = $brand_news_articles_repository;
     }
 
     /**
@@ -59,13 +65,12 @@ class scrapeBrandNews extends Command
             $this->scrapeSrixonSite( $srixon_url, $title, $url, $post_time, $brand_name );
             $this->scrapeTennisEvalSite( $tennis_eval_url_1, $title, $url, $post_time, $brand_name );
             $this->scrapeTennisEvalSite( $tennis_eval_url_2, $title, $url, $post_time, $brand_name );
-            $brand_news_data = $this->scrapeTennisEvalSite( $tennis_eval_url_3, $title, $url, $post_time, $brand_name );
+            $brand_news_articles = $this->scrapeTennisEvalSite( $tennis_eval_url_3, $title, $url, $post_time, $brand_name );
 
             // バルクインサートで保存
-            // if ( !empty($brand_news_data) ) {
-            //     $this->news_articles_repository->bulkInsertOrUpdate( $brand_news_data );
-            // }
-            // dd($brand_news_data);
+            if ( !empty($brand_news_articles) ) {
+                $this->brand_news_articles_repository->bulkInsertOrUpdate( $brand_news_articles );
+            }
 
             $this->info("保存完了");
             $this->logger->write('保存完了', 'info' ,true);
@@ -115,7 +120,6 @@ class scrapeBrandNews extends Command
 
         return $month;
     }
-
 
 
     /**

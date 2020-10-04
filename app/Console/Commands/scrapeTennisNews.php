@@ -129,7 +129,7 @@ class scrapeTennisNews extends Command
         for ( $i=0; $i<$count; $i++ ) {
             $value[$i] = [
                 'title'      => $title[$i],
-                'url'   => $url[$i],
+                'url'        => $url[$i],
                 'post_time'  => $post_time[$i],
                 'created_at' => $today,
                 'updated_at' => $today
