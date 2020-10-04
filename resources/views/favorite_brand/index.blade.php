@@ -18,13 +18,27 @@
           <div class="favorite-tbody">
             <table class="table table-striped">
               <tbody>
-                @if ( !empty($brands) )
-                  @foreach ($brands as $brand)
+                @if ( !empty($brand_lists) )
+                  @foreach ($brand_lists as $brand)
                     <tr>
                       <td class="favorite-td favorite-name-jp-w text-center">{{ $brand['name_jp'] }} ( {{$brand['name_en']}} )</td>
                       <td class="favorite-td favorite-country-w text-center">{{ $brand['country'] }}</td>
                       <td class="favorite-td favorite-age-w text-center">
-                        add
+
+                        @if ( $brand['favorite_status'] == 0 )
+                          <form method="post" action="{{ route('favorite_brand.add') }}">
+                            @csrf
+                            <input type="hidden" name="favorite_brand_id" value="{{ $brand['id'] }}">
+                            <button type="submit" class="favorite-add-btn bg-success text-white rounded p-1" style="width:66px;">add</button>
+                          </form>
+                        @else
+                          <form method="post" action="{{ route('favorite_brand.remove') }}">
+                            @csrf
+                            <input type="hidden" name="favorite_brand_id" value="{{ $brand['id'] }}">
+                            <button type="submit" class="favorite-add-btn bg-danger text-white rounded p-1" style="width:66px;">remove</button>
+                          </form>
+                        @endif
+
                       </td>
                     </tr>
                   @endforeach

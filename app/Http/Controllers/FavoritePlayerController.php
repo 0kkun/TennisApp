@@ -13,6 +13,7 @@ class FavoritePlayerController extends Controller
     private $favorite_players_repository;
     private $favorite_player_service;
 
+
     /**
      * リポジトリをDI
      * 
@@ -133,22 +134,22 @@ class FavoritePlayerController extends Controller
     /**
      * 渡したキーのバリューに基づいて配列をソートする
      *
-     * @param array $player_lists
+     * @param array $lists
      * @param string $key
      * @return array
      */
-    private function sortByKey( array $player_lists, string $based_key ): array
+    private function sortByKey( array $lists, string $based_key ): array
     {
         // ここの配列宣言は必須。
         $sort = array();
 
         // ソート用の配列を用意
-        foreach ( $player_lists as $key => $value ) {
+        foreach ( $lists as $key => $value ) {
             $sort[$key] = $value[$based_key];
         }
 
-        array_multisort( $sort, SORT_DESC, $player_lists );
+        array_multisort( $sort, SORT_DESC, $lists );
 
-        return $player_lists;
+        return $lists;
     }
 }

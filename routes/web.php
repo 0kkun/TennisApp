@@ -20,5 +20,7 @@ Route::post('/favorite_player/add', 'FavoritePlayerController@add')->name('favor
 Route::post('/favorite_player/remove', 'FavoritePlayerController@remove')->name('favorite_player.remove');
 
 Route::get('/favorite_brand', 'FavoriteBrandController@index')->name('favorite_brand.index');
+Route::post('/favorite_brand/add', 'FavoriteBrandController@add')->name('favorite_brand.add');
+Route::post('/favorite_brand/remove', 'FavoriteBrandController@remove')->name('favorite_brand.remove');
 
 Auth::routes();
