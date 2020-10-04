@@ -24,10 +24,10 @@ class NewsArticle extends Model
     protected function getUpdateColumnsOnDuplicate(): array
     {
         return [
-          'title',
-          'url',
-          'post_time',
-          'updated_at',
+            'title',
+            'url',
+            'post_time',
+            'updated_at',
         ];
     }
 }
