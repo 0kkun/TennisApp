@@ -52,7 +52,6 @@
                         <option value="{{ $country }}"> {{ $country }} </option>
                       @endforeach
                     @endif
-
                   </select>
 
                   <select class="form-control mb-1" name="age">

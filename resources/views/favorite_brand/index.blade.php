@@ -18,7 +18,17 @@
           <div class="favorite-tbody">
             <table class="table table-striped">
               <tbody>
-
+                @if ( !empty($brands) )
+                  @foreach ($brands as $brand)
+                    <tr>
+                      <td class="favorite-td favorite-name-jp-w text-center">{{ $brand['name_jp'] }} ( {{$brand['name_en']}} )</td>
+                      <td class="favorite-td favorite-country-w text-center">{{ $brand['country'] }}</td>
+                      <td class="favorite-td favorite-age-w text-center">
+                        add
+                      </td>
+                    </tr>
+                  @endforeach
+                @endif
               </tbody>
             </table>
           </div>
