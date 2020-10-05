@@ -44,6 +44,8 @@ class TopController extends Controller
 
         $news_articles = $this->top_service->getArticleByFavoritePlayer();
 
+        $brand_news_articles = $this->top_service->getArticleByFavoriteBrand();
+
         $tour_informations = $this->tour_informations_repository->getAll()->toArray();
 
 
@@ -52,6 +54,7 @@ class TopController extends Controller
         return view('top.index', compact(
             'atp_rankings',
             'news_articles',
+            'brand_news_articles',
             'tour_informations',
             'today'
         ));
