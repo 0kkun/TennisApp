@@ -216,8 +216,7 @@ class scrapeBrandNews extends Command
 
         $goutte->filter('ul.newslist')->each(function ($node) use (&$title, &$url, &$post_time, &$brand_name, &$year) {
             if ( $node->count() > 0 ) {
-                $count =  $node->filter('li')->count();
-                for ( $i=0; $i<$count; $i++ ) {
+                for ( $i=0; $i<10; $i++ ) {
                     array_push( $title, $node->filter('.blogtitle')->eq($i)->text() );
                     array_push( $url, 'https://www.yonex.co.jp' . $node->filter('a')->attr('href') );
 
