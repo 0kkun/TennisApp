@@ -57,12 +57,8 @@ class EloquentBrandNewsArticlesRepository implements BrandNewsArticlesRepository
     public function getArticleByBrandNames( array $brand_names): LengthAwarePaginator
     {
         return $this->brand_news_articles
-                    ->where( function ($query) use ($brand_names) {
-                        for ($i=0; $i<count($brand_names); $i++) {
-                            $query->orWhere('brand_name', $brand_names[$i]);
-                        }
-                    })
+                    ->whereIn('brand_name', $brand_names)
                     ->orderBy('post_time', 'desc')
-                    ->paginate(20);
+                    ->paginate(20, ["*"], 'brandnewspage');
     }
 }

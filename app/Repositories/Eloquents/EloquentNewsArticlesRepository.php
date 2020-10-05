@@ -63,6 +63,6 @@ class EloquentNewsArticlesRepository implements NewsArticlesRepository
                         }
                     })
                     ->orderBy('post_time', 'desc')
-                    ->paginate(20);
+                    ->paginate(20, ["*"], 'newspage'); // パラメータ名を指定することでページネーションを独立させる
     }
 }

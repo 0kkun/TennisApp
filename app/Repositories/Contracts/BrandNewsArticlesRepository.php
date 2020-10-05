@@ -30,7 +30,7 @@ interface BrandNewsArticlesRepository
     /**
      * ブランド名を元に記事を取得する
      *
-     * @param array $player_names
+     * @param array $brand_names
      * @return LengthAwarePaginator
      */
     public function getArticleByBrandNames(array $brand_names): LengthAwarePaginator;

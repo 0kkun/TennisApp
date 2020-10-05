@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 interface FavoriteBrandsRepository
 {
     /**
-     * ログインユーザーが持っているお気に入り選手の全レコードを取得
+     * ログインユーザーが持っているお気に入りブランドの全レコードを取得
      *
      * @return Collection
      */  
@@ -25,7 +25,7 @@ interface FavoriteBrandsRepository
 
 
     /**
-     * お気に入り選手削除メソッド
+     * お気に入りブランド削除メソッド
      *
      * @param integer $favorite_brand_id
      * @return void
@@ -34,7 +34,7 @@ interface FavoriteBrandsRepository
 
 
     /**
-     * ログインユーザーが持っているお気に入り選手の名前・出身を取得する
+     * ログインユーザーが持っているお気に入りブランドの名前・製造国を取得する
      *
      * @return Collection
      */
