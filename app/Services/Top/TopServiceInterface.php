@@ -13,4 +13,11 @@ interface TopServiceInterface
      * @return 
      */
     public function getArticleByFavoritePlayer();
+
+    /**
+     * ユーザーがお気に入りに登録したブランドの名前に紐づいたニュース記事を取得する
+     *
+     * @return 
+     */
+    public function getArticleByFavoriteBrand();
 }

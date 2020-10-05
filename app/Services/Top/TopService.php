@@ -6,14 +6,19 @@ use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Repositories\Contracts\NewsArticlesRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
 use App\Repositories\Contracts\PlayersRepository;
+use App\Repositories\Contracts\BrandNewsArticlesRepository;
+use App\Repositories\Contracts\FavoriteBrandsRepository;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
+
 
 class TopService implements TopServiceInterface
 {
     private $players_repository;
     private $favorite_players_repository;
     private $news_articles_repository;
+    private $brand_news_articles_repository;
+    private $favorite_brands_repository;
 
     /**
      * TopController constructor.
@@ -22,12 +27,16 @@ class TopService implements TopServiceInterface
     public function __construct(
         PlayersRepository $players_repository,
         FavoritePlayersRepository $favorite_players_repository,
-        NewsArticlesRepository $news_articles_repository
+        NewsArticlesRepository $news_articles_repository,
+        BrandNewsArticlesRepository $brand_news_articles_repository,
+        FavoriteBrandsRepository $favorite_brands_repository
     )
     {
         $this->players_repository = $players_repository;
         $this->favorite_players_repository = $favorite_players_repository;
         $this->news_articles_repository = $news_articles_repository;
+        $this->brand_news_articles_repository = $brand_news_articles_repository;
+        $this->favorite_brands_repository = $favorite_brands_repository;
     }
 
 
@@ -41,7 +50,7 @@ class TopService implements TopServiceInterface
      */
     public function getArticleByFavoritePlayer()
     {
-        if ( $this->hasFavorite() ) {
+        if ( $this->hasFavoritePlayer() ) {
           // お気に入り選手の名前を取得
           $favorite_player_data = $this->favorite_players_repository->getFavoritePlayerData()->toArray();
 
@@ -55,6 +64,25 @@ class TopService implements TopServiceInterface
           $news_articles = $this->news_articles_repository->getAll();
         }
         return $news_articles;
+    }
+
+
+    /**
+     * ユーザーのお気に入りに登録されたブランド名を元にニュース記事を取得する
+     *
+     * @return
+     */
+    public function getArticleByFavoriteBrand()
+    {
+      if ( $this->hasFavoriteBrand() ) {
+        $favorite_brand_names = $this->favorite_brands_repository->getFavoriteBrandData()->pluck('name_en')->toArray();
+
+        $brand_news_articles = $this->brand_news_articles_repository->getArticleByBrandNames( $favorite_brand_names );
+
+      } else {
+        $brand_news_articles = $this->brand_news_articles_repository->getAll();
+      }
+      return $brand_news_articles;
     }
 
 
@@ -91,7 +119,7 @@ class TopService implements TopServiceInterface
      *
      * @return boolean
      */
-    private function hasFavorite(): bool
+    private function hasFavoritePlayer(): bool
     {
         $count = count($this->favorite_players_repository->getAll());
 
@@ -102,4 +130,20 @@ class TopService implements TopServiceInterface
         }
     }
 
+
+    /**
+     * ユーザーがお気に入りブランドを登録しているかどうかチェック
+     *
+     * @return boolean
+     */
+    private function hasFavoriteBrand(): bool
+    {
+        $count = count($this->favorite_brands_repository->getAll());
+
+        if ( $count > 0 ) {
+          return true;
+        } else {
+          return false;
+        }
+    }
 }
