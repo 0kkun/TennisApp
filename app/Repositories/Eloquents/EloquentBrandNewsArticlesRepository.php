@@ -50,7 +50,7 @@ class EloquentBrandNewsArticlesRepository implements BrandNewsArticlesRepository
 
     /**
      * ブランド名を元に記事を取得する
-     *TODO: お気に入りブランド名が無い場合エラーが出るので対策が必要
+     * 
      * @param array $brand_names
      * @return LengthAwarePaginator
      */
