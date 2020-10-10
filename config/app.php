@@ -229,4 +229,9 @@ return [
 
     ],
 
+    // MEMO: 変更したらphp artisan config:cacheを行うこと。
+    'google_api_key1' => env('GOOGLE_API_KEY1'),    //追記
+    'google_api_key2' => env('GOOGLE_API_KEY2'),    //追記
+    'google_api_key3' => env('GOOGLE_API_KEY3'),    //追記
+    'google_api_key4' => env('GOOGLE_API_KEY4'),    //追記
 ];
