@@ -19,7 +19,8 @@ class RepositoryServiceProvider extends ServiceProvider
         'TourInformations',
         'Brands',
         'FavoriteBrands',
-        'BrandNewsArticles'
+        'BrandNewsArticles',
+        'YoutubeVideos'
     ];
 
 
