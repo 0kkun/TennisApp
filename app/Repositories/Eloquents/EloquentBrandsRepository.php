@@ -15,7 +15,7 @@ class EloquentBrandsRepository implements BrandsRepository
     * @param object $brands
     */
     public function __construct(
-        brand $brands
+        Brand $brands
     )
     {
         $this->brands = $brands;

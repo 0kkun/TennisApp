@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Eloquent;
+namespace App\Repositories\Eloquents;
 
 use App\Repositories\Contracts\YoutubeVideosRepository;
 use App\Models\YoutubeVideo;
@@ -13,7 +13,7 @@ class EloquentYoutubeVideosRepository implements YoutubeVideosRepository
 
 
     /**
-    * @param object $tour_informations
+    * @param object $youtube_videos
     */
     public function __construct(
         YoutubeVideo $youtube_videos

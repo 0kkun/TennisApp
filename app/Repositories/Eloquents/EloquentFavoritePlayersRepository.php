@@ -17,10 +17,10 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
     */
     public function __construct(
       FavoritePlayer $favorite_players
-  )
-  {
+    )
+    {
       $this->favorite_players = $favorite_players;
-  }
+    }
 
 
     /**

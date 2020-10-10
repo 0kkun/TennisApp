@@ -17,10 +17,10 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
     */
     public function __construct(
       FavoriteBrand $favorite_brands
-  )
-  {
-      $this->favorite_brands = $favorite_brands;
-  }
+    )
+    {
+        $this->favorite_brands = $favorite_brands;
+    }
 
 
     /**
