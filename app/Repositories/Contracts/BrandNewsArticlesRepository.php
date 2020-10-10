@@ -25,8 +25,6 @@ interface BrandNewsArticlesRepository
     public function bulkInsertOrUpdate($data): void;
 
 
-
-
     /**
      * ブランド名を元に記事を取得する
      *

@@ -26,7 +26,7 @@ class EloquentTourInformationsRepository implements TourInformationsRepository
     /**
      * 全レコード取得
      *
-     * @return void
+     * @return Collection
      */
     public function getAll(): Collection
     {
