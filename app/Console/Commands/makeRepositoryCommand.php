@@ -35,7 +35,7 @@ class makeRepositoryCommand extends Command
         // リポジトリ類のディレクトリが作成済みの場合
         if ( !file_exists('app/Repositories/Contracts') && !file_exists('app/Repositories/Eloquents' )) {
             mkdir('app/Repositories/Contracts', 0775, true);
-            mkdir('app/Repositories/Eloquent', 0775, true);
+            mkdir('app/Repositories/Eloquents', 0775, true);
             $this->createFiles($model_name, $contract_file_name, $eloquent_file_name);
         } else {
             $this->createFiles($model_name, $contract_file_name, $eloquent_file_name);
@@ -58,7 +58,7 @@ class makeRepositoryCommand extends Command
 
             file_put_contents($contract_file_name, $contract_file_content);
 
-            $eloquent_file_content = "<?php\n\nnamespace App\\Repositories\\Eloquent;\n\nuse App\\Repositories\\Contracts\\".$model_name."Repository;\n\nclass " . "Eloquent" . $model_name . "Repository implements " . $model_name . "Repository\n{\n}";
+            $eloquent_file_content = "<?php\n\nnamespace App\\Repositories\\Eloquents;\n\nuse App\\Repositories\\Contracts\\".$model_name."Repository;\n\nclass " . "Eloquent" . $model_name . "Repository implements " . $model_name . "Repository\n{\n}";
 
             file_put_contents($eloquent_file_name, $eloquent_file_content);
 
