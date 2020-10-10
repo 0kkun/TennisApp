@@ -126,7 +126,13 @@ class scrapeATPRanking extends Command
 
         $point = $this->changeToNumeric( $point );
 
+        // 前回のランキングを一括取得
+        $pre_rankings_all = $this->atp_rankings_repository->getAll();
+
         for ( $i=0; $i<$count; $i++ ) {
+            // 選手の前回のランキングを取得
+            $pre_ranking = $pre_rankings_all->where('name', $name[$i])->first()->toArray();
+
             $value[$i] = [
                 'rank'       => (int) $rank[$i],
                 'name'       => $name[$i],
@@ -134,7 +140,8 @@ class scrapeATPRanking extends Command
                 'point'      => $point[$i],
                 'ymd'        => $ymd,
                 'created_at' => $today,
-                'updated_at' => $today
+                'updated_at' => $today,
+                'pre_rank'   => $pre_ranking['rank'] ?? null
             ];
         }
         return $value;

@@ -16,6 +16,7 @@ class AtpRanking extends Model
         'country',
         'point',
         'ymd',
+        'pre_rank',
     ];
 
 
@@ -32,6 +33,7 @@ class AtpRanking extends Model
             'country',
             'point',
             'ymd',
+            'pre_rank',
         ];
     }
 }
