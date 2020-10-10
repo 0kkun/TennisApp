@@ -38,4 +38,12 @@ interface PlayersRepository
      * @return array
      */
     public function getAllCountryNames(): array;
+
+
+    /**
+     * youtube_active = 1のレコードのみ返す
+     *
+     * @return Collection
+     */
+    public function getActivePlayers(): Collection;
 }

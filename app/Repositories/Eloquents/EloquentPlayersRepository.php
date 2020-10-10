@@ -94,4 +94,18 @@ class EloquentPlayersRepository implements PlayersRepository
 
         return array_unique($country_all);
     }
+
+
+    /**
+     * youtube_active = 1のレコードのみ返す
+     *
+     * @return Collection
+     */
+    public function getActivePlayers(): Collection
+    {
+        return $this->players
+                    ->where('youtube_active',1)
+                    ->limit(100)
+                    ->get();
+    }
 }
