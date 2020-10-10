@@ -6,10 +6,11 @@ use App\Repositories\Contracts\YoutubeVideosRepository;
 use App\Models\YoutubeVideo;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EloquentYoutubeVideosRepository implements YoutubeVideosRepository
 {
-  protected $youtube_videos;
+    protected $youtube_videos;
 
 
     /**
@@ -26,12 +27,13 @@ class EloquentYoutubeVideosRepository implements YoutubeVideosRepository
     /**
      * 全レコード取得
      *
-     * @return void
+     * @return LengthAwarePaginator
      */
-    public function getAll(): Collection
+    public function getAll(): LengthAwarePaginator
     {
         return $this->youtube_videos
-                    ->get();
+                    ->orderBy('post_time', 'desc')
+                    ->paginate(20);
     }
 
 
@@ -44,5 +46,20 @@ class EloquentYoutubeVideosRepository implements YoutubeVideosRepository
     public function bulkInsertOrUpdate($data): void
     {
         $this->youtube_videos->bulkInsertOrUpdate($data);
+    }
+
+
+    /**
+     * player_idを元にyoutube動画を取得する
+     *
+     * @param array $player_ids
+     * @return LengthAwarePaginator
+     */
+    public function getVideosByPlayerIds( array $player_ids ): LengthAwarePaginator
+    {
+        return $this->youtube_videos
+                    ->whereIn('player_id', $player_ids)
+                    ->orderBy('post_time', 'desc')
+                    ->paginate(3, ["*"], 'youtubepage'); // パラメータ名を指定することでページネーションを独立させる
     }
 }
