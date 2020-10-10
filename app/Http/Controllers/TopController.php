@@ -48,6 +48,8 @@ class TopController extends Controller
 
         $tour_informations = $this->tour_informations_repository->getAll()->toArray();
 
+        $youtube_videos = $this->top_service->getVideosByFavoritePlayer();
+
 
         $today = Carbon::today();
 
@@ -56,6 +58,7 @@ class TopController extends Controller
             'news_articles',
             'brand_news_articles',
             'tour_informations',
+            'youtube_videos',
             'today'
         ));
     }

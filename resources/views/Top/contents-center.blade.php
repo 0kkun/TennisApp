@@ -39,8 +39,16 @@
 <div class="top-contents-center mt-3">
   <div class="top-contents-head text-center bg-dark text-white h4 font-alegreya">Movie</div>
   <div class="top-center-list-box top-movie-box">
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/MfEGqgZffUo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/MfEGqgZffUo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/MfEGqgZffUo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    @if ( !empty($youtube_videos) )
+      <ul>
+        @foreach ( $youtube_videos as $youtube_video )
+          <li><iframe width="100%" height="250" src={{ $youtube_video['url'] }} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></li>
+        @endforeach
+      </ul>
+      <!-- ページネーション -->
+      <div class="p-3 text-center">
+        {{ $youtube_videos->appends((request()->query()))->links() }}
+      </div>
+    @endif
   </div>
 </div>
