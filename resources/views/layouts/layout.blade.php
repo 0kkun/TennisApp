@@ -28,6 +28,5 @@
 
     @include('shared.footer')
     <script type="text/javascript" src="/js/common/nav_menu.js"></script>
-    <script type="text/javascript" src="/js/common/modal.js"></script>
   </body>
 </html>

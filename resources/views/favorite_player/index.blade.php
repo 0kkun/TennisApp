@@ -146,6 +146,7 @@
 
       </div>
     </div>
+    <script type="text/javascript" src="/js/common/modal.js"></script>
   @else
     @include('top.welcome')
   @endif
