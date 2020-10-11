@@ -12,9 +12,7 @@ use Carbon\Carbon;
 class scrapeBrandNews extends Command
 {
     protected $signature = 'command:scrapeBrandNews {--sync : 同期処理}';
-
     protected $description = 'ブランドのニュースをスクレイピングで取得し保存するコマンド';
-
     private $brand_news_articles_repository;
 
 
@@ -30,6 +28,7 @@ class scrapeBrandNews extends Command
         parent::__construct();
         $this->brand_news_articles_repository = $brand_news_articles_repository;
     }
+
 
     /**
      * Execute the console command.

@@ -19,10 +19,9 @@ use Carbon\Carbon;
 class scrapePlayers extends Command
 {
     protected $signature = 'command:scrapePlayers';
-
     protected $description = '選手の情報をwikiからスクレイピングで取得し保存するコマンド';
-
     private $players_repository;
+
 
     /**
      * リポジトリのコンストラクタ
@@ -36,6 +35,7 @@ class scrapePlayers extends Command
         parent::__construct();
         $this->players_repository = $players_repository;
     }
+
 
     /**
      * wikiのテニス選手一覧から情報をスクレイピングする

@@ -12,11 +12,8 @@ use Carbon\Carbon;
 
 class scrapeTennisNews extends Command
 {
-
     protected $signature = 'command:scrapeTennisNews {--sync : 同期処理}';
-
     protected $description = 'テニスのニュースをスクレイピングで取得し保存するコマンド';
-
     private $news_articles_repository;
 
 

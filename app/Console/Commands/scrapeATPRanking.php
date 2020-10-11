@@ -13,10 +13,9 @@ class scrapeATPRanking extends Command
 {
 
     protected $signature = 'command:scrapeATPRanking {--sync : 同期処理}';
-
     protected $description = 'ATPランキングをスクレイピングで取得し保存するコマンド';
-
     private $atp_rankings_repository;
+
 
     /**
      * リポジトリのコンストラクタ
@@ -30,6 +29,7 @@ class scrapeATPRanking extends Command
         parent::__construct();
         $this->atp_rankings_repository = $atp_rankings_repository;
     }
+
 
     /**
      * ランキング情報を取得する。

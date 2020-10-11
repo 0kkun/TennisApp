@@ -16,17 +16,17 @@ use Exception;
 class getPlayersYoutube extends Command
 {
     protected $signature = 'command:getPlayersYoutube {--sync : 同期処理}';
-
     protected $description = '選手のyoutube動画を取得する';
-
     const MAX_COUNT = 5;
     private $players_repository;
     private $youtube_videos_repository;
 
+
     /**
-     * Create a new command instance.
+     * リポジトリのコンストラクタ
      *
-     * @return void
+     * @param PlayersRepository $players_repository
+     * @param YoutubeVideosRepository $youtube_videos_repository
      */
     public function __construct(
         PlayersRepository $players_repository,
@@ -37,6 +37,7 @@ class getPlayersYoutube extends Command
         $this->players_repository = $players_repository;
         $this->youtube_videos_repository = $youtube_videos_repository;
     }
+
 
     /**
      * Execute the console command.
@@ -94,7 +95,6 @@ class getPlayersYoutube extends Command
         unset($this->logger);
         $this->info( "実行終了" );
     }
-
 
 
     /**

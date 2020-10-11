@@ -11,17 +11,15 @@ use App\Repositories\Contracts\TourInformationsRepository;
 
 class scrapeTourInfo extends Command
 {
-
     protected $signature = 'command:scrapeTourInfo {--sync : 同期処理}';
-
     protected $description = '大会情報をスクレイピングで取得し保存する';
-
     private $tour_informations_repository;
 
+
     /**
-     * Create a new command instance.
+     * リポジトリのコンストラクタ
      *
-     * @return void
+     * @param TourInformationsRepository $tour_informations_repository
      */
     public function __construct(
         TourInformationsRepository $tour_informations_repository
@@ -30,6 +28,7 @@ class scrapeTourInfo extends Command
         parent::__construct();
         $this->tour_informations_repository = $tour_informations_repository;
     }
+
 
     /**
      * 大会情報をスクレイピングで取得し、テーブルへ保存する

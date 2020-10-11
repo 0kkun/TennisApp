@@ -9,6 +9,7 @@ class makeRepositoryCommand extends Command
     protected $signature = 'make:repository {model_name : モデル名}';
     protected $description = 'リポジトリファイルを作成する';
 
+
     public function __construct()
     {
         parent::__construct();
