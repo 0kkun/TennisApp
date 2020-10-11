@@ -57,7 +57,7 @@ class EloquentBrandYoutubeVideosRepository implements BrandYoutubeVideosReposito
      * @param array $brand_ids
      * @return LengthAwarePaginator
      */
-    public function getBrandVideosByPlayerIds( array $brand_ids ): LengthAwarePaginator
+    public function getVideosByBrandIds( array $brand_ids ): LengthAwarePaginator
     {
         return $this->brand_youtube_videos
                     ->whereIn('brand_id', $brand_ids)

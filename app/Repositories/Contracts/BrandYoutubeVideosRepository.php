@@ -30,5 +30,5 @@ interface BrandYoutubeVideosRepository
      * @param array $brand_ids
      * @return LengthAwarePaginator
      */
-    public function getBrandVideosByPlayerIds( array $brand_ids ): LengthAwarePaginator;
+    public function getVideosByBrandIds( array $brand_ids ): LengthAwarePaginator;
 }
