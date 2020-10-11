@@ -121,3 +121,84 @@
 |url|string| - |
 |post_time|date|-|
 |player_id|integer|null: false, foreign_key: true|
+
+# 開発コマンド一覧
+- 選手の情報をwikipediaから取得
+
+```
+php artisan command:scrapePlayers
+```
+- ATPランキングを取得
+```
+php artisan command:scrapeATPRankings
+```
+- Youtube動画を取得
+```
+php artisan command:getPlayersYoutube
+```
+- 大会情報を取得
+```
+php artisan command:scrapeTourInfo
+```
+- ブランドのニュースを取得
+```
+php artisan command:scrapeBrandNews
+```
+- テニスのニュースを取得
+```
+php artisan command:scrapeTennisNews
+```
+- リポジトリパターン用のファイル作成
+```
+php artisan make:repository モデル名
+```
+
+# 環境構築
+
+## ローカルにリポジトリをクローン
+
+```
+$ git clone https://github.com/0kkun/TennisApp.git 
+```
+
+## Docker build
+
+```
+make build
+```
+
+## .envファイルを編集
+
+```
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=password
+```
+## configディレクトリのdatabase.phpを編集
+
+```
+'port' => env('DB_PORT', '3306'),
+'database' => env('DB_DATABASE', 'laravel'),
+'username' => env('DB_USERNAME', 'root'),
+'password' => env('DB_PASSWORD', 'password'),
+```
+
+## Sequel ProなどでDBに接続
+
+```
+ホスト : 0.0.0.0
+ポート : 13306
+ユーザー名 : root
+パスワード : password
+```
+
+## Docker up
+
+```
+make up
+```
+- ローカル環境で確認
+> http://localhost:10080/
