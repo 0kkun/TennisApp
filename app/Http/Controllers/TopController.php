@@ -50,6 +50,7 @@ class TopController extends Controller
 
         $youtube_videos = $this->top_service->getVideosByFavoritePlayer();
 
+        $brand_youtube_videos = $this->top_service->getVideosByFavoriteBrand();
 
         $today = Carbon::today();
 
@@ -59,6 +60,7 @@ class TopController extends Controller
             'brand_news_articles',
             'tour_informations',
             'youtube_videos',
+            'brand_youtube_videos',
             'today'
         ));
     }
