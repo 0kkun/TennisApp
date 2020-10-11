@@ -30,4 +30,12 @@ interface TopServiceInterface
      * @return LengthAwarePaginator
      */
     public function getVideosByFavoritePlayer();
+
+
+    /**
+     * お気に入りブランドに紐づいたyoutube動画を取得する
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getVideosByFavoriteBrand();
 }

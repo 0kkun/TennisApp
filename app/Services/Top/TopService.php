@@ -9,6 +9,7 @@ use App\Repositories\Contracts\PlayersRepository;
 use App\Repositories\Contracts\BrandNewsArticlesRepository;
 use App\Repositories\Contracts\FavoriteBrandsRepository;
 use App\Repositories\Contracts\YoutubeVideosRepository;
+use App\Repositories\Contracts\BrandYoutubeVideosRepository;
 use Illuminate\Support\Collection;
 use Carbon\Carbon;
 
@@ -21,6 +22,7 @@ class TopService implements TopServiceInterface
     private $brand_news_articles_repository;
     private $favorite_brands_repository;
     private $youtube_videos_repository;
+    private $brand_youtube_videos_repository;
 
     /**
      * TopController constructor.
@@ -32,7 +34,8 @@ class TopService implements TopServiceInterface
         NewsArticlesRepository $news_articles_repository,
         BrandNewsArticlesRepository $brand_news_articles_repository,
         FavoriteBrandsRepository $favorite_brands_repository,
-        YoutubeVideosRepository $youtube_videos_repository
+        YoutubeVideosRepository $youtube_videos_repository,
+        BrandYoutubeVideosRepository $brand_youtube_videos_repository
     )
     {
         $this->players_repository = $players_repository;
@@ -41,6 +44,7 @@ class TopService implements TopServiceInterface
         $this->brand_news_articles_repository = $brand_news_articles_repository;
         $this->favorite_brands_repository = $favorite_brands_repository;
         $this->youtube_videos_repository = $youtube_videos_repository;
+        $this->brand_youtube_videos_repository = $brand_youtube_videos_repository;
     }
 
 
@@ -105,6 +109,24 @@ class TopService implements TopServiceInterface
         return $youtube_videos;
     }
 
+
+    /**
+     * お気に入りブランドに紐づいたyoutube動画を取得する
+     *
+     * @return LengthAwarePaginator
+     */
+    public function getVideosByFavoriteBrand()
+    {
+        if ( $this->hasFavoriteBrand() ) {
+            // お気に入りブランドのidを取得
+            $favorite_brand_ids = $this->favorite_brands_repository->getFavoriteBrandData()->pluck('brand_id')->toArray();
+            // idを使って動画を取得
+            $youtube_videos = $this->brand_youtube_videos_repository->getVideosByBrandIds( $favorite_brand_ids );
+        } else {
+            $youtube_videos = $this->brand_youtube_videos_repository->getAll();
+        }
+        return $youtube_videos;
+    }
 
     /**
      * ファーストネームだけにして返す
