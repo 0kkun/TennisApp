@@ -91,8 +91,16 @@
 <div class="top-contents-left mt-3">
   <div class="top-contents-head text-center bg-dark text-white h4 font-alegreya">Racket Impression</div>
   <div class="top-left-list-box top-movie-box">
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/2zhpKrbp6Lk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/2zhpKrbp6Lk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <iframe width="100%" height="250" src="https://www.youtube.com/embed/2zhpKrbp6Lk" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    @if ( !empty($brand_youtube_videos) )
+      <ul>
+        @foreach ( $brand_youtube_videos as $brand_youtube_video )
+          <li><iframe width="100%" height="250" src={{ $brand_youtube_video['url'] }} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></li>
+        @endforeach
+      </ul>
+      <!-- ページネーション -->
+      <div class="p-3 text-center">
+        {{ $brand_youtube_videos->appends((request()->query()))->links() }}
+      </div>
+    @endif
   </div>
 </div>
