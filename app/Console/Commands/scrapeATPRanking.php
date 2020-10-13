@@ -131,7 +131,7 @@ class scrapeATPRanking extends Command
 
         for ( $i=0; $i<$count; $i++ ) {
             // 選手の前回のランキングを取得
-            $pre_ranking = $pre_rankings_all->where('name', $name[$i])->first()->toArray();
+            $pre_ranking = $pre_rankings_all->where('name', $name[$i])->first();
 
             $value[$i] = [
                 'rank'       => (int) $rank[$i],
