@@ -96,11 +96,11 @@
 
 
 .top-right-table-rank-w {
-  width: 15%;
+  width: 20%;
 }
 
 .top-right-table-name-w {
-  width: 70%;
+  width: 65%;
 }
 
 .top-right-table-point-w {
@@ -113,3 +113,14 @@
   height: 1220px;
 }
 
+.rank-up-arrow {
+  color: rgb(247, 47, 47);
+}
+
+.rank-down-arrow {
+  color: rgb(69, 142, 214);
+}
+
+.rank-right-arrow {
+  color: rgb(176, 224, 104);
+}
