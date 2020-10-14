@@ -34,7 +34,7 @@ class EloquentBrandYoutubeVideosRepository implements BrandYoutubeVideosReposito
     public function getAll(): LengthAwarePaginator
     {
         return $this->brand_youtube_videos
-                    ->orderBy('post_time', 'desc')
+                    ->orderBy('created_at', 'desc')
                     ->paginate(20);
     }
 
@@ -61,7 +61,7 @@ class EloquentBrandYoutubeVideosRepository implements BrandYoutubeVideosReposito
     {
         return $this->brand_youtube_videos
                     ->whereIn('brand_id', $brand_ids)
-                    ->orderBy('post_time', 'desc')
+                    ->orderBy('created_at', 'desc')
                     ->paginate(3, ["*"], 'brandyoutubepage'); // パラメータ名を指定することでページネーションを独立させる
     }
 }

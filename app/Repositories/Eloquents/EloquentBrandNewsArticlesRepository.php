@@ -31,7 +31,7 @@ class EloquentBrandNewsArticlesRepository implements BrandNewsArticlesRepository
     public function getAll(): LengthAwarePaginator
     {
         return $this->brand_news_articles
-                    ->orderBy('id', 'desc')
+                    ->orderBy('post_time', 'desc')
                     ->paginate(20);
     }
 

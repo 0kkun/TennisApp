@@ -32,7 +32,7 @@ class EloquentYoutubeVideosRepository implements YoutubeVideosRepository
     public function getAll(): LengthAwarePaginator
     {
         return $this->youtube_videos
-                    ->orderBy('post_time', 'desc')
+                    ->orderBy('created_at', 'desc')
                     ->paginate(20);
     }
 
@@ -59,7 +59,7 @@ class EloquentYoutubeVideosRepository implements YoutubeVideosRepository
     {
         return $this->youtube_videos
                     ->whereIn('player_id', $player_ids)
-                    ->orderBy('post_time', 'desc')
+                    ->orderBy('created_at', 'desc')
                     ->paginate(3, ["*"], 'youtubepage'); // パラメータ名を指定することでページネーションを独立させる
     }
 }
