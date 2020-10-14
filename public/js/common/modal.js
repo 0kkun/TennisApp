@@ -1,19 +1,13 @@
 (function(){
-    // idを取得する
     var open = document.getElementById('open');
     var close = document.getElementById('close');
     var mask = document.getElementById('mask');
     var modal = document.getElementById('modal');
-    // var iflame = document.getElementById('wiki-iflame');
-
-    // HTMLからurlを取得する
-    // var url = open.getAttribute("data-url");
 
     open.addEventListener('click',function(){
         // .hiddenクラスを削除しモーダルを表示する
         mask.className = '';
         modal.className = '';
-        // iflame.setAttribute('src',url);
         // モーダルをふわっと表示させる
         modal.animate([{opacity: '0'}, {opacity: '1'}], 500);
     });
