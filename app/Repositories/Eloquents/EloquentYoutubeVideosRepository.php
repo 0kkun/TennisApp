@@ -33,7 +33,7 @@ class EloquentYoutubeVideosRepository implements YoutubeVideosRepository
     {
         return $this->youtube_videos
                     ->orderBy('created_at', 'desc')
-                    ->paginate(20);
+                    ->paginate(config('const.PAGINATE.MOVIE_LINK_NUM'));
     }
 
 
@@ -60,6 +60,6 @@ class EloquentYoutubeVideosRepository implements YoutubeVideosRepository
         return $this->youtube_videos
                     ->whereIn('player_id', $player_ids)
                     ->orderBy('created_at', 'desc')
-                    ->paginate(3, ["*"], 'youtubepage'); // パラメータ名を指定することでページネーションを独立させる
+                    ->paginate(config('const.PAGINATE.MOVIE_LINK_NUM'), ["*"], 'youtubepage'); // パラメータ名を指定することでページネーションを独立させる
     }
 }

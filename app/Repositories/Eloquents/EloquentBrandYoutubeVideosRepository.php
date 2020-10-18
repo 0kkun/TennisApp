@@ -35,7 +35,7 @@ class EloquentBrandYoutubeVideosRepository implements BrandYoutubeVideosReposito
     {
         return $this->brand_youtube_videos
                     ->orderBy('created_at', 'desc')
-                    ->paginate(20);
+                    ->paginate(config('const.PAGINATE.MOVIE_LINK_NUM'));
     }
 
 
@@ -62,6 +62,6 @@ class EloquentBrandYoutubeVideosRepository implements BrandYoutubeVideosReposito
         return $this->brand_youtube_videos
                     ->whereIn('brand_id', $brand_ids)
                     ->orderBy('created_at', 'desc')
-                    ->paginate(3, ["*"], 'brandyoutubepage'); // パラメータ名を指定することでページネーションを独立させる
+                    ->paginate(config('const.PAGINATE.MOVIE_LINK_NUM'), ["*"], 'brandyoutubepage'); // パラメータ名を指定することでページネーションを独立させる
     }
 }

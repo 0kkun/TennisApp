@@ -32,7 +32,7 @@ class EloquentBrandNewsArticlesRepository implements BrandNewsArticlesRepository
     {
         return $this->brand_news_articles
                     ->orderBy('post_time', 'desc')
-                    ->paginate(20);
+                    ->paginate(config('const.PAGINATE.NEWS_LINK_NUM'));
     }
 
 
@@ -59,6 +59,6 @@ class EloquentBrandNewsArticlesRepository implements BrandNewsArticlesRepository
         return $this->brand_news_articles
                     ->whereIn('brand_name', $brand_names)
                     ->orderBy('post_time', 'desc')
-                    ->paginate(20, ["*"], 'brandnewspage');
+                    ->paginate(config('const.PAGINATE.NEWS_LINK_NUM'), ["*"], 'brandnewspage');
     }
 }

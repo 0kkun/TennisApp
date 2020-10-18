@@ -32,7 +32,7 @@ class EloquentNewsArticlesRepository implements NewsArticlesRepository
     {
         return $this->news_articles
                     ->orderBy('id', 'desc')
-                    ->paginate(20);
+                    ->paginate(config('const.PAGINATE.NEWS_LINK_NUM'));
     }
 
 
@@ -63,6 +63,6 @@ class EloquentNewsArticlesRepository implements NewsArticlesRepository
                         }
                     })
                     ->orderBy('post_time', 'desc')
-                    ->paginate(20, ["*"], 'newspage'); // パラメータ名を指定することでページネーションを独立させる
+                    ->paginate(config('const.PAGINATE.NEWS_LINK_NUM'), ["*"], 'newspage'); // パラメータ名を指定することでページネーションを独立させる
     }
 }
