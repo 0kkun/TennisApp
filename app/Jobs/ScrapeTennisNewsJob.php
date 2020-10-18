@@ -11,7 +11,6 @@ use App\Modules\BatchLogger;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 use Weidner\Goutte\GoutteFacade;
 use App\Repositories\Contracts\NewsArticlesRepository;
 
@@ -30,6 +29,10 @@ class ScrapeTennisNewsJob implements ShouldQueue
      * テニスニュースをスクレイピングで取得しDBへ保存する
      * TODO: 海外の記事も取得し、翻訳した物を保存できるようにしたい
      * FIXME: 2回連続で実行時にupdateする際、updated_atのtimezoneがアジアではなくなるバグ有り
+     * 
+     * 実行スコア
+     * [2020-10-19 03:43:44] local.INFO: [ScrapeTennisNewsJob] 保存完了 : 5.5461130142212秒  
+     * [2020-10-19 03:43:44] local.INFO: [ END ] ScrapeTennisNewsJob 処理時間: 5.5464880466461秒
      *
      * @return mixed
      */
@@ -46,54 +49,27 @@ class ScrapeTennisNewsJob implements ShouldQueue
             $url       = array();
             $post_time = array();
 
-            $goutte1 = GoutteFacade::request('GET', 'https://sports.yahoo.co.jp/news/list?id=tennis');
-            sleep(1);
+            $yahoo_url_page1 = 'https://sports.yahoo.co.jp/news/list?id=tennis';
+            $yahoo_url_page2 = 'https://sports.yahoo.co.jp/news/list?id=tennis&fmi=tennis&p=2';
+            $yahoo_url_page3 = 'https://sports.yahoo.co.jp/news/list?id=tennis&fmi=tennis&p=3';
 
-            $goutte1->filter('.textNews')->each(function ($node) use (&$title, &$url, &$post_time) {
-                if ( $node->count() > 0 ) {
-                    array_push( $title, $node->filter('.articleTitle')->text() );
-                    array_push( $url, $node->filter('.articleUrl')->attr('href') );
-                    array_push( $post_time, $node->filter('.postTime')->text() );
-                } else {
-                    Log::info('スクレイピング実行できませんでした');
-                }
-            });
+            $pattern = [
+                'all'       => '.textNews',
+                'title'     => '.articleTitle',
+                'url'       => '.articleUrl',
+                'post_time' => '.postTime'
+            ];
 
-            $goutte2 = GoutteFacade::request('GET', 'https://sports.yahoo.co.jp/news/list?id=tennis&fmi=tennis&p=2');
-            sleep(1);
-
-            $goutte2->filter('.textNews')->each(function ($node) use (&$title, &$url, &$post_time) {
-                if ( $node->count() > 0 ) {
-                    array_push( $title, $node->filter('.articleTitle')->text() );
-                    array_push( $url, $node->filter('.articleUrl')->attr('href') );
-                    array_push( $post_time, $node->filter('.postTime')->text() );
-                } else {
-                    Log::info('スクレイピング実行できませんでした');
-                }
-            });
-
-            $goutte3 = GoutteFacade::request('GET', 'https://sports.yahoo.co.jp/news/list?id=tennis&fmi=tennis&p=3');
-            sleep(1);
-
-            $goutte3->filter('.textNews')->each(function ($node) use (&$title, &$url, &$post_time) {
-                if ( $node->count() > 0 ) {
-                    array_push( $title, $node->filter('.articleTitle')->text() );
-                    array_push( $url, $node->filter('.articleUrl')->attr('href') );
-                    array_push( $post_time, $node->filter('.postTime')->text() );
-                } else {
-                    Log::info('スクレイピング実行できませんでした');
-                }
-            });
-
-            // バルクインサート用に加工
-            $article_data = $this->makeInsertValue( $title, $url, $post_time );
+            // スクレイピング実行
+            $this->scrapeTennisNewsSite( $yahoo_url_page1, $pattern, $title, $url, $post_time );
+            $this->scrapeTennisNewsSite( $yahoo_url_page2, $pattern, $title, $url, $post_time );
+            $article_data = $this->scrapeTennisNewsSite( $yahoo_url_page3, $pattern, $title, $url, $post_time );
 
             // バルクインサートで保存
             if ( !empty($article_data) ) {
                 $this->news_articles_repository->bulkInsertOrUpdate( $article_data );
             }
 
-            Log::info('保存完了');
             $this->logger->write('保存完了', 'info' ,true);
             $this->logger->success();
 
@@ -101,6 +77,28 @@ class ScrapeTennisNewsJob implements ShouldQueue
             $this->logger->exception($e);
         }
         unset($this->logger);
+    }
+
+
+
+    private function scrapeTennisNewsSite( string $site_url, array $pattern, array &$title, array &$url, array &$post_time ): array
+    {
+      $goutte = GoutteFacade::request('GET', $site_url);
+      sleep(1);
+
+      $goutte->filter($pattern['all'])->each(function ($node) use (&$pattern, &$title, &$url, &$post_time) {
+        if ( $node->count() > 0 ) {
+            array_push( $title, $node->filter($pattern['title'])->text() );
+            array_push( $url, $node->filter($pattern['url'])->attr('href') );
+            array_push( $post_time, $node->filter($pattern['post_time'])->text() );
+        } else {
+            Log::info('スクレイピング実行できませんでした');
+        }
+      });
+
+      $tennis_news_data = $this->makeInsertValue( $title, $url, $post_time);
+
+      return $tennis_news_data;
     }
 
 

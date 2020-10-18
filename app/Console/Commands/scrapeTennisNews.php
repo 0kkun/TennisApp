@@ -31,16 +31,13 @@ class scrapeTennisNews extends Command
     public function handle()
     {
         $is_sync = $this->option('sync');
-        $this->info('実行開始');
 
         // 同期実行か非同期実行か判定
         if ($is_sync) {
-            // 同期実行
-            Log::info('ScrapeTennisNewsJob 同期実行');
+            $this->info('同期実行開始');
             dispatch_now(new ScrapeTennisNewsJob);
         } else {
-            // 非同期実行
-            Log::info('ScrapeTennisNewsJob 非同期実行');
+            $this->info('非同期実行開始');
             dispatch(new ScrapeTennisNewsJob);
         }
 
