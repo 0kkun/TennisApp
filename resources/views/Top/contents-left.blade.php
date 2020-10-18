@@ -97,7 +97,7 @@
           <li><iframe width="100%" height="250" src={{ $brand_youtube_video['url'] }} frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></li>
         @endforeach
       </ul>
-      <!-- ページネーション -->
+      {{-- ページネーション --}}
       <div class="p-3 text-center">
         {{ $brand_youtube_videos->appends((request()->query()))->links() }}
       </div>
