@@ -155,7 +155,7 @@ class getBrandsYoutube extends Command
                 $value[$i] = [
                     'title'      => $videos[$i]['snippet']['title'],
                     'url'        => 'https://www.youtube.com/embed/' . $videos[$i]['id']['videoId'],
-                    // TODO: RFC3339形式をdate型にするやり方がわからない。下記だとエラー
+                    // FIXME: RFC3339形式をdate型にするやり方がわからない。下記だとエラー
                     // 'post_time'  => $videos[$i]['snippet']['publishedAt'],
                     'post_time'  => $today,
                     'brand_id'   => $brand_id,

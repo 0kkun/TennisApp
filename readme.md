@@ -29,6 +29,7 @@
 - google api
 - scraping
 - Repository pattern
+
 ### フロントエンド
 - HTML/CSS
 - Bootstrap
@@ -38,6 +39,7 @@
 
 ## 今後実装したい機能
 - 選手のランキング推移をチャートで表示
+- 大会ページからチャットページに遷移しチャットができる機能
 
 # DB設計
 
@@ -128,7 +130,7 @@
 ```
 php artisan command:scrapePlayers
 ```
-- ATPランキングを取得
+- 最新のATPランキングを取得
 ```
 php artisan command:scrapeATPRankings
 ```
