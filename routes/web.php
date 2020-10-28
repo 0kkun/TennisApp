@@ -27,4 +27,6 @@ Route::prefix('favorite_brand')->group(function () {
   Route::post('/remove', 'FavoriteBrandController@remove')->name('favorite_brand.remove');
 });
 
+Route::get('/analysis', 'AnalysisController@index')->name('analysis.index');
+
 Auth::routes();
