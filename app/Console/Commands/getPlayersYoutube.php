@@ -85,7 +85,6 @@ class getPlayersYoutube extends Command
                     $this->info( $check_word . 'は該当動画無し' );
                 }
             }
-            $this->info("【実行終了】");
             $this->logger->write('保存終了', 'info' ,true);
             $this->logger->success();
             
@@ -93,7 +92,7 @@ class getPlayersYoutube extends Command
             $this->logger->exception($e);
         }
         unset($this->logger);
-        $this->info( "実行終了" );
+        $this->info( "【実行終了】" );
     }
 
 

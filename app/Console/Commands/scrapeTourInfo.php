@@ -39,7 +39,7 @@ class scrapeTourInfo extends Command
     {
         $is_sync = $this->option('sync');
 
-        $this->info("実行開始");
+        $this->info("【実行開始】");
         $this->logger = new BatchLogger( 'scrapeTourInfo' );
 
         try {
@@ -71,7 +71,7 @@ class scrapeTourInfo extends Command
             $this->logger->exception($e);
         }
         unset($this->logger);
-        $this->info("実行終了");
+        $this->info("【実行終了】");
     }
 
 
