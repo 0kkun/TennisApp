@@ -16,7 +16,7 @@
         </li>
         <li class="global-nav__item"><a href="{{ route('favorite_player.index') }}">Favorite Player</a></li>
         <li class="global-nav__item"><a href="{{ route('favorite_brand.index') }}">Favorite Brand</a></li>
-        <li class="global-nav__item"><a href="">Player Analysis</a></li>
+        <li class="global-nav__item"><a href="{{ route('analysis.index') }}">Player Analysis</a></li>
       @else
         <li class="global-nav__item"><a href="/">HOME</a></li>
         <li class="global-nav__item"><a href="{{ route('register') }}">Register</a></li>
@@ -41,7 +41,7 @@
     <a class="text-white font-20 font-alegreya top-link-tab p-1" href="/">Home</a>
     <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('favorite_player.index') }}">Favorite Player</a>
     <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('favorite_brand.index') }}">Favorite Brand</a>
-    <a class="text-white font-20 font-alegreya top-link-tab p-1" href="#">Player Analysis</a>
+    <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('analysis.index') }}">Player Analysis</a>
     @endif
   </div>
 
