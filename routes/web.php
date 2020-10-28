@@ -15,12 +15,16 @@
 
 Route::get('/', 'TopController@index')->name('top.index');
 
-Route::get('/favorite_player', 'FavoritePlayerController@index')->name('favorite_player.index');
-Route::post('/favorite_player/add', 'FavoritePlayerController@add')->name('favorite_player.add');
-Route::post('/favorite_player/remove', 'FavoritePlayerController@remove')->name('favorite_player.remove');
+Route::prefix('favorite_player')->group(function () {
+  Route::get('/', 'FavoritePlayerController@index')->name('favorite_player.index');
+  Route::post('/add', 'FavoritePlayerController@add')->name('favorite_player.add');
+  Route::post('/remove', 'FavoritePlayerController@remove')->name('favorite_player.remove');
+});
 
-Route::get('/favorite_brand', 'FavoriteBrandController@index')->name('favorite_brand.index');
-Route::post('/favorite_brand/add', 'FavoriteBrandController@add')->name('favorite_brand.add');
-Route::post('/favorite_brand/remove', 'FavoriteBrandController@remove')->name('favorite_brand.remove');
+Route::prefix('favorite_brand')->group(function () {
+  Route::get('/', 'FavoriteBrandController@index')->name('favorite_brand.index');
+  Route::post('/add', 'FavoriteBrandController@add')->name('favorite_brand.add');
+  Route::post('/remove', 'FavoriteBrandController@remove')->name('favorite_brand.remove');
+});
 
 Auth::routes();
