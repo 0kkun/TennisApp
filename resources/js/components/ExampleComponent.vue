@@ -14,10 +14,21 @@
     </div>
 </template>
 
+<style scoped>
+.test {
+    color: red;
+}
+</style>
+
+
 <script>
     export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
+      // Laravel からのデータを受け取り
+      props: {
+          test: String,
+      },
+      mounted() {
+          console.log('Component mounted.')
+      }
     }
 </script>

@@ -3,7 +3,6 @@
 @section('content')
   @if(Auth::check())
 
-
   <div class="container-fluid pt-140">
     <div class="row">
 
@@ -51,6 +50,12 @@
       <script type="text/javascript" src="/js/analysis/graph.js"></script>
     </div>
   </div>
+
+  {{-- <div id="app">
+    <example-component test="GET DATA: {{ 'AAA' }}"></example-component>
+  </div>
+  <script src=" {{ mix('js/app.js') }} "></script> --}}
+  
   @else
     @include('top.welcome')
   @endif

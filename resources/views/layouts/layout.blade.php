@@ -26,6 +26,8 @@
     <link rel="stylesheet" href="/css/favorite_player/index.css">
     <script type="text/javascript" src="/js/top/scroll.js"></script>
     <script type="text/javascript" src="/js/common/welcome.js"></script>
+    {{-- Vue.jsを使用してajax通信する時のため --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
   </head>
 
   <body>
