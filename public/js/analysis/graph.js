@@ -1,58 +1,47 @@
+// ************************ 折れ線グラフ ****************************
 
+$(function(){
+  let blue  = "rgba(0,0,255,1)";
+  let red   = "rgba(255,0,0,1)";
+  let lightPink = 'rgba(255,182,193,1)';
+  let black = "rgba(0,0,0,1)";
+  let white = "rgba(255,255,255,1)";
+  let clear = "rgba(0,0,0,0)";
 
+  let x_axis_label = ['10/1', '10/7', '10/14', '10/21', '10/28', '11/4', '11/11'];
+  let data_1 = [35, 34, 37, 35, 34, 35, 34, 25];
+  let data_2 = [2, 3, 3, 4, 3, 2, 3, 4];
 
-let blue  = "rgba(0,0,255,1)";
-let red   = "rgba(255,0,0,1)";
-let light_pink = 'rgba(255,182,193,1)';
-let black = "rgba(0,0,0,1)";
-let white = "rgba(255,255,255,1)";
-let clear = "rgba(0,0,0,0)";
+  // 折れ線のデータ
+  let lineChartData = {
+    labels: x_axis_label,
+    datasets: [
+      {
+        // データ(1個目)
+        label: 'Kei Nishikori',
+        data: data_1,
+        borderColor: red,
+        backgroundColor: clear,
+        pointStyle: 'circle', // 点の形状
+        pointRadius: 5, // 点の大きさ
+        pointBackgroundColor: red,
+      },
+      {
+        // データ(2個目)
+        label: 'last year',
+        data: data_2,
+        borderColor: lightPink,
+        backgroundColor: clear,
+        pointStyle: 'circle', // 点の形状
+        pointRadius: 4, // 点の大きさ
+        pointBackgroundColor: lightPink,
+        borderDash: [8, 2], // 破線にする。線分の長さと間隔の長さを設定
+      }
+    ]
+  };
 
-
-let ctx = document.getElementById("rankingChart"); // グラフの描画位置などをビューから取得
-
-// ***** 適当なデータを連想配列で作成 *****
-
-let x_axis_label = ['10/1', '10/7', '10/14', '10/21', '10/28', '11/4', '11/11'];
-let data_1 = [35, 34, 37, 35, 34, 35, 34, 25];
-let data_2 = [2, 3, 3, 4, 3, 2, 3, 4];
-
-let datasets_player = [
-  {
-    label: 'Kei Nishikori',
-    data: data_1,
-    borderColor: red,
-    backgroundColor: clear,
-    pointStyle: 'circle', // 点の形状
-    pointRadius: 5, // 点の大きさ
-    pointBackgroundColor: red,
-  },
-  {
-    label: 'last year',
-    data: data_2,
-    borderColor: light_pink,
-    backgroundColor: clear,
-    pointStyle: 'circle', // 点の形状
-    pointRadius: 4, // 点の大きさ
-    pointBackgroundColor: light_pink,
-    borderDash: [8, 2], // 破線にする。線分の長さと間隔の長さを設定
-    
-  }
-];
-
-// ***** データセット作成処理 *****
-
-let data = {
-  labels: x_axis_label,
-  datasets: datasets_player,
-};
-
-// ***** グラフ作成処理 *****
-
-let rankingChart = new Chart(ctx, {
-  type: 'line',
-  data: data,
-  options: {
+  // オプション
+  var options = {
     title: {
       display: true,
       position:'top',
@@ -82,50 +71,62 @@ let rankingChart = new Chart(ctx, {
           min: 1,  //最小値を1に
           max: 100,  //最大値を100に
           callback: function(value){
-              return value;  //labelに「〜位」をつける
+              return value;  //labelに「〜位」とかをつけれる
           }
-        }
+        },
+        scaleLabel: {
+          display: true,
+          fontSize: 12,
+          labelString: "Ranking"
+        },
       }]
     },
-  }
+  };
+
+  // グラフの描画位置などをビューから取得
+  var ctx = document.getElementById("rankingChart");
+
+  // グラフ描画
+  var rankingChart = new Chart(ctx,
+    {
+    type: 'line',
+    data: lineChartData,
+    options: options
+    }
+  );
 });
 
 
 
 
+// ************************ バブルチャート ****************************
 $(function(){
   // バブルチャートのデータ
   var bubleChartData = {
-      datasets: [
-          {
-             // データ(1個目)
-            data: [{"x":10 ,"y":10, "r":30} ,],
-            // 色（1個目）
-            backgroundColor:[ "rgb(141,63,223,0.5)" ],
-            // ラベル
-            label: ["test1"] 
-          },
-          {
-              // データ(2個目)
-              data: [{"x":20 ,"y":20, "r":50} ,],
-              // 色（2個目）
-              backgroundColor:[ "rgb(141,29,73,0.4)"],
-              // ラベル（2個目）
-              label: ["test2"]  
-          },
-          {
-              // データ(3個目)
-              data: [{"x":30 ,"y":30, "r":70} ,],
-              // 色（3個目）
-              backgroundColor:["rgb(16,230,73,0.5)"],
-              // ラベル（3個目）
-              label: ["test3"]  
-          }
-      ]};
+    datasets: [
+      {
+        // データ(1個目)
+        data: [{"x":20 ,"y":40, "r":30} ,],
+        backgroundColor:[ "rgb(141,63,223,0.5)" ],
+        label: ["test1"] 
+      },
+      {
+        // データ(2個目)
+        data: [{"x":30 ,"y":20, "r":50} ,],
+        backgroundColor:[ "rgb(141,29,73,0.4)"],
+        label: ["test2"]  
+      },
+      {
+        // データ(3個目)
+        data: [{"x":40 ,"y":30, "r":70} ,],
+        backgroundColor:["rgb(16,230,73,0.5)"],
+        label: ["test3"]  
+      }
+    ]
+  };
 
   // オプション
   var options = {
-        // タイトル
         title: {
           display: true,
           text: 'バブルチャートテスト'
@@ -134,12 +135,33 @@ $(function(){
         scales: {
             // x軸
             xAxes: [{
-                ticks: {max: 50, min: 0,stepSize: 10}
+              ticks: {
+                min: 10,
+                max: 50,
+                stepSize: 10
+              },
+              // x軸のラベル
+              scaleLabel: {
+                display: true,
+                fontSize: 12,
+                labelString: "Age"
+              },
             }],
-            // x軸
+            // y軸
             yAxes: [{
-                ticks: {max: 50,min: 0,stepSize: 10}
-            }]
+              // y軸のラベル
+              scaleLabel: {
+                display: true,
+                fontSize: 12,
+                labelString: "Ranking"
+              },
+              ticks: {
+                reverse: true,
+                max: 100,
+                min: 1,
+                stepSize: 10
+              }
+          }]
         },
         // tooltip
         tooltips: {
@@ -155,11 +177,13 @@ $(function(){
 
   // コンテキストのオブジェクト
   var ctx = $("#bubblechart")[0].getContext("2d");
+
   // バブルチャートの描画
   var bubbleChart = new Chart(ctx, 
-          {
-              type: 'bubble',
-              data: bubleChartData,
-              options: options
-          });
+    {
+      type: 'bubble',
+      data: bubleChartData,
+      options: options
+    }
+  );
 });
