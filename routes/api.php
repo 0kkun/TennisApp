@@ -16,3 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+// GET で /api/axios_test/get にリクエストを送ると、プレイヤーリストが返ってくるようになる
+Route::group(['middleware' => 'api'], function() {
+  Route::get('/axios_test/get', 'AxiosTestController@getPlayers');
+});

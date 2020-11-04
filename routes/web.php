@@ -29,4 +29,6 @@ Route::prefix('favorite_brand')->group(function () {
 
 Route::get('/analysis', 'AnalysisController@index')->name('analysis.index');
 
+Route::get('/axios_test', 'AxiosTestController@index')->name('axios_test.index');
+
 Auth::routes();
