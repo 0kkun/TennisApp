@@ -39,14 +39,29 @@ const app = new Vue({
     players: [] // 表示用の配列を用意
   },
   methods: {
-    fetchPlayers: function(){ //←axios.get で Playerリストを取得
-      axios.get('/api/axios_test/get').then((res)=>{
-        this.players = res.data; //← 取得した プレイヤーリストをplayersに格納
-        // console.log(res);
+    fetchPlayers: function() {
+      axios.get('/api/axios_test/get')
+      .then((response)=>{
+        this.players = response.data;
       })
+      .catch(function (error) {
+        console.log(error);
+      })
+    },
+    addFavoritePlayer: function(player_id) {
+      axios.post('/api/axios_test/add',{ id: player_id })
+      .then((response) => {
+        alert('add complete!!');
+        this.players = response.data
+      })
+      .catch((error) => {
+        //Error: Request failed with status code 500
+        alert(error);
+      });
     }
   },
-  created() { //← インスタンス生成時に fetchPlayers()を実行したいので、created フックに登録
+  // インスタンス生成時に fetchPlayers()を実行したいので、created フックに登録
+  created() { 
     this.fetchPlayers()
   },
 });

@@ -49381,15 +49381,28 @@ var app = new Vue({
     fetchPlayers: function fetchPlayers() {
       var _this = this;
 
-      //←axios.get で Playerリストを取得
-      axios.get('/api/axios_test/get').then(function (res) {
-        _this.players = res.data; //← 取得した プレイヤーリストをplayersに格納
-        // console.log(res);
+      axios.get('/api/axios_test/get').then(function (response) {
+        _this.players = response.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    addFavoritePlayer: function addFavoritePlayer(player_id) {
+      var _this2 = this;
+
+      axios.post('/api/axios_test/add', {
+        id: player_id
+      }).then(function (response) {
+        alert('add complete!!');
+        _this2.players = response.data;
+      })["catch"](function (error) {
+        //Error: Request failed with status code 500
+        alert(error);
       });
     }
   },
+  // インスタンス生成時に fetchPlayers()を実行したいので、created フックに登録
   created: function created() {
-    //← インスタンス生成時に fetchPlayers()を実行したいので、created フックに登録
     this.fetchPlayers();
   }
 });

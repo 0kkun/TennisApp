@@ -31,4 +31,10 @@ Route::get('/analysis', 'AnalysisController@index')->name('analysis.index');
 
 Route::get('/axios_test', 'AxiosTestController@index')->name('axios_test.index');
 
+// GET で /api/axios_test/get にリクエストを送ると、プレイヤーリストが返ってくるようになる
+
+Route::middleware('auth')->get('/api/axios_test/get', 'AxiosTestController@getPlayers');
+Route::middleware('auth')->post('/api/axios_test/add', 'AxiosTestController@addFavoritePlayer');
+
+
 Auth::routes();
