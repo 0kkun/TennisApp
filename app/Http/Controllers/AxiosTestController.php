@@ -28,24 +28,34 @@ class AxiosTestController extends Controller
 
 
     public function index() {
-      return view('axios_test.index');
+        return view('axios_test.index');
     }
 
     public function getPlayers()
     {
-      $players = Player::all();
-      return $players;
+        $players = Player::all();
+        return $players;
     }
 
     public function addFavoritePlayer(Request $request)
     {
-      $data['player_id'] = $request->input('id');
+        $data['player_id'] = $request->input('id');
 
-      // バルクインサートで保存
-      if ( !empty($data) ) {
-          $this->favorite_players_repository->bulkInsertOrUpdate( $data );
-      }
-      $players = Player::all();
-      return $players;
-  }
+        // バルクインサートで保存
+        if ( !empty($data) ) {
+            $this->favorite_players_repository->bulkInsertOrUpdate( $data );
+        }
+        $players = Player::all();
+        return $players;
+    }
+
+    public function removeFavoritePlayer(Request $request)
+    {
+        $favorite_player_id = $request->input('id');
+
+        $this->favorite_players_repository->deleteRecord( $favorite_player_id );
+
+        $players = Player::all();
+        return $players;
+    }
 }

@@ -55,7 +55,16 @@ const app = new Vue({
         this.players = response.data
       })
       .catch((error) => {
-        //Error: Request failed with status code 500
+        alert(error);
+      });
+    },
+    removeFavoritePlayer: function(player_id) {
+      axios.post('/api/axios_test/remove',{ id: player_id })
+      .then((response) => {
+        alert('remove complete!!');
+        this.players = response.data
+      })
+      .catch((error) => {
         alert(error);
       });
     }

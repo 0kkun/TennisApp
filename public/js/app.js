@@ -49396,7 +49396,18 @@ var app = new Vue({
         alert('add complete!!');
         _this2.players = response.data;
       })["catch"](function (error) {
-        //Error: Request failed with status code 500
+        alert(error);
+      });
+    },
+    removeFavoritePlayer: function removeFavoritePlayer(player_id) {
+      var _this3 = this;
+
+      axios.post('/api/axios_test/remove', {
+        id: player_id
+      }).then(function (response) {
+        alert('remove complete!!');
+        _this3.players = response.data;
+      })["catch"](function (error) {
         alert(error);
       });
     }

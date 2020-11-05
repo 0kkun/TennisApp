@@ -23,14 +23,20 @@
                   <tr>
                     <th>ID</th>
                     <th>プレイヤー名</th>
-                    <th>完了ボタン</th>
+                    <th>Player Name</th>
+                    <th>Country</th>
+                    <th>addボタン</th>
+                    <th>removeボタン</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr v-for="player in players" v-bind:key="player.id">
                     <td>@{{ player.id }}</td>
                     <td>@{{ player.name_jp }}</td>
-                    <td><button class="btn btn-primary" name="player_id" v-on:click="addFavoritePlayer(player.id)">追加</button></td>
+                    <td>@{{ player.name_en }}</td>
+                    <td>@{{ player.country }}</td>
+                    <td><button class="btn btn-primary" name="player_id" v-on:click="addFavoritePlayer(player.id)">add</button></td>
+                    <td><button class="btn btn-danger" name="player_id" v-on:click="removeFavoritePlayer(player.id)">remove</button></td>
                   </tr>
                 </tbody>
               </table>
