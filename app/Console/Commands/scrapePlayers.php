@@ -15,6 +15,7 @@ use Carbon\Carbon;
  * [2020-09-17 02:53:44] local.INFO: [scrapePlayers] 取得完了 : 86.893354177475秒  
  * [2020-09-17 02:53:45] local.INFO: [scrapePlayers] 保存完了 : 87.135699987411秒  
  * [2020-09-17 02:53:45] local.INFO: [ END ] scrapePlayers 処理時間: 87.136131048203秒 
+ * TODO: めっちゃ時間かかってるからJob化すべき。
  */
 class scrapePlayers extends Command
 {
