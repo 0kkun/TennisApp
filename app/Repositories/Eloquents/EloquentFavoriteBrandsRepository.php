@@ -16,7 +16,7 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
     * @param object $favorite_brands
     */
     public function __construct(
-      FavoriteBrand $favorite_brands
+        FavoriteBrand $favorite_brands
     )
     {
         $this->favorite_brands = $favorite_brands;
@@ -30,7 +30,10 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
      */
     public function getAll(): Collection
     {
-        $current_user_id = Auth::user()->id;
+        $current_user_id = null;
+        if ( isset(Auth::user()->id) ) {
+            $current_user_id = Auth::user()->id;
+        }
         return $this->favorite_brands
                     ->where('user_id', '=', $current_user_id)
                     ->get();
@@ -45,8 +48,8 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
      */
     public function bulkInsertOrUpdate($data): void
     {
-      $data['user_id'] = Auth::user()->id;
-      $this->favorite_brands->bulkInsertOrUpdate($data);
+        $data['user_id'] = Auth::user()->id;
+        $this->favorite_brands->bulkInsertOrUpdate($data);
     }
 
 
@@ -58,12 +61,12 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
      */
     public function deleteRecord(int $favorite_brand_id): void
     {
-      $current_user_id = Auth::user()->id;
+        $current_user_id = Auth::user()->id;
 
-      $this->favorite_brands
-          ->where('user_id', $current_user_id)
-          ->where('brand_id', $favorite_brand_id)
-          ->delete();
+        $this->favorite_brands
+            ->where('user_id', $current_user_id)
+            ->where('brand_id', $favorite_brand_id)
+            ->delete();
     }
 
 

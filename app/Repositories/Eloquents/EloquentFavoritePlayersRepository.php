@@ -16,10 +16,10 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
     * @param object $favorite_players
     */
     public function __construct(
-      FavoritePlayer $favorite_players
+        FavoritePlayer $favorite_players
     )
     {
-      $this->favorite_players = $favorite_players;
+        $this->favorite_players = $favorite_players;
     }
 
 
@@ -30,7 +30,10 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
      */
     public function getAll(): Collection
     {
-        $current_user_id = Auth::user()->id;
+        $current_user_id = null;
+        if( isset(Auth::user()->id) ) {
+            $current_user_id = Auth::user()->id;
+        }
         return $this->favorite_players
                     ->where('user_id', '=', $current_user_id)
                     ->get();
@@ -45,8 +48,8 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
      */
     public function bulkInsertOrUpdate($data): void
     {
-      $data['user_id'] = Auth::user()->id;
-      $this->favorite_players->bulkInsertOrUpdate($data);
+        $data['user_id'] = Auth::user()->id;
+        $this->favorite_players->bulkInsertOrUpdate($data);
     }
 
 
@@ -58,12 +61,12 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
      */
     public function deleteRecord(int $favorite_player_id): void
     {
-      $current_user_id = Auth::user()->id;
+        $current_user_id = Auth::user()->id;
 
-      $this->favorite_players
-          ->where('user_id', $current_user_id)
-          ->where('player_id', $favorite_player_id)
-          ->delete();
+        $this->favorite_players
+            ->where('user_id', $current_user_id)
+            ->where('player_id', $favorite_player_id)
+            ->delete();
     }
 
 
