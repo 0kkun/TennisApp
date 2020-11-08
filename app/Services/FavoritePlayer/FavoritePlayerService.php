@@ -22,6 +22,13 @@ class FavoritePlayerService implements FavoritePlayerServiceInterface
         $this->players_repository = $players_repository;
     }
 
+
+    /**
+     * ユーザーが入力した選手名を検索する
+     *
+     * @param array $inputs
+     * @return Collection
+     */
     public function searchPlayers(array $inputs): Collection
     {
         $players = $this->players_repository->searchPlayers( $inputs );
