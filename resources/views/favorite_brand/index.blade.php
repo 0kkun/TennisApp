@@ -3,9 +3,24 @@
 @section('content')
   @if(Auth::check())
 
-    <div class="favorite-player-wrapper container pt-140">
+    <div class="container pt-140">
 
       <div class="pt-3">
+
+        <!-- フラッシュメッセージ -->
+        <div style="height:50px;">
+            @if (session('flash_success'))
+                <div class="flash-js bg-success text-center text-white rounded py-2 my-0">
+                    {{ session('flash_success') }}
+                </div>
+            @elseif (session('flash_alert'))
+                <div class="flash-js bg-danger text-center text-white rounded py-2 my-0">
+                    {{ session('flash_alert') }}
+                </div>
+            @endif
+            <script type="text/javascript" src="/js/common/flash-message.js"></script>
+        </div>
+
         <div class="favorite-contents-left">
           <div class="text-white bg-dark favorite-head text-center h4 font-alegreya">Brand Lists</div>
           <table class="table m-0">
@@ -47,6 +62,7 @@
             </table>
           </div>
         </div>
+
       <div>
     </div>
   @else

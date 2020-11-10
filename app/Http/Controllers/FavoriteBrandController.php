@@ -53,7 +53,7 @@ class FavoriteBrandController extends Controller
         if ( !empty($data) ) {
             $this->favorite_brands_repository->bulkInsertOrUpdate( $data );
         }
-
+        session()->flash('flash_success', 'You added brand!');
         return redirect()->route('favorite_brand.index');
     }
 
@@ -69,7 +69,7 @@ class FavoriteBrandController extends Controller
         $favorite_brand_id = $request->favorite_brand_id;
 
         $this->favorite_brands_repository->deleteRecord( $favorite_brand_id );
-
+        session()->flash('flash_alert', 'You removed brand!');
         return redirect()->route('favorite_brand.index');
     }
 
