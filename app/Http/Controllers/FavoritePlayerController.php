@@ -74,6 +74,8 @@ class FavoritePlayerController extends Controller
             $this->favorite_players_repository->bulkInsertOrUpdate( $data );
         }
 
+        session()->flash('flash_success', 'You added player!');
+
         return redirect()->route('favorite_player.index');
     }
 
@@ -89,6 +91,8 @@ class FavoritePlayerController extends Controller
         $favorite_player_id = $request->favorite_player_id;
 
         $this->favorite_players_repository->deleteRecord( $favorite_player_id );
+
+        session()->flash('flash_alert', 'You removed player.');
 
         return redirect()->route('favorite_player.index');
     }
