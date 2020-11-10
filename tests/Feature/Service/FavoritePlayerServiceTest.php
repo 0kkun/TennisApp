@@ -10,11 +10,11 @@ use Mockery\MockInterface;
 use App\Repositories\Contracts\PlayersRepository;
 use App\Services\FavoritePlayer\FavoritePlayerService;
 use App\Models\Player;
+use Illuminate\Support\Facades\Artisan;
 
 class FavoritePlayerServiceTest extends TestCase
 {
-    // use RefreshDatabase;
-
+    use RefreshDatabase;
 
     private $players_repository_mock;
     private $favorite_player_service;
@@ -22,6 +22,12 @@ class FavoritePlayerServiceTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('optimize:clear');
+        Artisan::call('route:clear');
+
         // リポジトリをモック
         $this->setMockery();
         // インスタンスを指定
@@ -55,8 +61,9 @@ class FavoritePlayerServiceTest extends TestCase
      */
     public function FavoritePlayerServiceのテスト()
     {
+        // dd(config('app.env'));
         // データをセット
-        $players = factory(Player::class, 5)->make();
+        $players = factory(Player::class, 1)->make();
 
         $search_player = $players->first();
 
