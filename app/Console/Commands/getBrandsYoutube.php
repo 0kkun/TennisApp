@@ -51,44 +51,44 @@ class getBrandsYoutube extends Command
         $this->logger = new BatchLogger( 'getBrandsYoutube' );
 
         try {
-          $client = new Google_Client();
+            $client = new Google_Client();
 
-          // $client->setDeveloperKey(config('app.google_api_key1'));
-          // $client->setDeveloperKey(config('app.google_api_key2')); // クォータが尽きた時用の予備
-          // $client->setDeveloperKey(config('app.google_api_key3')); // クォータが尽きた時用の予備
-          $client->setDeveloperKey( config('app.google_api_key4') ); // クォータが尽きた時用の予備
+            // $client->setDeveloperKey(config('app.google_api_key1'));
+            // $client->setDeveloperKey(config('app.google_api_key2')); // クォータが尽きた時用の予備
+            // $client->setDeveloperKey(config('app.google_api_key3')); // クォータが尽きた時用の予備
+            $client->setDeveloperKey( config('app.google_api_key4') ); // クォータが尽きた時用の予備
 
-          $youtube = new Google_Service_YouTube( $client );
+            $youtube = new Google_Service_YouTube( $client );
 
-          // 日付はRFC3339形式にしないと読み込め無いのでフォーマット
-          $one_week_ago = strtotime( '-30 day' );
-          $search_duration = date(DATE_RFC3339, $one_week_ago);
+            // 日付はRFC3339形式にしないと読み込め無いのでフォーマット
+            $one_week_ago = strtotime( '-30 day' );
+            $search_duration = date(DATE_RFC3339, $one_week_ago);
 
-          $brands = $this->brands_repository->getAll()->toArray();
+            $brands = $this->brands_repository->getAll()->toArray();
 
-          for ( $i=0; $i<count($brands); $i++ ) {
-              $check_word = $brands[$i]['name_en'];
-              $keyword = "インプレ" . " " . $brands[$i]['name_en'];
-              $brand_id = $brands[$i]['id'];
-              $this->info( $check_word . 'の動画取得開始' );
-              $videos = $this->getYoutube( $youtube, $search_duration, $keyword );
-              sleep(0.5);
+            for ( $i=0; $i<count($brands); $i++ ) {
+                $check_word = $brands[$i]['name_en'];
+                $keyword = "インプレ" . " " . $brands[$i]['name_en'];
+                $brand_id = $brands[$i]['id'];
+                $this->info( $check_word . 'の動画取得開始' );
+                $videos = $this->getYoutube( $youtube, $search_duration, $keyword );
+                sleep(0.5);
 
-              $video_data = $this->makeInsertValue( $videos, $brand_id, $check_word );
+                $video_data = $this->makeInsertValue( $videos, $brand_id, $check_word );
 
-              if( !empty($video_data) ){
-                  $this->brand_youtube_videos_repository->bulkInsertOrUpdate( $video_data );
-                  $this->info( $i . "件目 登録完了" );
-              } else {
-                  $this->info( $check_word . 'は該当動画無し' );
-              }
-          }
-          $this->info("【実行終了】");
-          $this->logger->write('保存終了', 'info' ,true);
-          $this->logger->success();
+                if( !empty($video_data) ){
+                    $this->brand_youtube_videos_repository->bulkInsertOrUpdate( $video_data );
+                    $this->info( $i . "件目 登録完了" );
+                } else {
+                    $this->info( $check_word . 'は該当動画無し' );
+                }
+            }
+            $this->info("【実行終了】");
+            $this->logger->write('保存終了', 'info' ,true);
+            $this->logger->success();
 
         } catch (Exception $e) {
-          $this->logger->exception($e);
+            $this->logger->exception($e);
         }
         unset($this->logger);
         $this->info( "実行終了" );
