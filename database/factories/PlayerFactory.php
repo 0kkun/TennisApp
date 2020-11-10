@@ -9,7 +9,7 @@ $factory->define(Player::class, function (Faker $faker) {
         'name_en'        => $faker->name(),
         'country'        => $faker->country(),
         'wiki_url'       => $faker->url(),
-        'age'            => $faker->randomNumber(50),
+        'age'            => $faker->numberBetween($min = 18, $max = 50),
         'created_at'     => now(),
         'updated_at'     => now(),
         'youtube_active' => 0
