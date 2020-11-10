@@ -18,8 +18,7 @@
   border-top-right-radius :8px;
 }
 .favorite-td {
-  line-height: 1;
-  padding: 0.5em 0;
+    padding-top: 20px;
 }
 .favorite-name-jp-w {
   width: 30%;

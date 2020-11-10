@@ -115,23 +115,23 @@
                 <tbody>
                 @foreach ($player_lists as $player)
                   <tr>
-                    <td class="favorite-td favorite-name-jp-w text-center"><a href="{{ $player['wiki_url'] }}">{{ $player['name_jp'] }}</a></td>
-                    <td class="favorite-td favorite-name-en-w text-center"><a href="{{ $player['wiki_url'] }}">{{ $player['name_en'] }}</a></td>
-                    <td class="favorite-td favorite-country-w text-center">{{ $player['country'] }}</td>
-                    <td class="favorite-td favorite-age-w text-center">{{ $player['age'] }}</td>
+                    <td class="favorite-td favorite-name-jp-w text-center pt-3"><a href="{{ $player['wiki_url'] }}">{{ $player['name_jp'] }}</a></td>
+                    <td class="favorite-td favorite-name-en-w text-center pt-3"><a href="{{ $player['wiki_url'] }}">{{ $player['name_en'] }}</a></td>
+                    <td class="favorite-td favorite-country-w text-center pt-3">{{ $player['country'] }}</td>
+                    <td class="favorite-td favorite-age-w text-center pt-3">{{ $player['age'] }}</td>
 
                     <td class="favorite-td favorite-age-w text-center">
                     @if ( $player['favorite_status'] == 0 )
                       <form method="post" action="{{ route('favorite_player.add') }}">
                         @csrf
                         <input type="hidden" name="favorite_player_id" value="{{ $player['id'] }}">
-                        <button type="submit" class="favorite-add-btn bg-success text-white rounded p-1" style="width:66px;">add</button>
+                        <button type="submit" class="btn btn-success p-1" style="width:66px;">add</button>
                       </form>
                     @else
                       <form method="post" action="{{ route('favorite_player.remove') }}">
                         @csrf
                         <input type="hidden" name="favorite_player_id" value="{{ $player['id'] }}">
-                        <button type="submit" class="favorite-add-btn bg-danger text-white rounded p-1" style="width:66px;">remove</button>
+                        <button type="submit" class="btn btn-danger p-1" style="width:66px;">remove</button>
                       </form>
                     @endif
                     </td>

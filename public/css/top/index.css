@@ -96,11 +96,11 @@
 
 
 .top-right-table-rank-w {
-    width: 25%;
+    width: 26%;
 }
 
 .top-right-table-name-w {
-    width: 60%;
+    width: 59%;
 }
 
 .top-right-table-point-w {
@@ -110,7 +110,7 @@
 .top-right-tbody {
     overflow: scroll;
     overflow-x: hidden;
-    height: 1220px;
+    height: 1295px;
 }
 
 .rank-up-arrow {
