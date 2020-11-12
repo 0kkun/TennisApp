@@ -43,10 +43,11 @@ class scrapeBrandNews extends Command
         $this->logger = new BatchLogger( 'scrapeBrandNews' );
 
         try {
-            $title      = array();
-            $url        = array();
-            $post_time  = array();
-            $brand_name = array();
+            $scrape_data['title']      = array();
+            $scrape_data['url']        = array();
+            $scrape_data['post_time']  = array();
+            $scrape_data['brand_name'] = array();
+
 
             // スクレイピングするサイト
             $yonex_url = 'https://www.yonex.co.jp/tennis/news/products/';
@@ -57,14 +58,16 @@ class scrapeBrandNews extends Command
             $tennis_eval_url_2 = 'https://tenniseval.com/page/2/';
             $tennis_eval_url_3 = 'https://tenniseval.com/page/3/';
 
-            // スクレイピング実行
-            $this->scrapeYonexSite( $yonex_url, $title, $url, $post_time, $brand_name );
-            $this->scrapeWilsonSite( $wilson_url, $title, $url, $post_time, $brand_name );
-            $this->scrapePrinceSite( $prince_url, $title, $url, $post_time, $brand_name );
-            $this->scrapeSrixonSite( $srixon_url, $title, $url, $post_time, $brand_name );
-            $this->scrapeTennisEvalSite( $tennis_eval_url_1, $title, $url, $post_time, $brand_name );
-            $this->scrapeTennisEvalSite( $tennis_eval_url_2, $title, $url, $post_time, $brand_name );
-            $brand_news_articles = $this->scrapeTennisEvalSite( $tennis_eval_url_3, $title, $url, $post_time, $brand_name );
+            // スクレイピング実行。参照渡しで$scrape_dataにどんどんデータが追加される。
+            $this->scrapeYonexSite( $yonex_url, $scrape_data );
+            $this->scrapeWilsonSite( $wilson_url, $scrape_data );
+            $this->scrapePrinceSite( $prince_url, $scrape_data );
+            $this->scrapeSrixonSite( $srixon_url, $scrape_data );
+            $this->scrapeTennisEvalSite( $tennis_eval_url_1, $scrape_data );
+            $this->scrapeTennisEvalSite( $tennis_eval_url_2, $scrape_data );
+            $this->scrapeTennisEvalSite( $tennis_eval_url_3, $scrape_data );
+
+            $brand_news_articles = $this->makeInsertValue( $scrape_data );
 
             // バルクインサートで保存
             if ( !empty($brand_news_articles) ) {
@@ -77,6 +80,7 @@ class scrapeBrandNews extends Command
 
         } catch (Exception $e) {
             $this->logger->exception($e);
+            $this->info("異常終了");
         }
         unset($this->logger);
         $this->info("実行終了");
@@ -122,25 +126,22 @@ class scrapeBrandNews extends Command
 
 
     /**
-     * Undocumented function
+     * バルクインサート用に加工する
      *
-     * @param array $title
-     * @param array $url
-     * @param array $post_time
-     * @param array $brand_name
+     * @param array $data
      * @return array
      */
-    private function makeInsertValue( array $title, array $url, array $post_time, array $brand_name): array
+    private function makeInsertValue( array $data): array
     {
-        $count = count( $title );
+        $count = count( $data['title'] );
         $today = Carbon::now();
 
         for ( $i=0; $i<$count; $i++ ) {
             $value[$i] = [
-                'title'      => $title[$i],
-                'url'        => $url[$i],
-                'post_time'  => $post_time[$i],
-                'brand_name' => $brand_name[$i],
+                'title'      => $data['title'][$i],
+                'url'        => $data['url'][$i],
+                'post_time'  => $data['post_time'][$i],
+                'brand_name' => $data['brand_name'][$i],
                 'created_at' => $today,
                 'updated_at' => $today
             ];
@@ -167,7 +168,7 @@ class scrapeBrandNews extends Command
 
 
     /**
-     * タイトルテキストからブランド名を判別する
+     * ブランド名をタイトルテキストから判別する
      *
      * @param string $title
      * @return string
@@ -201,40 +202,35 @@ class scrapeBrandNews extends Command
      * Yonexサイトをスクレイピングしデータを作成する
      *
      * @param string $site_url
-     * @param array $title
-     * @param array $url
-     * @param array $post_time
-     * @param array $brand_name
+     * @param array $data
      * @return array
      */
-    private function scrapeYonexSite( string $site_url, array &$title, array &$url, array &$post_time, array &$brand_name ):array
+    private function scrapeYonexSite( string $site_url, array &$data ):array
     {
         $year = Carbon::now()->year;
         $goutte = GoutteFacade::request('GET', $site_url);
         sleep(1);
 
-        $goutte->filter('ul.newslist')->each(function ($node) use (&$title, &$url, &$post_time, &$brand_name, &$year) {
+        $goutte->filter('ul.newslist')->each(function ($node) use (&$data, $year) {
             if ( $node->count() > 0 ) {
                 for ( $i=0; $i<10; $i++ ) {
-                    array_push( $title, $node->filter('.blogtitle')->eq($i)->text() );
-                    array_push( $url, 'https://www.yonex.co.jp' . $node->filter('a')->attr('href') );
+                    array_push( $data['title'], $node->filter('.blogtitle')->eq($i)->text() );
+                    array_push( $data['url'], 'https://www.yonex.co.jp' . $node->filter('a')->attr('href') );
 
                     // スクレイピングしたmonthは"Sep"などのようになっているのでintに変換する
                     $month_string = $node->filter('.date .month')->eq($i)->text();
                     $month_int = $this->changeMonthToInt( $month_string );
                     $day = $node->filter('.date .day')->eq($i)->text();
                     $date =  Carbon::create( $year, $month_int, $day, 0, 0 );
-                    array_push( $post_time, $date );
+                    array_push( $data['post_time'], $date );
 
-                    array_push( $brand_name, 'Yonex' );
+                    array_push( $data['brand_name'], 'Yonex' );
                 }
             } else {
                 $this->info("スクレイピング実行できませんでした。");
             }
         });
-        $brand_news_data = $this->makeInsertValue( $title, $url, $post_time, $brand_name);
-
-        return $brand_news_data;
+        return $data;
     }
 
 
@@ -242,37 +238,31 @@ class scrapeBrandNews extends Command
      * ウィルソンサイトをスクレイピングしデータを作成する
      *
      * @param string $site_url
-     * @param array $title
-     * @param array $url
-     * @param array $post_time
-     * @param array $brand_name
+     * @param array $data
      * @return array
      */
-    private function scrapeWilsonSite( string $site_url, array &$title, array &$url, array &$post_time, array &$brand_name ):array
+    private function scrapeWilsonSite( string $site_url, array &$data ):array
     {
         $goutte  = GoutteFacade::request('GET', $site_url);
         sleep(1);
 
-        $goutte->filter('ul.news-list')->each(function ($node) use (&$title, &$url, &$post_time, &$brand_name) {
+        $goutte->filter('ul.news-list')->each(function ($node) use (&$data) {
             if ( $node->count() > 0 ) {
                 $count =  $node->filter('li')->count();
                 for ( $i=0; $i<$count; $i++ ) {
-                    array_push( $title, $node->filter('dt')->eq($i)->text() );
-                    array_push( $url, $node->filter('a')->eq($i)->attr('href') );
+                    array_push( $data['title'], $node->filter('dt')->eq($i)->text() );
+                    array_push( $data['url'], $node->filter('a')->eq($i)->attr('href') );
 
                     $scraped_date = $node->filter('.date')->eq($i)->text();
                     $date = $this->excludeTextFromDataToDate( $scraped_date );
-                    array_push( $post_time, $date );
-                    array_push( $brand_name, 'Wilson' );
+                    array_push( $data['post_time'], $date );
+                    array_push( $data['brand_name'], 'Wilson' );
                 }
             } else {
                 $this->info("スクレイピング実行できませんでした。");
             }
         });
-
-        $brand_news_data = $this->makeInsertValue( $title, $url, $post_time, $brand_name);
-
-        return $brand_news_data;
+        return $data;
     }
 
 
@@ -280,38 +270,33 @@ class scrapeBrandNews extends Command
      * プリンスサイトをスクレイピングしデータを作成する
      *
      * @param string $site_url
-     * @param array $title
-     * @param array $url
-     * @param array $post_time
-     * @param array $brand_name
+     * @param array $data
      * @return array
      */
-    private function scrapePrinceSite( string $site_url, array &$title, array &$url, array &$post_time, array &$brand_name ):array
+    private function scrapePrinceSite( string $site_url, array &$data ):array
     {
         $goutte  = GoutteFacade::request('GET', $site_url);
         sleep(1);
 
-        $goutte->filter('ul.entries-list')->each(function ($node) use (&$title, &$url, &$post_time, &$brand_name) {
+        $goutte->filter('ul.entries-list')->each(function ($node) use (&$data) {
             if ( $node->count() > 0 ) {
                 for ( $i=0; $i<40; $i++ ) {
                     $scraped_text = $node->filter('.entries-list__title')->eq($i)->text();
                     // 不必要なニュースが多いので'発売'ワードで絞り込みする
                     if ( strpos( $scraped_text , '発売' ) !==false) {
-                        array_push( $title, $node->filter('.entries-list__title')->eq($i)->text() );
-                        array_push( $url, $node->filter('.entries-list__title a')->eq($i)->attr('href') );
+                        array_push( $data['title'], $node->filter('.entries-list__title')->eq($i)->text() );
+                        array_push( $data['url'], $node->filter('.entries-list__title a')->eq($i)->attr('href') );
                         $scraped_date = $node->filter('.entries-list__date')->eq($i)->text();
                         $date = $this->excludeTextFromDataToDate( $scraped_date );
-                        array_push( $post_time, $date );
-                        array_push( $brand_name, 'prince' );
+                        array_push( $data['post_time'], $date );
+                        array_push( $data['brand_name'], 'prince' );
                     }
                 }
             } else {
                 $this->info("スクレイピング実行できませんでした。");
             }
         });
-        $brand_news_data = $this->makeInsertValue( $title, $url, $post_time, $brand_name);
-
-        return $brand_news_data;
+        return $data;
     }
 
 
@@ -319,81 +304,72 @@ class scrapeBrandNews extends Command
      * スリクソンサイトをスクレイピングしデータを作成する
      *
      * @param string $site_url
-     * @param array $title
-     * @param array $url
-     * @param array $post_time
-     * @param array $brand_name
+     * @param array $data
      * @return array
      */
-    private function scrapeSrixonSite( string $site_url, array &$title, array &$url, array &$post_time, array &$brand_name ):array
+    private function scrapeSrixonSite( string $site_url, array &$data ):array
     {
         $year = Carbon::now()->year;
         $goutte  = GoutteFacade::request('GET', $site_url . $year . '/');
         sleep(1);
 
-        $goutte->filter('ul.mod-newsList')->each(function ($node) use (&$title, &$url, &$post_time, &$brand_name) {
+        $goutte->filter('ul.mod-newsList')->each(function ($node) use (&$data) {
             if ( $node->count() > 0 ) {
                 $count =  $node->filter('li')->count();
                 for ( $i=0; $i<$count; $i++ ) {
-                    array_push( $title, $node->filter('.mod-newsList-title')->eq($i)->text() );
+                    array_push( $data['title'], $node->filter('.mod-newsList-title')->eq($i)->text() );
                     // https ~がある場合と無い場合があるので条件分け
                     $url_temp = $node->filter('a')->eq($i)->attr('href');
                     if ( strpos( $url_temp , 'http' ) !==false ) {
-                        array_push( $url, $url_temp );
+                        array_push( $data['url'], $url_temp );
                     } else {
-                        array_push( $url, 'https://sports.dunlop.co.jp' . $url_temp );
+                        array_push( $data['url'], 'https://sports.dunlop.co.jp' . $url_temp );
                     }
                     $scraped_date = $node->filter('.mod-newsList-date')->eq($i)->text();
                     $date = $this->excludeTextFromDataToDate( $scraped_date );
-                    array_push( $post_time, $date );
-                    array_push( $brand_name, 'SRIXON' );
+                    array_push( $data['post_time'], $date );
+                    array_push( $data['brand_name'], 'SRIXON' );
                 }
             } else {
                 $this->info("スクレイピング実行できませんでした。");
             }
         });
-        $brand_news_data = $this->makeInsertValue( $title, $url, $post_time, $brand_name);
-
-        return $brand_news_data;
+        return $data;
     }
 
 
     /**
      * Tennis Evalサイトをスクレイピングしデータを作成する
      *
-     * @param array $tennis_eval_url
-     * @param array $title
-     * @param array $url
-     * @param array $post_time
-     * @param array $brand_name
+     * @param string $site_url
+     * @param array $data
      * @return array
      */
-    private function scrapeTennisEvalSite( string $site_url, array &$title, array &$url, array &$post_time, array &$brand_name ): array
+    private function scrapeTennisEvalSite( string $site_url, array &$data ): array
     {
         $goutte  = GoutteFacade::request('GET', $site_url);
         sleep(1);
 
-        $goutte->filter('#list')->each(function ($node) use (&$title, &$url, &$post_time, &$brand_name) {
+        $goutte->filter('#list')->each(function ($node) use (&$data) {
             if ( $node->count() > 0 ) {
                 for ( $i=0; $i<6; $i++ ) {
                     $scraped_title = $node->filter('.entry-card-title')->eq($i)->text();
-                    array_push( $title, $scraped_title );
-                    array_push( $url, $node->filter('a')->eq($i)->attr('href') );
+                    array_push( $data['title'], $scraped_title );
+                    array_push( $data['url'], $node->filter('a')->eq($i)->attr('href') );
 
                     $scraped_date = $node->filter('.post-date')->eq($i)->text();
                     $date = $this->excludeTextFromDataToDate( $scraped_date );
-                    array_push( $post_time, $date );
+                    array_push( $data['post_time'], $date );
 
                     $brand = $this->judgeBrandName( $scraped_title );
 
-                    array_push( $brand_name, $brand );
+                    array_push( $data['brand_name'], $brand );
                 }
             } else {
                 $this->info("スクレイピング実行できませんでした。");
             }
         });
-        $brand_news_data = $this->makeInsertValue( $title, $url, $post_time, $brand_name);
 
-        return $brand_news_data;
+        return $data;
     }
 }
