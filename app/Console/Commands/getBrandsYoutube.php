@@ -47,7 +47,7 @@ class getBrandsYoutube extends Command
      */
     public function handle()
     {
-        $this->info( "【実行開始】" );
+        $this->info( "実行開始" );
         $this->logger = new BatchLogger( 'getBrandsYoutube' );
 
         try {
@@ -83,7 +83,6 @@ class getBrandsYoutube extends Command
                     $this->info( $check_word . 'は該当動画無し' );
                 }
             }
-            $this->info("【実行終了】");
             $this->logger->write('保存終了', 'info' ,true);
             $this->logger->success();
 
