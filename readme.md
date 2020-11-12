@@ -1,8 +1,8 @@
 #  README : About this application
 
 ## 概要
-- ユーザーの好みに合わせてテニスの情報をまとめることができるアプリ
-- お気に入り選手・ブランドを登録することで、それに基づいた最新ニュース・動画を表示する
+### ユーザーの好みに合わせてテニスの情報をまとめることができるアプリ
+- お気に入り選手・ブランドを登録することで、それに基づいた最新ニュース・youtube動画を表示する
 - 大会情報・最新ランキングを他サイトからスクレイピングして表示する
 
 ## 本番環境
@@ -23,24 +23,27 @@
 
 ## 使用技術
 ### サーバーサイド
-- Laravel
-- PHP
-- MySQL
-- google api
-- scraping
+- Laravel 5.7.29
+- PHP 7.2.29
+- MySQL 5.6
+- google api v3 (youtube)
+- scraping (goutte)
 - Repository pattern
 
 ### フロントエンド
 - HTML/CSS
-- Bootstrap
+- Bootstrap ver4.2
 - javascript
 - jquery
 - Chart.js (予定)
+- Vue.js (予定)
 
 ## 今後実装したい機能
 - 選手のランキング推移をチャートで表示
 - 大会ページからチャットページに遷移し非同期チャットができる機能(画像も投稿できる)
 - ID(nickname)、emailどちらでもログインできるようにする
+- 女子テニスか男子テニスか切り替えることができる機能
+- テニスだけではなく、他のスポーツの情報も統合
 
 # DB設計
 
@@ -147,7 +150,7 @@ php artisan command:scrapeTourInfo
 ```
 php artisan command:scrapeBrandNews
 ```
-- テニスのニュースを取得
+- テニスのニュースを取得 (非同期)
 ```
 php artisan command:scrapeTennisNews
 ```
