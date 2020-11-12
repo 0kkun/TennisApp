@@ -36,7 +36,7 @@
                             <div class="col-9">
                                 <form action="{{ route( 'favorite_player.index') }}" method="GET">
                                     @csrf
-                                    <input class="form-control mb-1" type="text" name="name" value="{{ $params['name'] ?? '' }}" plceholder="Please input keywords...">
+                                    <input class="form-control mb-1" type="text" name="name" value="{{ $params['name'] ?? '' }}" placeholder="Please input keywords...">
 
                                     <select class="form-control mb-1" name="country">
                                         @if ( empty($params['country']) )
@@ -124,32 +124,36 @@
                         </table>
                         <div class="favorite-tbody">
                             <table class="table table-striped">
-                                <tbody>
-                                    @foreach ($player_lists as $player)
-                                    <tr>
-                                        <td class="favorite-td favorite-name-jp-w text-center pt-3"><a href="{{ $player['wiki_url'] }}">{{ $player['name_jp'] }}</a></td>
-                                        <td class="favorite-td favorite-name-en-w text-center pt-3"><a href="{{ $player['wiki_url'] }}">{{ $player['name_en'] }}</a></td>
-                                        <td class="favorite-td favorite-country-w text-center pt-3">{{ $player['country'] }}</td>
-                                        <td class="favorite-td favorite-age-w text-center pt-3">{{ $player['age'] }}</td>
+                                @if( !empty($player_lists) )
+                                    <tbody>
+                                        @foreach ($player_lists as $player)
+                                        <tr>
+                                            <td class="favorite-td favorite-name-jp-w text-center pt-3"><a href="{{ $player['wiki_url'] }}">{{ $player['name_jp'] }}</a></td>
+                                            <td class="favorite-td favorite-name-en-w text-center pt-3"><a href="{{ $player['wiki_url'] }}">{{ $player['name_en'] }}</a></td>
+                                            <td class="favorite-td favorite-country-w text-center pt-3">{{ $player['country'] }}</td>
+                                            <td class="favorite-td favorite-age-w text-center pt-3">{{ $player['age'] }}</td>
 
-                                        <td class="favorite-td favorite-age-w text-center">
-                                            @if ( $player['favorite_status'] == 0 )
-                                            <form method="post" action="{{ route('favorite_player.add') }}">
-                                                @csrf
-                                                <input type="hidden" name="favorite_player_id" value="{{ $player['id'] }}">
-                                                <button type="submit" class="btn btn-success p-1" style="width:66px;">add</button>
-                                            </form>
-                                            @else
-                                            <form method="post" action="{{ route('favorite_player.remove') }}">
-                                                @csrf
-                                                <input type="hidden" name="favorite_player_id" value="{{ $player['id'] }}">
-                                                <button type="submit" class="btn btn-danger p-1" style="width:66px;">remove</button>
-                                            </form>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
+                                            <td class="favorite-td favorite-age-w text-center">
+                                                @if ( $player['favorite_status'] == 0 )
+                                                <form method="post" action="{{ route('favorite_player.add') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="favorite_player_id" value="{{ $player['id'] }}">
+                                                    <button type="submit" class="btn btn-success p-1" style="width:66px;">add</button>
+                                                </form>
+                                                @else
+                                                <form method="post" action="{{ route('favorite_player.remove') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="favorite_player_id" value="{{ $player['id'] }}">
+                                                    <button type="submit" class="btn btn-danger p-1" style="width:66px;">remove</button>
+                                                </form>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                @else
+                                    <div class="text-danger h2 p-4 text-center bg-light">There were no search results. Lets search using Kanji or English.</div>
+                                @endif
                             </table>
                         </div>
                     </div>
