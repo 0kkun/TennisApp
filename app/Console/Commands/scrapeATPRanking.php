@@ -33,7 +33,7 @@ class scrapeATPRanking extends Command
 
     /**
      * ATPランキング情報を取得する。
-     * 1~50位と50~100位が2ページに分かれているのでスクレイピングは2回実行している
+     * 2ページ(1~50位と51~100位)に分かれているのでスクレイピングは2回実行している
      *
      * @return mixed
      */
@@ -43,18 +43,19 @@ class scrapeATPRanking extends Command
         $this->logger = new BatchLogger( 'scrapeATPRanking' );
 
         try {
-            $goutte_first = GoutteFacade::request('GET', 'https://sportsnavi.ht.kyodo-d.jp/tennis/ranking/atp/point/');
-            sleep(1);
-            $goutte_second = GoutteFacade::request('GET', 'https://sportsnavi.ht.kyodo-d.jp/tennis/ranking/atp/point/?p=2');
-            sleep(1);
+            // 各キーに配列を設定
+            $scrape_data['rank']    = array();
+            $scrape_data['name']    = array();
+            $scrape_data['country'] = array();
+            $scrape_data['point']   = array();
 
-            $scraped_data_first = $this->execScrape( $goutte_first );
+            $site_url_first = 'https://sportsnavi.ht.kyodo-d.jp/tennis/ranking/atp/point/';
+            $site_url_second = $site_url_first . '?p=2';
 
-            $scraped_data_second = $this->execScrape( $goutte_second );
+            $this->execScrape( $site_url_first, $scrape_data );
+            $this->execScrape( $site_url_second, $scrape_data );
 
-            $scraped_data = $this->integrateArrayInArray( $scraped_data_first, $scraped_data_second );
-
-            $atp_ranking_data = $this->makeInsertValue( $scraped_data );
+            $atp_ranking_data = $this->makeInsertValue( $scrape_data );
 
             // バルクインサートで保存
             if ( !empty($atp_ranking_data) ) {
@@ -76,17 +77,16 @@ class scrapeATPRanking extends Command
 
     /**
      * スクレイピング実行メソッド
+     * 参照渡しにすることですでに格納されているデータに追加していける
      *
-     * @param mixed $goutte
+     * @param string $site_url
+     * @param array $data
      * @return array
      */
-    private function execScrape( $goutte ):array
+    private function execScrape( string $site_url, array &$data ):array
     {
-        // 各キーに配列を設定
-        $data['rank']    = array();
-        $data['name']    = array();
-        $data['country'] = array();
-        $data['point']   = array();
+        $goutte = GoutteFacade::request('GET', $site_url);
+        sleep(1);
 
         $goutte->filter('tbody tr')->each(function ($node) use (&$data){
             if ( $node->count() > 0 ) {
@@ -101,31 +101,6 @@ class scrapeATPRanking extends Command
         return $data;
     }
 
-
-    /**
-     * 配列の中の配列を結合する。
-     *
-     * @param array $first_array
-     * @param array $second_array
-     * @return void
-     */
-    private function integrateArrayInArray( array $first_array, array $second_array): array
-    {
-        $integrated_array = array();
-
-        if ( !empty($first_array) && !empty($second_array) ) {
-
-            $integrated_array['rank'] = array_merge($first_array['rank'], $second_array['rank']);
-            $integrated_array['name'] = array_merge($first_array['name'], $second_array['name']);
-            $integrated_array['country'] = array_merge($first_array['country'], $second_array['country']);
-            $integrated_array['point'] = array_merge($first_array['point'], $second_array['point']);
-
-            return $integrated_array;
-
-        } else {
-            return $integrated_array;
-        }
-    }
 
     /**
      * レコード保存用のデータを作成。
