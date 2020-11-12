@@ -49,7 +49,7 @@ class scrapeTourInfo extends Command
 
             // バルクインサートで保存
             if ( !empty($tour_data) ) {
-                // $this->tour_informations_repository->bulkInsertOrUpdate( $tour_data );
+                $this->tour_informations_repository->bulkInsertOrUpdate( $tour_data );
             }
 
             $this->info("保存完了");
