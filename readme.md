@@ -5,6 +5,12 @@
 - お気に入り選手・ブランドを登録することで、それに基づいた最新ニュース・youtube動画を表示する
 - 大会情報・最新ランキングを他サイトからスクレイピングして表示する
 
+## 外観
+- トップページ
+![TennisApp-top-](https://user-images.githubusercontent.com/59214278/99143383-3625c580-26a0-11eb-8bf3-a1359a346fd9.png)
+- ホーム
+![TennisApp-home-](https://user-images.githubusercontent.com/59214278/99143388-3e7e0080-26a0-11eb-9c6f-1c7ae950ea3c.png)
+
 ## 本番環境
 - デプロイ先：AWS (予定)
 - リンク：
@@ -46,6 +52,9 @@
 - テニスだけではなく、他のスポーツの情報も統合
 
 # DB設計
+
+## ER図
+![TennisApp_ER_Lucidchart](https://user-images.githubusercontent.com/59214278/99143072-1c837e80-269e-11eb-8b99-0e26ab215f41.png)
 
 ## usersテーブル
 |Column|Type|Options|
