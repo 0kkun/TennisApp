@@ -70,7 +70,6 @@ class ScrapeTennisNewsJob implements ShouldQueue
 
             // バルクインサートで保存
             if ( !empty($article_data) ) {
-                dd(1);
                 $this->news_articles_repository->bulkInsertOrUpdate( $article_data );
             }
 
