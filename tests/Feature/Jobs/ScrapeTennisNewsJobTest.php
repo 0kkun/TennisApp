@@ -7,17 +7,13 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
-use Illuminate\Support\Collection;
-use Mockery\MockInterface;
-use Illuminate\Support\Facades\Artisan;
 use App\Repositories\Contracts\NewsArticlesRepository;
 use App\Jobs\ScrapeTennisNewsJob;
 use Illuminate\Support\Facades\Bus;
-use Carbon\Carbon;
 
 class ScrapeTennisNewsJobTest extends TestCase
 {
-    use RefreshDatabase;
+    // use RefreshDatabase; // DBアクセスが無いため除去
 
     /**
      * @var Application
