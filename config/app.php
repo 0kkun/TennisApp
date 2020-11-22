@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Weidner\Goutte\GoutteServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class, //追記
 
         /*
          * Package Service Providers...
@@ -226,6 +227,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Goutte' => Weidner\Goutte\GoutteFacade::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class, //追記
 
     ],
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Service\Feature;
+namespace Tests\Feature\Services;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -59,9 +59,8 @@ class FavoritePlayerServiceTest extends TestCase
      * 正常系
      * @test
      */
-    public function FavoritePlayerServiceのテスト()
+    public function searchPlayersメソッドのテスト()
     {
-        // dd(config('app.env'));
         // データをセット
         $players = factory(Player::class, 1)->make();
 
@@ -103,7 +102,7 @@ class FavoritePlayerServiceTest extends TestCase
      */
     private function setPlayersRepositoryMethod(string $method, array $input, Collection $return): void
     {
-        $this->players_repository_mock->shouldReceive('searchPlayers')
+        $this->players_repository_mock->shouldReceive($method)
             ->with($input) // 複数の引数の場合はwithArgsを使う
             ->once()
             ->andReturn($return);
