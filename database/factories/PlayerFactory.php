@@ -5,6 +5,7 @@ use App\Models\Player;
 
 $factory->define(Player::class, function (Faker $faker) {
     return [
+        'id'             => $faker->numberBetween(1,1000),
         'name_jp'        => $faker->name(),
         'name_en'        => $faker->name(),
         'country'        => $faker->country(),
