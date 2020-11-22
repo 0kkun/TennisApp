@@ -59,9 +59,8 @@ class FavoritePlayerServiceTest extends TestCase
      * 正常系
      * @test
      */
-    public function FavoritePlayerServiceのテスト()
+    public function searchPlayersメソッドのテスト()
     {
-        // dd(config('app.env'));
         // データをセット
         $players = factory(Player::class, 1)->make();
 

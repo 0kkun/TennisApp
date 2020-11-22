@@ -5,18 +5,14 @@ namespace App\Services\Top;
 use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Repositories\Contracts\NewsArticlesRepository;
 use Illuminate\Pagination\LengthAwarePaginator;
-use App\Repositories\Contracts\PlayersRepository;
 use App\Repositories\Contracts\BrandNewsArticlesRepository;
 use App\Repositories\Contracts\FavoriteBrandsRepository;
 use App\Repositories\Contracts\YoutubeVideosRepository;
 use App\Repositories\Contracts\BrandYoutubeVideosRepository;
-use Illuminate\Support\Collection;
-use Carbon\Carbon;
 
 
 class TopService implements TopServiceInterface
 {
-    private $players_repository;
     private $favorite_players_repository;
     private $news_articles_repository;
     private $brand_news_articles_repository;
@@ -24,12 +20,18 @@ class TopService implements TopServiceInterface
     private $youtube_videos_repository;
     private $brand_youtube_videos_repository;
 
+
     /**
-     * TopController constructor.
-     * @param PlayersRepository $players_repository
+     * TopService constructor.
+     *
+     * @param FavoritePlayersRepository $favorite_players_repository
+     * @param NewsArticlesRepository $news_articles_repository
+     * @param BrandNewsArticlesRepository $brand_news_articles_repository
+     * @param FavoriteBrandsRepository $favorite_brands_repository
+     * @param YoutubeVideosRepository $youtube_videos_repository
+     * @param BrandYoutubeVideosRepository $brand_youtube_videos_repository
      */
     public function __construct(
-        PlayersRepository $players_repository,
         FavoritePlayersRepository $favorite_players_repository,
         NewsArticlesRepository $news_articles_repository,
         BrandNewsArticlesRepository $brand_news_articles_repository,
@@ -38,7 +40,6 @@ class TopService implements TopServiceInterface
         BrandYoutubeVideosRepository $brand_youtube_videos_repository
     )
     {
-        $this->players_repository = $players_repository;
         $this->favorite_players_repository = $favorite_players_repository;
         $this->news_articles_repository = $news_articles_repository;
         $this->brand_news_articles_repository = $brand_news_articles_repository;
@@ -59,6 +60,7 @@ class TopService implements TopServiceInterface
     public function getArticleByFavoritePlayer()
     {
         if ( $this->hasFavoritePlayer() ) {
+
             // お気に入り選手の名前を取得
             $favorite_player_data = $this->favorite_players_repository->getFavoritePlayerData()->toArray();
 
@@ -156,7 +158,6 @@ class TopService implements TopServiceInterface
                 $names[$index] = $divided_name[$frequency_count];
             }
         }
-
         return $names;
     }
 
