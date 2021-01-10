@@ -18,14 +18,10 @@
 
         {{-- Bootstrap4.2で上書き TODO: ちゃんとライブラリをインストールする --}}
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-
-        {{-- jQuery --}}
-        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-
+    
         {{-- datepicker --}}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="/js/common/datepick.js"></script>
 
         <link rel="stylesheet" href="/css/common/reset.css">
         <link rel="stylesheet" href="/css/common/common.css">
@@ -33,9 +29,6 @@
         <link rel="stylesheet" href="/css/common/modal.css">
         <link rel="stylesheet" href="/css/top/index.css">
         <link rel="stylesheet" href="/css/favorite_player/index.css">
-        <script type="text/javascript" src="/js/top/scroll.js"></script>
-        <script type="text/javascript" src="/js/common/welcome.js"></script>
-
     </head>
 
     <body>
@@ -46,6 +39,8 @@
         </main>
 
         @include('shared.footer')
+
         <script type="text/javascript" src="/js/common/nav_menu.js"></script>
+        <script type="text/javascript" src="/js/top/scroll.js"></script>
     </body>
 </html>
