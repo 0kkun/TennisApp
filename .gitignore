@@ -1,5 +1,6 @@
 .DS_Store
 .vscode/
+/docker/db/data/
 /server/node_modules
 /server/public/hot
 /server/public/storage
