@@ -37648,7 +37648,10 @@ var render = function() {
     _vm.updated
       ? _c(
           "div",
-          { staticClass: "alert alert-primary m-1", attrs: { role: "alert" } },
+          {
+            staticClass: "alert alert-primary m-1 text-center font-weight-bold",
+            attrs: { role: "alert" }
+          },
           [_vm._v("\n        Updated!\n    ")]
         )
       : _vm._e(),
