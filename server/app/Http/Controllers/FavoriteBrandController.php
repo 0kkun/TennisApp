@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\BrandsRepository;
 use App\Repositories\Contracts\FavoriteBrandsRepository;
+use Illuminate\Support\Facades\Auth;
 
 class FavoriteBrandController extends Controller
 {
@@ -35,7 +36,9 @@ class FavoriteBrandController extends Controller
         
         $brand_lists = $this->makeBrandLists( $brands, $favorite_brand_ids );
 
-        return view('favorite_brand.index',compact('brand_lists'));
+        $user_id = Auth::user()->id;
+
+        return view('favorite_brand.index',compact('brand_lists','user_id'));
     }
 
 
@@ -48,10 +51,11 @@ class FavoriteBrandController extends Controller
     public function add( Request $request )
     {
         $data['brand_id'] = $request->favorite_brand_id;
+        $data['user_id'] = Auth::user()->id;
 
         // バルクインサートで保存
         if ( !empty($data) ) {
-            $this->favorite_brands_repository->bulkInsertOrUpdate( $data );
+            $this->favorite_brands_repository->bulkInsertOrUpdate($data);
         }
 
         session()->flash('flash_success', 'You added brand!');
@@ -68,9 +72,12 @@ class FavoriteBrandController extends Controller
      */
     public function remove( Request $request )
     {
-        $favorite_brand_id = $request->favorite_brand_id;
+        $data['favorite_brand_id'] = $request->favorite_brand_id;
+        $data['user_id'] = Auth::user()->id;
 
-        $this->favorite_brands_repository->deleteRecord( $favorite_brand_id );
+        if ( !empty($data) ) {
+            $this->favorite_brands_repository->deleteRecord($data);
+        }
 
         session()->flash('flash_alert', 'You removed brand.');
 
