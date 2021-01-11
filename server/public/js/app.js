@@ -1994,9 +1994,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -37645,17 +37642,6 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container pt-140" }, [
-    _vm.updated
-      ? _c(
-          "div",
-          {
-            staticClass: "alert alert-primary m-1 text-center font-weight-bold",
-            attrs: { role: "alert" }
-          },
-          [_vm._v("\n        Updated!\n    ")]
-        )
-      : _vm._e(),
-    _vm._v(" "),
     _c(
       "div",
       { staticClass: "pt-1", staticStyle: { height: "calc( 100vh - 200px )" } },

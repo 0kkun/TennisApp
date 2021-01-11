@@ -1,8 +1,5 @@
 <template>
 <div class="container pt-140">
-    <div v-if="updated" class="alert alert-primary m-1 text-center font-weight-bold" role="alert">
-        Updated!
-    </div>
     <div class="pt-1" style="height:calc( 100vh - 200px )">
         <div class="favorite-contents-left">
             <div class="text-white bg-dark favorite-head text-center h4 font-alegreya">Brand Lists</div>
