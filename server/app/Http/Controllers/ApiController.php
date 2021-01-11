@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\BrandsRepository;
 use App\Repositories\Contracts\FavoriteBrandsRepository;
+use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Auth;
-use json_encode;
 
 class ApiController extends Controller
 {
@@ -33,19 +32,28 @@ class ApiController extends Controller
      * ブランド一覧表示用メソッド
      *
      * @param Request $request
-     * @return 
+     * @return JsonResponse
      */
     public function getBrandsData(Request $request)
     {
-        $user_id = $request->input('user_id');
-        $brands = $this->brands_repository->getAll()->toArray();
+        try {
+            $user_id = $request->input('user_id');
 
-        $favorite_brand_ids = $this->favorite_brands_repository->getAll($user_id)->pluck('brand_id')->toArray();
-        
-        $brand_lists = $this->makeBrandLists( $brands, $favorite_brand_ids, $user_id );
+            $brands = $this->brands_repository->getAll()->toArray();
 
-        return json_encode($brand_lists);
+            $favorite_brand_ids = $this->favorite_brands_repository
+                ->getAll($user_id)
+                ->pluck('brand_id')
+                ->toArray();
+
+            $brand_lists = $this->makeBrandLists( $brands, $favorite_brand_ids, $user_id );
+            return json_encode($brand_lists);
+
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
     }
+
 
     /**
      * お気に入りブランド登録メソッド
@@ -55,17 +63,19 @@ class ApiController extends Controller
      */
     public function addBrand( Request $request )
     {
-        $data['user_id'] = $request->input('user_id');
-        $data['brand_id'] = $request->input('favorite_brand_id');
+        try {
+            $data['user_id'] = $request->input('user_id');
+            $data['brand_id'] = $request->input('favorite_brand_id');
 
-        // バルクインサートで保存
-        if ( !empty($data) ) {
-            $this->favorite_brands_repository->bulkInsertOrUpdate($data);
+            if ( !empty($data) ) {
+                $this->favorite_brands_repository->bulkInsertOrUpdate($data);
+            }
+            $response = $this->getBrandsData($request);
+            return request()->json(200, $response);
+
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
         }
-
-        $response = $this->getBrandsData($request);
-
-        return request()->json(200, $response);
     }
 
 
@@ -77,16 +87,19 @@ class ApiController extends Controller
      */
     public function deleteBrand(Request $request)
     {
-        $data['user_id'] = $request->input('user_id');
-        $data['favorite_brand_id'] = $request->input('favorite_brand_id');
+        try {
+            $data['user_id'] = $request->input('user_id');
+            $data['favorite_brand_id'] = $request->input('favorite_brand_id');
+    
+            if ( !empty($data) ) {
+                $this->favorite_brands_repository->deleteRecord($data);
+            }
+            $response = $this->getBrandsData($request);
+            return request()->json(200, $response);
 
-        if ( !empty($data) ) {
-            $this->favorite_brands_repository->deleteRecord($data);
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
         }
-
-        $response = $this->getBrandsData($request);
-
-        return request()->json(200, $response);
     }
 
 
@@ -147,5 +160,4 @@ class ApiController extends Controller
 
         return $lists;
     }
-
 }
