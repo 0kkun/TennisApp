@@ -49952,17 +49952,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_FavoriteBrandComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/FavoriteBrandComponent.vue */ "./resources/js/components/FavoriteBrandComponent.vue");
-// require('./bootstrap');
-// window.Vue = require('vue');
 
 
- // 「 ExampleComponent.vue 」を 「 example-component 」という名前で使えるように読み込み
+ // FavoriteBrandComponent.vue を <favorite-brand-component> で使えるよう読み込み
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('favorite-brand-component', __webpack_require__(/*! ./components/FavoriteBrandComponent.vue */ "./resources/js/components/FavoriteBrandComponent.vue")["default"]); // const app = new Vue({
-//     el: '#favorite-brand-vue',
-//     components: FavoriteBrandComponent
-// }).$mount('#favorite-brand-vue');
-
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('favorite-brand-component', __webpack_require__(/*! ./components/FavoriteBrandComponent.vue */ "./resources/js/components/FavoriteBrandComponent.vue")["default"]);
 document.addEventListener('DOMContentLoaded', function () {
   // idが無い場合はVueインスタンスを作成しないようにする
   if (document.getElementById("favorite-brand-vue")) {
