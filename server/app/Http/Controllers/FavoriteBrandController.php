@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\BrandsRepository;
 use App\Repositories\Contracts\FavoriteBrandsRepository;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 class FavoriteBrandController extends Controller
@@ -50,17 +51,21 @@ class FavoriteBrandController extends Controller
      */
     public function add( Request $request )
     {
-        $data['brand_id'] = $request->favorite_brand_id;
-        $data['user_id'] = Auth::user()->id;
+        try {
+            $data['brand_id'] = $request->favorite_brand_id;
+            $data['user_id'] = Auth::user()->id;
 
-        // バルクインサートで保存
-        if ( !empty($data) ) {
-            $this->favorite_brands_repository->bulkInsertOrUpdate($data);
+            // バルクインサートで保存
+            if ( !empty($data) ) {
+                $this->favorite_brands_repository->bulkInsertOrUpdate($data);
+            }
+            session()->flash('flash_success', 'You added brand!');
+            return redirect()->route('favorite_brand.index');
+
+        } catch (Exception $e) {
+            session()->flash('flash_danger', 'You have an error!');
+            return redirect()->route('favorite_brand.index');
         }
-
-        session()->flash('flash_success', 'You added brand!');
-
-        return redirect()->route('favorite_brand.index');
     }
 
 
@@ -72,16 +77,20 @@ class FavoriteBrandController extends Controller
      */
     public function remove( Request $request )
     {
-        $data['favorite_brand_id'] = $request->favorite_brand_id;
-        $data['user_id'] = Auth::user()->id;
+        try {
+            $data['favorite_brand_id'] = $request->favorite_brand_id;
+            $data['user_id'] = Auth::user()->id;
 
-        if ( !empty($data) ) {
-            $this->favorite_brands_repository->deleteRecord($data);
+            if ( !empty($data) ) {
+                $this->favorite_brands_repository->deleteRecord($data);
+            }
+            session()->flash('flash_alert', 'You removed brand.');
+            return redirect()->route('favorite_brand.index');
+
+        } catch (Exception $e) {
+            session()->flash('flash_danger', 'You have an error!');
+            return redirect()->route('favorite_brand.index');
         }
-
-        session()->flash('flash_alert', 'You removed brand.');
-
-        return redirect()->route('favorite_brand.index');
     }
 
 
