@@ -7,6 +7,7 @@ use Weidner\Goutte\GoutteFacade;
 use App\Modules\BatchLogger;
 use Exception;
 use Carbon\Carbon;
+use App\Repositories\Contracts\RankingRepository;
 
 class scrapeRankingDataCommand extends Command
 {
@@ -15,7 +16,9 @@ class scrapeRankingDataCommand extends Command
 
     const URL = 'https://live-tennis.eu/en/atp-live-ranking';
     const CHUNK_SIZE = 14;
-    const LOOP_COUNT = 14021;
+    const LOOP_COUNT = 14121;
+
+    private $ranking_repository;
 
 
     /**
@@ -23,9 +26,12 @@ class scrapeRankingDataCommand extends Command
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        RankingRepository $ranking_repository
+    )
     {
         parent::__construct();
+        $this->ranking_repository = $ranking_repository;
     }
 
 
@@ -60,6 +66,11 @@ class scrapeRankingDataCommand extends Command
 
             // テーブル保存用に加工
             $results = $this->makeInsertValue($results);
+
+            if ( !empty($results) ) {
+                $this->ranking_repository->bulkInsertOrUpdate($results);
+                $progress_bar->advance(100);
+            }
 
             //プログレスバー終了
             $progress_bar->finish();
@@ -139,21 +150,21 @@ class scrapeRankingDataCommand extends Command
         foreach ($data as $index => $datum) {
             if (!empty($datum[0])) {
                 // CHなら現在のランクにする
-                $most_heighest_rank = $datum[1] == 'CH' ? $datum[0] : $datum[1];
+                $most_highest_rank = $datum[1] == 'CH' ? $datum[0] : $datum[1];
                 // NCHなら空欄にする。型までチェックする必要があるため、!==falseを使うこと
-                if ( strpos($datum[1], "NCH") !== false ) $most_heighest_rank = null;
+                if ( strpos($datum[1], "NCH") !== false ) $most_highest_rank = null;
 
                 $formated_data[$index] = [
                     'rank'                => (int) $datum[0],
-                    'most_highest'        => (int) $most_heighest_rank ?? null,
+                    'most_highest'        => (int) $most_highest_rank ?? null,
                     'name'                => $this->transliterateString($datum[3]),
                     'age'                 => (int) $datum[4],
-                    'country'             => substr($datum[5], 0, 3),
+                    'country'             => (string) substr($datum[5], 0, 3),
                     'point'               => (int) $datum[6],
                     'rank_change'         => (int) $datum[7] ?? 0,
                     'point_change'        => (int) $datum[8] ?? 0,
-                    'current_tour_result' => $datum[9],
-                    'pre_tour_result'     => $datum[10],
+                    'current_tour_result' => (string) $datum[9],
+                    'pre_tour_result'     => (string) $datum[10],
                     'next_point'          => (int) $datum[12] ?? 0,
                     'max_point'           => (int) $datum[13] ?? 0,
                     'created_at'          => $today,
