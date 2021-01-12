@@ -21,7 +21,8 @@ class RepositoryServiceProvider extends ServiceProvider
         'FavoriteBrands',
         'BrandNewsArticles',
         'YoutubeVideos',
-        'BrandYoutubeVideos'
+        'BrandYoutubeVideos',
+        'Ranking'
     ];
 
 
