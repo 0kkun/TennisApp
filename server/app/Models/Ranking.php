@@ -22,7 +22,7 @@ class Ranking extends Model
     {
         return [
             'rank',
-            'most_heighest',
+            'most_highest',
             'name',
             'age',
             'country',
