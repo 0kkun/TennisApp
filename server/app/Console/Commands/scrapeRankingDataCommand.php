@@ -57,6 +57,7 @@ class scrapeRankingDataCommand extends Command
 
             // スクレイピング実行
             $scrape_row_results = $this->scrapeRanking($progress_bar);
+            $this->logger->write('スクレイピング実行完了', 'info' ,true);
 
             // 余分なテキストを削除する
             $results = $this->excludeText($scrape_row_results);
@@ -66,15 +67,16 @@ class scrapeRankingDataCommand extends Command
 
             // テーブル保存用に加工
             $results = $this->makeInsertValue($results);
+            $this->logger->write('テーブル保存用に加工完了', 'info' ,true);
 
             if ( !empty($results) ) {
                 $this->ranking_repository->bulkInsertOrUpdate($results);
+                $this->logger->write('テーブル保存処理完了', 'info' ,true);
                 $progress_bar->advance(100);
             }
 
             //プログレスバー終了
             $progress_bar->finish();
-            $this->logger->write('保存完了', 'info' ,true);
             $this->logger->success();
 
         } catch (Exception $e) {
