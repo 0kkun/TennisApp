@@ -141,27 +141,27 @@ class scrapeRankingDataCommand extends Command
                 // CHなら現在のランクにする
                 $most_heighest_rank = $datum[1] == 'CH' ? $datum[0] : $datum[1];
                 // NCHなら空欄にする。型までチェックする必要があるため、!==falseを使うこと
-                if ( strpos($datum[1], "NCH") !== false ) $most_heighest_rank = '';
+                if ( strpos($datum[1], "NCH") !== false ) $most_heighest_rank = null;
 
                 $formated_data[$index] = [
-                    'rank' => $datum[0],
-                    'most_highest' => $most_heighest_rank,
-                    'name' => $this->transliterateString($datum[3]),
-                    'age' => $datum[4],
-                    'country' => $datum[5],
-                    'point' => $datum[6],
-                    'rank_change' => $datum[7],
-                    'point_change' => $datum[8],
+                    'rank'                => (int) $datum[0],
+                    'most_highest'        => (int) $most_heighest_rank ?? null,
+                    'name'                => $this->transliterateString($datum[3]),
+                    'age'                 => (int) $datum[4],
+                    'country'             => substr($datum[5], 0, 3),
+                    'point'               => (int) $datum[6],
+                    'rank_change'         => (int) $datum[7] ?? 0,
+                    'point_change'        => (int) $datum[8] ?? 0,
                     'current_tour_result' => $datum[9],
-                    'pre_tour_result' => $datum[10],
-                    'next_point' => $datum[12],
-                    'max_point' => $datum[13],
-                    'created_at' => $today,
-                    'updated_at' => $today
+                    'pre_tour_result'     => $datum[10],
+                    'next_point'          => (int) $datum[12] ?? 0,
+                    'max_point'           => (int) $datum[13] ?? 0,
+                    'created_at'          => $today,
+                    'updated_at'          => $today
                 ];
             }
         }
-
+        dd($formated_data[0]);
         return $formated_data;
     }
 
