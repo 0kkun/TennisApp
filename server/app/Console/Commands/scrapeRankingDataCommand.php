@@ -161,7 +161,6 @@ class scrapeRankingDataCommand extends Command
                 ];
             }
         }
-        dd($formated_data[0]);
         return $formated_data;
     }
 
