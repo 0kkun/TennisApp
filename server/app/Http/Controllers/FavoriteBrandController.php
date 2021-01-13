@@ -60,11 +60,11 @@ class FavoriteBrandController extends Controller
                 $this->favorite_brands_repository->bulkInsertOrUpdate($data);
             }
             session()->flash('flash_success', 'You added brand!');
-            return redirect()->route('favorite_brand.index');
+            return redirect()->route('favorite_brand.top');
 
         } catch (Exception $e) {
             session()->flash('flash_danger', 'You have an error!');
-            return redirect()->route('favorite_brand.index');
+            return redirect()->route('favorite_brand.top');
         }
     }
 
@@ -91,6 +91,18 @@ class FavoriteBrandController extends Controller
             session()->flash('flash_danger', 'You have an error!');
             return redirect()->route('favorite_brand.index');
         }
+    }
+
+    /**
+     * 新しいデザインのブランド登録トップ画面
+     *
+     * @return void
+     */
+    public function top()
+    {
+        $user_id = Auth::user()->id;
+
+        return view('favorite_brand.top',compact('user_id'));
     }
 
 
