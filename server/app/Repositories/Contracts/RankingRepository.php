@@ -14,4 +14,13 @@ interface RankingRepository
      * @return void
      */
     public function bulkInsertOrUpdate($data): void;
+
+
+    /**
+     * 指定した数ランキングのレコードを高い順に取得する
+     *
+     * @param integer|null $num
+     * @return Collection
+     */
+    public function fetchRankings(?int $num=100): Collection;
 }

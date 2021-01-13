@@ -4,6 +4,7 @@ namespace App\Repositories\Eloquents;
 
 use App\Repositories\Contracts\RankingRepository;
 use App\Models\Ranking;
+use Illuminate\Support\Collection;
 
 class EloquentRankingRepository implements RankingRepository
 {
@@ -28,5 +29,20 @@ class EloquentRankingRepository implements RankingRepository
     public function bulkInsertOrUpdate($data): void
     {
         $this->rankings->bulkInsertOrUpdate($data);
+    }
+
+
+    /**
+     * 指定した数ランキングのレコードを高い順に取得する
+     * 上から順に取得するのがデフォルトなのでソートはしない
+     *
+     * @param integer|null $num
+     * @return Collection
+     */
+    public function fetchRankings(?int $num=100): Collection
+    {
+        return $this->rankings
+                    ->limit($num)
+                    ->get();
     }
 }
