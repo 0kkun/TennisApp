@@ -1,38 +1,32 @@
 <template>
-<div class="container pt-140">
-    <div class="pt-1" style="height:calc( 100vh - 200px )">
-        <div class="favorite-contents-left">
-            <div class="text-white bg-dark favorite-head text-center h4 font-alegreya">Brand Lists</div>
-            <table class="table m-0">
-                <thead class="thead-dark">
-                    <th class="favorite-name-jp-w text-center">Brand Name</th>
-                    <th class="favorite-country-w text-center">country</th>
-                    <th class="favorite-age-w text-center">add</th>
+    <div class="card mt-3">
+        <div class="text-center pt-3 h3">BRAND</div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr class="w-100 bg-dark text-white">
+                        <th class="d-table-cell d-md-table-cell border border-light" scope="col">Brand Name</th>　<!-- 常に表示 -->
+                        <th class="d-table-cell d-md-table-cell border border-light" scope="col">Country</th>
+                        <th class="d-table-cell d-md-table-cell border border-light" scope="col">Add / Remove</th>
+                    </tr>
                 </thead>
+                <tbody >
+                    <tr v-for="brand in brands" :key="brand.id" class="border-bottom">
+                        <td class="d-table-cell d-md-table-cell">{{ brand.name_jp }}</td> <!-- 常に表示 -->
+                        <td class="d-table-cell d-md-table-cell">{{ brand.country }}</td>
+                        <td class="d-table-cell d-md-table-cell">
+                            <div v-if="brand.favorite_status == 0">
+                                <button @click.prevent="createBrand(brand.id)" class="btn btn-success p-1" style="width:66px;">add</button>
+                            </div>
+                            <div v-else-if="brand.favorite_status == 1">
+                                <button @click.prevent="deleteBrand(brand.id)" class="btn btn-danger p-1" style="width:66px;">remove</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
-            <div class="favorite-tbody">
-                <form>
-                    <table class="table table-striped">
-                        <tbody>
-                            <tr v-for="brand in brands" :key="brand.id">
-                                <td  class="favorite-td favorite-name-jp-w text-center pt-3">{{ brand.name_jp }}</td>
-                                <td  class="favorite-td favorite-country-w text-center pt-3">{{ brand.country }}</td>
-                                <td class="favorite-td favorite-age-w text-center pt-3">
-                                    <div v-if="brand.favorite_status == 0">
-                                        <button @click.prevent="createBrand(brand.id)" class="btn btn-success p-1" style="width:66px;">add</button>
-                                    </div>
-                                    <div v-else-if="brand.favorite_status == 1">
-                                        <button @click.prevent="deleteBrand(brand.id)" class="btn btn-danger p-1" style="width:66px;">remove</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-            </div>
         </div>
     </div>
-</div>
 </template>
 
 
@@ -42,7 +36,7 @@
 export default {
     data : function () {
         return {
-            brands: null,
+            brands: [],
             favorite_brand_id: '',
             updated: false,
         }
@@ -88,3 +82,18 @@ export default {
     }
 }
 </script>
+
+
+<style lang="scss" scoped>
+td.break{
+    word-break: break-all;
+}
+th {
+    text-align: center;
+    padding: 10px;
+}
+td {
+    text-align: center;
+    padding-top: 20px;
+}
+</style>
