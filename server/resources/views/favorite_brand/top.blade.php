@@ -1,4 +1,6 @@
-@extends('layouts.layout')
+@extends('common.layout')
+
+@section('title', 'Favorite')
 
 @section('content')
     @if(Auth::check())
@@ -9,5 +11,3 @@
         @include('top.welcome')
     @endif
 @endsection
-
-

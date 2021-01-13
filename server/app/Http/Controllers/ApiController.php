@@ -6,13 +6,12 @@ use Illuminate\Http\Request;
 use App\Repositories\Contracts\BrandsRepository;
 use App\Repositories\Contracts\FavoriteBrandsRepository;
 use Exception;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
-class FavoriteBrandController extends Controller
+class ApiController extends Controller
 {
     private $brands_repository;
     private $favorite_brands_repository;
-
 
     /**
      * リポジトリをDI
@@ -29,17 +28,30 @@ class FavoriteBrandController extends Controller
     }
 
 
-    public function index()
+    /**
+     * ブランド一覧表示用メソッド
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function getBrandsData(Request $request)
     {
-        $brands = $this->brands_repository->getAll()->toArray();
+        try {
+            $user_id = $request->input('user_id');
 
-        $favorite_brand_ids = $this->favorite_brands_repository->getAll()->pluck('brand_id')->toArray();
-        
-        $brand_lists = $this->makeBrandLists( $brands, $favorite_brand_ids );
+            $brands = $this->brands_repository->getAll()->toArray();
 
-        $user_id = Auth::user()->id;
+            $favorite_brand_ids = $this->favorite_brands_repository
+                ->getAll($user_id)
+                ->pluck('brand_id')
+                ->toArray();
 
-        return view('favorite_brand.index',compact('brand_lists','user_id'));
+            $brand_lists = $this->makeBrandLists( $brands, $favorite_brand_ids, $user_id );
+            return json_encode($brand_lists);
+
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
     }
 
 
@@ -47,24 +59,22 @@ class FavoriteBrandController extends Controller
      * お気に入りブランド登録メソッド
      *
      * @param Request $request
-     * @return void
+     * @return JsonResponse
      */
-    public function add( Request $request )
+    public function addBrand( Request $request )
     {
         try {
-            $data['brand_id'] = $request->favorite_brand_id;
-            $data['user_id'] = Auth::user()->id;
+            $data['user_id'] = $request->input('user_id');
+            $data['brand_id'] = $request->input('favorite_brand_id');
 
-            // バルクインサートで保存
             if ( !empty($data) ) {
                 $this->favorite_brands_repository->bulkInsertOrUpdate($data);
             }
-            session()->flash('flash_success', 'You added brand!');
-            return redirect()->route('favorite_brand.top');
+            $response = $this->getBrandsData($request);
+            return request()->json(200, $response);
 
         } catch (Exception $e) {
-            session()->flash('flash_danger', 'You have an error!');
-            return redirect()->route('favorite_brand.top');
+            return response()->json($e->getMessage(), 500);
         }
     }
 
@@ -73,36 +83,23 @@ class FavoriteBrandController extends Controller
      * お気に入りブランド削除メソッド
      *
      * @param Request $request
-     * @return void
+     * @return JsonResponse
      */
-    public function remove( Request $request )
+    public function deleteBrand(Request $request)
     {
         try {
-            $data['favorite_brand_id'] = $request->favorite_brand_id;
-            $data['user_id'] = Auth::user()->id;
-
+            $data['user_id'] = $request->input('user_id');
+            $data['favorite_brand_id'] = $request->input('favorite_brand_id');
+    
             if ( !empty($data) ) {
                 $this->favorite_brands_repository->deleteRecord($data);
             }
-            session()->flash('flash_alert', 'You removed brand.');
-            return redirect()->route('favorite_brand.index');
+            $response = $this->getBrandsData($request);
+            return request()->json(200, $response);
 
         } catch (Exception $e) {
-            session()->flash('flash_danger', 'You have an error!');
-            return redirect()->route('favorite_brand.index');
+            return response()->json($e->getMessage(), 500);
         }
-    }
-
-    /**
-     * 新しいデザインのブランド登録トップ画面
-     *
-     * @return void
-     */
-    public function top()
-    {
-        $user_id = Auth::user()->id;
-
-        return view('favorite_brand.top',compact('user_id'));
     }
 
 
@@ -113,7 +110,7 @@ class FavoriteBrandController extends Controller
      * @param array $favorite_brand_ids
      * @return array
      */
-    private function makeBrandLists( array $brands, array $favorite_brand_ids ): array
+    private function makeBrandLists( array $brands, array $favorite_brand_ids, $user_id ): array
     {
         $brand_lists = array();
 
@@ -124,6 +121,7 @@ class FavoriteBrandController extends Controller
             $brand_lists[$index]['name_en']         = $brand['name_en'];
             $brand_lists[$index]['country']         = $brand['country'];
             $brand_lists[$index]['favorite_status'] = 0;
+            $brand_lists[$index]['user_id']         = $user_id;
 
             if ( count($favorite_brand_ids) > 0 ) {
                 for ( $i=0; $i<count($favorite_brand_ids); $i++ ) {

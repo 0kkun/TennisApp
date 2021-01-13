@@ -11,7 +11,7 @@ interface FavoriteBrandsRepository
      *
      * @return Collection
      */  
-    public function getAll(): Collection;
+    public function getAll(?int $user_id=null): Collection;
 
 
     /**
@@ -27,10 +27,10 @@ interface FavoriteBrandsRepository
     /**
      * お気に入りブランド削除メソッド
      *
-     * @param integer $favorite_brand_id
+     * @param array $data
      * @return void
      */
-    public function deleteRecord(int $favorite_brand_id): void;
+    public function deleteRecord(array $data): void;
 
 
     /**

@@ -33,7 +33,6 @@
                 </div>
             </form>
             </div>
-            <script type="text/javascript" src="/js/common/datepick.js"></script>
         </div>
 
         <div class="col-sm-8 pt-3">
@@ -45,20 +44,15 @@
             <canvas id="bubblechart"></canvas>
             </div>
         </div>
-
-        {{-- Chart.jsライブラリをCDNで読み込み --}}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
-        <script type="text/javascript" src="/js/analysis/graph.js"></script>
         </div>
     </div>
 
-    {{-- <div id="app">
-        <example-component test="GET DATA: {{ 'AAA' }}"></example-component>
-    </div>
-    <script src=" {{ mix('js/app.js') }} "></script> --}}
-    {{-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css"> --}}
 
+
+    <script type="text/javascript" src="/js/analysis/graph.js"></script>
+
+    {{-- datepicker --}}
+    <script type="text/javascript" src="/js/common/datepick.js"></script>
 
     @else
         @include('top.welcome')

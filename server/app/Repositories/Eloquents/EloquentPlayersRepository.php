@@ -11,6 +11,11 @@ class EloquentPlayersRepository implements PlayersRepository
     protected $players;
 
 
+    const TEEN_AGE = 20;
+    const TWENTIES_AGE = [20, 29];
+    const THIRTIES_AGE = [30, 39];
+    const FORTY_AGE = 40;
+
     /**
     * @param object $players
     */
@@ -68,13 +73,13 @@ class EloquentPlayersRepository implements PlayersRepository
                     })
                     ->when( !empty($age) , function ($query) use ($age) {
                         if($age == 19) {
-                            $query->where( 'age', '<', 20 );
+                            $query->where( 'age', '<', self::TEEN_AGE );
                         } else if ($age == 20) {
-                            $query->whereBetween( 'age', [20, 29] );
+                            $query->whereBetween( 'age', self::TWENTIES_AGE );
                         } else if ($age == 30) {
-                            $query->whereBetween( 'age', [30, 39] );
+                            $query->whereBetween( 'age', self::THIRTIES_AGE );
                         }  else if ($age == 40) {
-                            $query->where( 'age', '>=', 40 );
+                            $query->where( 'age', '>=', self::FORTY_AGE );
                         }
                     })
                     ->get();

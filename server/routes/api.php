@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:api')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::get('/get_brands_data', 'ApiController@getBrandsData');
+Route::post('/add_brand', 'ApiController@addBrand');
+Route::delete('/delete_brand', 'ApiController@deleteBrand');
+
+Route::get('/v1/rankings', 'RankingController@fetchRankings');

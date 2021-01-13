@@ -28,9 +28,9 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
      *
      * @return Collection
      */
-    public function getAll(): Collection
+    public function getAll(?int $user_id=null): Collection
     {
-        $current_user_id = null;
+        $current_user_id = $user_id ? $user_id : '';
         if ( isset(Auth::user()->id) ) {
             $current_user_id = Auth::user()->id;
         }
@@ -48,7 +48,6 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
      */
     public function bulkInsertOrUpdate($data): void
     {
-        $data['user_id'] = Auth::user()->id;
         $this->favorite_brands->bulkInsertOrUpdate($data);
     }
 
@@ -56,16 +55,18 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
     /**
      * お気に入りブランド削除メソッド
      *
-     * @param integer $favorite_player_id
+     * @param array $data
      * @return void
      */
-    public function deleteRecord(int $favorite_brand_id): void
+    public function deleteRecord(array $data): void
     {
-        $current_user_id = Auth::user()->id;
+        if ( !isset($data['user_id']) ) {
+            $data['user_id'] = Auth::user()->id;
+        }
 
         $this->favorite_brands
-            ->where('user_id', $current_user_id)
-            ->where('brand_id', $favorite_brand_id)
+            ->where('user_id', $data['user_id'])
+            ->where('brand_id', $data['favorite_brand_id'])
             ->delete();
     }
 

@@ -8,32 +8,36 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
         {{-- npm run devコマンドで生成した「app.css」と「app.js」を読み込んでいる --}}
-        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
-        <script src="{{ asset('js/app.js')}}"></script>
-
-        {{-- Bootstrap4.2で上書き TODO: ちゃんとライブラリをインストールする --}}
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+        <script src="{{ mix('js/app.js') }}" defer></script>
 
         {{-- フォントのライブラリ --}}
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300">
         {{-- Fontawesome --}}
         <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
 
-        {{-- datepicker --}}
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script> --}}
+
+        {{-- jQuery 3系のCDN --}}
+        {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/base/jquery-ui.min.css"> --}}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        {{-- Chart.jsライブラリをCDNで読み込み --}}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
     </head>
 
     <body>
-        @include('shared.header')
+        <div class="content-body">
+            @include('shared.header')
 
-        <main>
-        @yield('content')
-        </main>
+            <main>
+                @yield('content')
+            </main>
 
-        @include('shared.footer')
-
-        <script type="text/javascript" src="/js/common/nav_menu.js"></script>
-        <script type="text/javascript" src="/js/top/scroll.js"></script>
+            @include('shared.footer')
+            <script type="text/javascript" src="/js/common/nav_menu.js"></script>
+            <script type="text/javascript" src="/js/top/scroll.js"></script>
+        </div>
     </body>
 </html>
