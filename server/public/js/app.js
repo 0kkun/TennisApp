@@ -1988,12 +1988,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       brands: [],
       favorite_brand_id: '',
-      updated: false
+      updated: false,
+      loadStatus: false
     };
   },
   props: ["user_id"],
@@ -2010,6 +2019,9 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this.brands = response.data;
+        _this.loadStatus = true;
+      })["catch"](function (error) {
+        console.log(error);
       });
     },
     createBrand: function createBrand(brand_id) {
@@ -2096,11 +2108,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       rankings: [],
-      num: 100
+      num: 100,
+      loadStatus: false
     };
   },
   mounted: function mounted() {
@@ -2116,7 +2137,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this.rankings = response.data;
-        console.log(response);
+        _this.loadStatus = true;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -38414,67 +38435,94 @@ var render = function() {
     _c("div", { staticClass: "text-center pt-3 h3" }, [_vm._v("BRAND")]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
-      _c("table", { staticClass: "table table-striped" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.brands, function(brand) {
-            return _c("tr", { key: brand.id, staticClass: "border-bottom" }, [
-              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-                _vm._v(_vm._s(brand.name_jp))
-              ]),
+      _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
+      _vm._v(" "),
+      _vm.loadStatus == true
+        ? _c("div", [
+            _c("table", { staticClass: "table table-striped" }, [
+              _vm._m(1),
               _vm._v(" "),
-              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-                _vm._v(_vm._s(brand.country))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-                brand.favorite_status == 0
-                  ? _c("div", [
+              _c(
+                "tbody",
+                _vm._l(_vm.brands, function(brand) {
+                  return _c(
+                    "tr",
+                    { key: brand.id, staticClass: "border-bottom" },
+                    [
                       _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-success p-1",
-                          staticStyle: { width: "66px" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.createBrand(brand.id)
-                            }
-                          }
-                        },
-                        [_vm._v("add")]
-                      )
-                    ])
-                  : brand.favorite_status == 1
-                  ? _c("div", [
+                        "td",
+                        { staticClass: "d-table-cell d-md-table-cell" },
+                        [_vm._v(_vm._s(brand.name_jp))]
+                      ),
+                      _vm._v(" "),
                       _c(
-                        "button",
-                        {
-                          staticClass: "btn btn-danger p-1",
-                          staticStyle: { width: "66px" },
-                          on: {
-                            click: function($event) {
-                              $event.preventDefault()
-                              return _vm.deleteBrand(brand.id)
-                            }
-                          }
-                        },
-                        [_vm._v("remove")]
+                        "td",
+                        { staticClass: "d-table-cell d-md-table-cell" },
+                        [_vm._v(_vm._s(brand.country))]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticClass: "d-table-cell d-md-table-cell" },
+                        [
+                          brand.favorite_status == 0
+                            ? _c("div", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-success p-1",
+                                    staticStyle: { width: "66px" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.createBrand(brand.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("add")]
+                                )
+                              ])
+                            : brand.favorite_status == 1
+                            ? _c("div", [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass: "btn btn-danger p-1",
+                                    staticStyle: { width: "66px" },
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.deleteBrand(brand.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("remove")]
+                                )
+                              ])
+                            : _vm._e()
+                        ]
                       )
-                    ])
-                  : _vm._e()
-              ])
+                    ]
+                  )
+                }),
+                0
+              )
             ])
-          }),
-          0
-        )
-      ])
+          ])
+        : _vm._e()
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "h2 text-center text-danger" }, [
+      _vm._v("Now on loading ....."),
+      _c("i", { staticClass: "fas fa-broadcast-tower" })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -38536,69 +38584,96 @@ var render = function() {
     _c("div", { staticClass: "text-center pt-3 h3" }, [_vm._v("RANKING")]),
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
-      _c("table", { staticClass: "table table-striped" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c(
-          "tbody",
-          _vm._l(_vm.rankings, function(ranking) {
-            return _c("tr", { key: ranking.id, staticClass: "border-bottom" }, [
-              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.rank))
-              ]),
+      _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
+      _vm._v(" "),
+      _vm.loadStatus == true
+        ? _c("div", [
+            _c("table", { staticClass: "table table-striped" }, [
+              _vm._m(1),
               _vm._v(" "),
-              _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.rank_change))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.most_highest))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.point))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.point_change))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.name))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.age))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.country))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.current_tour_result))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.pre_tour_result))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.next_point))
-              ]),
-              _vm._v(" "),
-              _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                _vm._v(_vm._s(ranking.max_point))
-              ])
+              _c(
+                "tbody",
+                _vm._l(_vm.rankings, function(ranking) {
+                  return _c(
+                    "tr",
+                    { key: ranking.id, staticClass: "border-bottom" },
+                    [
+                      _c(
+                        "td",
+                        { staticClass: "d-table-cell d-md-table-cell" },
+                        [_vm._v(_vm._s(ranking.rank))]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                        _vm._v(_vm._s(ranking.rank_change))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                        _vm._v(_vm._s(ranking.most_highest))
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticClass: "d-table-cell d-md-table-cell" },
+                        [_vm._v(_vm._s(ranking.point))]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                        _vm._v(_vm._s(ranking.point_change))
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticClass: "d-table-cell d-md-table-cell" },
+                        [_vm._v(_vm._s(ranking.name))]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                        _vm._v(_vm._s(ranking.age))
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        { staticClass: "d-table-cell d-md-table-cell" },
+                        [_vm._v(_vm._s(ranking.country))]
+                      ),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                        _vm._v(_vm._s(ranking.current_tour_result))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                        _vm._v(_vm._s(ranking.pre_tour_result))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                        _vm._v(_vm._s(ranking.next_point))
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                        _vm._v(_vm._s(ranking.max_point))
+                      ])
+                    ]
+                  )
+                }),
+                0
+              )
             ])
-          }),
-          0
-        )
-      ])
+          ])
+        : _vm._e()
     ])
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "h2 text-center text-danger" }, [
+      _vm._v("Now on loading ....."),
+      _c("i", { staticClass: "fas fa-broadcast-tower" })
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
