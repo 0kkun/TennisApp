@@ -5,48 +5,48 @@
             <table>
                 <thead>
                     <tr class="w-100 bg-dark text-white">
-                        <th class="d-table-cell d-sm-table-cell border border-light" scope="col">Rnk</th>　<!-- 常に表示 -->
-                        <th class="d-none d-sm-table-cell border border-light" scope="col">Rank Change</th>
-                        <th class="d-none d-sm-table-cell border border-light" scope="col">Most High</th>
-                        <th class="d-table-cell d-sm-table-cell border border-light" scope="col">Pt</th>　<!-- 常に表示 -->
-                        <th class="d-none d-sm-table-cell border border-light" scope="col">Pt Change</th>
-                        <th class="d-table-cell d-sm-table-cell border border-light" scope="col">Name</th>　<!-- 常に表示 -->
-                        <th class="d-none d-sm-table-cell border border-light" scope="col">Age</th>
-                        <th class="d-table-cell d-sm-table-cell border border-light" scope="col">Country</th>
-                        <th class="d-none d-sm-table-cell border border-light" scope="col">Current Tour</th>
-                        <th class="d-none d-sm-table-cell border border-light" scope="col">Pre Tour</th>
-                        <th class="d-none d-sm-table-cell border border-light" scope="col">Next Pt</th>
-                        <th class="d-none d-sm-table-cell border border-light" scope="col">Max Pt</th>
+                        <th class="d-table-cell d-md-table-cell border border-light" scope="col">Rnk</th>　<!-- 常に表示 -->
+                        <th class="d-none d-md-table-cell border border-light" scope="col">Rank Change</th>
+                        <th class="d-none d-md-table-cell border border-light" scope="col">Most High</th>
+                        <th class="d-table-cell d-md-table-cell border border-light" scope="col">Pt</th>　<!-- 常に表示 -->
+                        <th class="d-none d-md-table-cell border border-light" scope="col">Pt Change</th>
+                        <th class="d-table-cell d-md-table-cell border border-light" scope="col">Name</th>　<!-- 常に表示 -->
+                        <th class="d-none d-md-table-cell border border-light" scope="col">Age</th>
+                        <th class="d-table-cell d-md-table-cell border border-light" scope="col">Country</th>
+                        <th class="d-none d-md-table-cell border border-light" scope="col">Current Tour</th>
+                        <th class="d-none d-md-table-cell border border-light" scope="col">Pre Tour</th>
+                        <th class="d-none d-md-table-cell border border-light" scope="col">Next Pt</th>
+                        <th class="d-none d-md-table-cell border border-light" scope="col">Max Pt</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="border-bottom">
-                        <td class="d-table-cell d-sm-table-cell">1</td> <!-- 常に表示 -->
-                        <td class="d-none d-sm-table-cell" >+5</td>
-                        <td class="d-none d-sm-table-cell" >4</td>
-                        <td class="d-table-cell d-sm-table-cell">4300</td> <!-- 常に表示 -->
-                        <td class="d-none d-sm-table-cell">-2</td>
-                        <td class="d-table-cell d-sm-table-cell">Kei Nishikori</td> <!-- 常に表示 -->
-                        <td class="d-none d-sm-table-cell">31</td>
-                        <td class="d-table-cell d-sm-table-cell">JPN</td>
-                        <td class="d-none d-sm-table-cell">-</td>
-                        <td class="d-none d-sm-table-cell">-</td>
-                        <td class="d-none d-sm-table-cell">250</td>
-                        <td class="d-none d-sm-table-cell">1500</td>
+                        <td class="d-table-cell d-md-table-cell">1</td> <!-- 常に表示 -->
+                        <td class="d-none d-md-table-cell" >+5</td>
+                        <td class="d-none d-md-table-cell" >4</td>
+                        <td class="d-table-cell d-md-table-cell">4300</td> <!-- 常に表示 -->
+                        <td class="d-none d-md-table-cell">-2</td>
+                        <td class="d-table-cell d-md-table-cell">Kei Nishikori</td> <!-- 常に表示 -->
+                        <td class="d-none d-md-table-cell">31</td>
+                        <td class="d-table-cell d-md-table-cell">JPN</td>
+                        <td class="d-none d-md-table-cell">-</td>
+                        <td class="d-none d-md-table-cell">-</td>
+                        <td class="d-none d-md-table-cell">250</td>
+                        <td class="d-none d-md-table-cell">1500</td>
                     </tr>
                     <tr class="border-bottom">
-                        <td class="d-table-cell d-sm-table-cell">1</td> <!-- 常に表示 -->
-                        <td class="d-none d-sm-table-cell" >+5</td>
-                        <td class="d-none d-sm-table-cell" >4</td>
-                        <td class="d-table-cell d-sm-table-cell">4300</td> <!-- 常に表示 -->
-                        <td class="d-none d-sm-table-cell">-2</td>
-                        <td class="d-table-cell d-sm-table-cell">Kei Nishikori</td> <!-- 常に表示 -->
-                        <td class="d-none d-sm-table-cell">31</td>
-                        <td class="d-table-cell d-sm-table-cell">JPN</td>
-                        <td class="d-none d-sm-table-cell">-</td>
-                        <td class="d-none d-sm-table-cell">-</td>
-                        <td class="d-none d-sm-table-cell">250</td>
-                        <td class="d-none d-sm-table-cell">1500</td>
+                        <td class="d-table-cell d-md-table-cell">1</td> <!-- 常に表示 -->
+                        <td class="d-none d-md-table-cell" >+5</td>
+                        <td class="d-none d-md-table-cell" >4</td>
+                        <td class="d-table-cell d-md-table-cell">4300</td> <!-- 常に表示 -->
+                        <td class="d-none d-md-table-cell">-2</td>
+                        <td class="d-table-cell d-md-table-cell">Kei Nishikori</td> <!-- 常に表示 -->
+                        <td class="d-none d-md-table-cell">31</td>
+                        <td class="d-table-cell d-md-table-cell">JPN</td>
+                        <td class="d-none d-md-table-cell">-</td>
+                        <td class="d-none d-md-table-cell">-</td>
+                        <td class="d-none d-md-table-cell">250</td>
+                        <td class="d-none d-md-table-cell">1500</td>
                     </tr>
                 </tbody>
             </table>

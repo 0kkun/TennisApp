@@ -38560,7 +38560,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-table-cell d-sm-table-cell border border-light",
+                staticClass: "d-table-cell d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Rnk")]
@@ -38569,7 +38569,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-none d-sm-table-cell border border-light",
+                staticClass: "d-none d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Rank Change")]
@@ -38578,7 +38578,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-none d-sm-table-cell border border-light",
+                staticClass: "d-none d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Most High")]
@@ -38587,7 +38587,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-table-cell d-sm-table-cell border border-light",
+                staticClass: "d-table-cell d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Pt")]
@@ -38596,7 +38596,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-none d-sm-table-cell border border-light",
+                staticClass: "d-none d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Pt Change")]
@@ -38605,7 +38605,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-table-cell d-sm-table-cell border border-light",
+                staticClass: "d-table-cell d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Name")]
@@ -38614,7 +38614,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-none d-sm-table-cell border border-light",
+                staticClass: "d-none d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Age")]
@@ -38623,7 +38623,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-table-cell d-sm-table-cell border border-light",
+                staticClass: "d-table-cell d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Country")]
@@ -38632,7 +38632,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-none d-sm-table-cell border border-light",
+                staticClass: "d-none d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Current Tour")]
@@ -38641,7 +38641,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-none d-sm-table-cell border border-light",
+                staticClass: "d-none d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Pre Tour")]
@@ -38650,7 +38650,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-none d-sm-table-cell border border-light",
+                staticClass: "d-none d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Next Pt")]
@@ -38659,7 +38659,7 @@ var staticRenderFns = [
             _c(
               "th",
               {
-                staticClass: "d-none d-sm-table-cell border border-light",
+                staticClass: "d-none d-md-table-cell border border-light",
                 attrs: { scope: "col" }
               },
               [_vm._v("Max Pt")]
@@ -38669,77 +38669,77 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("tbody", [
           _c("tr", { staticClass: "border-bottom" }, [
-            _c("td", { staticClass: "d-table-cell d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
               _vm._v("1")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("+5")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("+5")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("4")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("4")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
               _vm._v("4300")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("-2")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-2")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
               _vm._v("Kei Nishikori")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("31")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("31")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
               _vm._v("JPN")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("-")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("-")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [
               _vm._v("250")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [
               _vm._v("1500")
             ])
           ]),
           _vm._v(" "),
           _c("tr", { staticClass: "border-bottom" }, [
-            _c("td", { staticClass: "d-table-cell d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
               _vm._v("1")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("+5")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("+5")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("4")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("4")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
               _vm._v("4300")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("-2")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-2")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
               _vm._v("Kei Nishikori")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("31")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("31")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
               _vm._v("JPN")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("-")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [_vm._v("-")]),
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-")]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [
               _vm._v("250")
             ]),
             _vm._v(" "),
-            _c("td", { staticClass: "d-none d-sm-table-cell" }, [
+            _c("td", { staticClass: "d-none d-md-table-cell" }, [
               _vm._v("1500")
             ])
           ])
