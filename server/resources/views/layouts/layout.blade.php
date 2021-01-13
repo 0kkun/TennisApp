@@ -28,14 +28,16 @@
     </head>
 
     <body>
-        @include('shared.header')
+        <div class="content-body">
+            @include('shared.header')
 
-        <main>
-        @yield('content')
-        </main>
+            <main>
+                @yield('content')
+            </main>
 
-        @include('shared.footer')
-        <script type="text/javascript" src="/js/common/nav_menu.js"></script>
-        <script type="text/javascript" src="/js/top/scroll.js"></script>
+            @include('shared.footer')
+            <script type="text/javascript" src="/js/common/nav_menu.js"></script>
+            <script type="text/javascript" src="/js/top/scroll.js"></script>
+        </div>
     </body>
 </html>

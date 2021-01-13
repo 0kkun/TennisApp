@@ -10903,11 +10903,23 @@ a.text-dark:focus {
   }
 }
 
-body {
+.content-body {
   width: 100vw;
   background-image: url(/images/img_background_tennis.jpeg?51d77897de54d279090f941cd03a901f);
   background-size: cover;
   position: relative;
+}
+
+.content-body-background {
+  background-color: white;
+}
+
+.side-bar .btn-block:hover {
+  background-color: powderblue;
+}
+
+.side-bar .btn-block a {
+  text-decoration: none;
 }
 
 footer {
@@ -10958,7 +10970,7 @@ footer {
 
 .site-header {
   transition: 0.5s;
-  z-index: 999;
+  z-index: 1;
 }
 
 .site-header.hide {
