@@ -1,8 +1,8 @@
 <template>
     <div class="card mt-3">
-        <div class="text-center pt-3 h3">Ranking</div>
+        <div class="text-center pt-3 h3">RANKING</div>
         <div class="card-body">
-            <table>
+            <table class="table table-striped">
                 <thead>
                     <tr class="w-100 bg-dark text-white">
                         <th class="d-table-cell d-md-table-cell border border-light" scope="col">Rnk</th>　<!-- 常に表示 -->
@@ -19,41 +19,24 @@
                         <th class="d-none d-md-table-cell border border-light" scope="col">Max Pt</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr class="border-bottom">
-                        <td class="d-table-cell d-md-table-cell">1</td> <!-- 常に表示 -->
-                        <td class="d-none d-md-table-cell" >+5</td>
-                        <td class="d-none d-md-table-cell" >4</td>
-                        <td class="d-table-cell d-md-table-cell">4300</td> <!-- 常に表示 -->
-                        <td class="d-none d-md-table-cell">-2</td>
-                        <td class="d-table-cell d-md-table-cell">Kei Nishikori</td> <!-- 常に表示 -->
-                        <td class="d-none d-md-table-cell">31</td>
-                        <td class="d-table-cell d-md-table-cell">JPN</td>
-                        <td class="d-none d-md-table-cell">-</td>
-                        <td class="d-none d-md-table-cell">-</td>
-                        <td class="d-none d-md-table-cell">250</td>
-                        <td class="d-none d-md-table-cell">1500</td>
-                    </tr>
-                    <tr class="border-bottom">
-                        <td class="d-table-cell d-md-table-cell">1</td> <!-- 常に表示 -->
-                        <td class="d-none d-md-table-cell" >+5</td>
-                        <td class="d-none d-md-table-cell" >4</td>
-                        <td class="d-table-cell d-md-table-cell">4300</td> <!-- 常に表示 -->
-                        <td class="d-none d-md-table-cell">-2</td>
-                        <td class="d-table-cell d-md-table-cell">Kei Nishikori</td> <!-- 常に表示 -->
-                        <td class="d-none d-md-table-cell">31</td>
-                        <td class="d-table-cell d-md-table-cell">JPN</td>
-                        <td class="d-none d-md-table-cell">-</td>
-                        <td class="d-none d-md-table-cell">-</td>
-                        <td class="d-none d-md-table-cell">250</td>
-                        <td class="d-none d-md-table-cell">1500</td>
+                <tbody >
+                    <tr v-for="ranking in rankings" :key="ranking.id" class="border-bottom">
+                        <td class="d-table-cell d-md-table-cell">{{ ranking.rank }}</td> <!-- 常に表示 -->
+                        <td class="d-none d-md-table-cell">{{ ranking.rank_change }}</td>
+                        <td class="d-none d-md-table-cell">{{ ranking.most_highest }}</td>
+                        <td class="d-table-cell d-md-table-cell">{{ ranking.point }}</td> <!-- 常に表示 -->
+                        <td class="d-none d-md-table-cell">{{ ranking.point_change }}</td>
+                        <td class="d-table-cell d-md-table-cell">{{ ranking.name }}</td> <!-- 常に表示 -->
+                        <td class="d-none d-md-table-cell">{{ ranking.age }}</td>
+                        <td class="d-table-cell d-md-table-cell">{{ ranking.country }}</td>
+                        <td class="d-none d-md-table-cell">{{ ranking.current_tour_result }}</td>
+                        <td class="d-none d-md-table-cell">{{ ranking.pre_tour_result }}</td>
+                        <td class="d-none d-md-table-cell">{{ ranking.next_point }}</td>
+                        <td class="d-none d-md-table-cell">{{ ranking.max_point }}</td>
                     </tr>
                 </tbody>
             </table>
         </div>
-        <ul v-for="ranking in rankings" :key="ranking.id">
-            <li>{{ ranking.name }}</li>
-        </ul>
     </div>
 </template>
 
@@ -61,40 +44,29 @@
 export default {
     data : function () {
         return {
-            rankings: [
-                {
-                    id: 1,
-                    rank: 1,
-                    rank_change: +1,
-                    most_high: 4,
-                    point: 4300,
-                    point_change: -2,
-                    name: 'Kei Nshikori',
-                    age: 31,
-                    country: 'JPN',
-                    current_tour: '-',
-                    pre_tour: '-',
-                    next_point: 250,
-                    max_point: 1500
-                },
-                {
-                    id: 2,
-                    rank: 1,
-                    rank_change: +1,
-                    most_high: 4,
-                    point: 4300,
-                    point_change: -2,
-                    name: 'Shinji Okumoto',
-                    age: 31,
-                    country: 'JPN',
-                    current_tour: '-',
-                    pre_tour: '-',
-                    next_point: 250,
-                    max_point: 1500
-                },
-            ]
+            rankings: [],
+            num: 100
         }
     },
+    mounted: function() {
+        this.fetchRankings(this.num);
+    },
+    methods: {
+        fetchRankings: function() {
+            axios.get('/api/v1/rankings', { 
+                params: {
+                    num: this.num
+                }
+            })
+            .then((response) => {
+                this.rankings = response.data;
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error); 
+            });
+        }
+    }
 }
 </script>
 

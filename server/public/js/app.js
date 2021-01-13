@@ -2102,56 +2102,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      rankings: [{
-        id: 1,
-        rank: 1,
-        rank_change: +1,
-        most_high: 4,
-        point: 4300,
-        point_change: -2,
-        name: 'Kei Nshikori',
-        age: 31,
-        country: 'JPN',
-        current_tour: '-',
-        pre_tour: '-',
-        next_point: 250,
-        max_point: 1500
-      }, {
-        id: 2,
-        rank: 1,
-        rank_change: +1,
-        most_high: 4,
-        point: 4300,
-        point_change: -2,
-        name: 'Shinji Okumoto',
-        age: 31,
-        country: 'JPN',
-        current_tour: '-',
-        pre_tour: '-',
-        next_point: 250,
-        max_point: 1500
-      }]
+      rankings: [],
+      num: 100
     };
+  },
+  mounted: function mounted() {
+    this.fetchRankings(this.num);
+  },
+  methods: {
+    fetchRankings: function fetchRankings() {
+      var _this = this;
+
+      axios.get('/api/v1/rankings', {
+        params: {
+          num: this.num
+        }
+      }).then(function (response) {
+        _this.rankings = response.data;
+        console.log(response);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
   }
 });
 
@@ -38531,219 +38506,186 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "card mt-3" },
-    [
-      _c("div", { staticClass: "text-center pt-3 h3" }, [_vm._v("Ranking")]),
-      _vm._v(" "),
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._l(_vm.rankings, function(ranking) {
-        return _c("ul", { key: ranking.id }, [
-          _c("li", [_vm._v(_vm._s(ranking.name))])
-        ])
-      })
-    ],
-    2
-  )
+  return _c("div", { staticClass: "card mt-3" }, [
+    _c("div", { staticClass: "text-center pt-3 h3" }, [_vm._v("RANKING")]),
+    _vm._v(" "),
+    _c("div", { staticClass: "card-body" }, [
+      _c("table", { staticClass: "table table-striped" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.rankings, function(ranking) {
+            return _c("tr", { key: ranking.id, staticClass: "border-bottom" }, [
+              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.rank))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.rank_change))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.most_highest))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.point))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.point_change))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.name))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.age))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.country))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.current_tour_result))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.pre_tour_result))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.next_point))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                _vm._v(_vm._s(ranking.max_point))
+              ])
+            ])
+          }),
+          0
+        )
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
-      _c("table", [
-        _c("thead", [
-          _c("tr", { staticClass: "w-100 bg-dark text-white" }, [
-            _c(
-              "th",
-              {
-                staticClass: "d-table-cell d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Rnk")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-none d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Rank Change")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-none d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Most High")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-table-cell d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Pt")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-none d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Pt Change")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-table-cell d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Name")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-none d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Age")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-table-cell d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Country")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-none d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Current Tour")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-none d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Pre Tour")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-none d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Next Pt")]
-            ),
-            _vm._v(" "),
-            _c(
-              "th",
-              {
-                staticClass: "d-none d-md-table-cell border border-light",
-                attrs: { scope: "col" }
-              },
-              [_vm._v("Max Pt")]
-            )
-          ])
-        ]),
+    return _c("thead", [
+      _c("tr", { staticClass: "w-100 bg-dark text-white" }, [
+        _c(
+          "th",
+          {
+            staticClass: "d-table-cell d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Rnk")]
+        ),
         _vm._v(" "),
-        _c("tbody", [
-          _c("tr", { staticClass: "border-bottom" }, [
-            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-              _vm._v("1")
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("+5")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("4")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-              _vm._v("4300")
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-2")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-              _vm._v("Kei Nishikori")
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("31")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-              _vm._v("JPN")
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [
-              _vm._v("250")
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [
-              _vm._v("1500")
-            ])
-          ]),
-          _vm._v(" "),
-          _c("tr", { staticClass: "border-bottom" }, [
-            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-              _vm._v("1")
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("+5")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("4")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-              _vm._v("4300")
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-2")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-              _vm._v("Kei Nishikori")
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("31")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-table-cell d-md-table-cell" }, [
-              _vm._v("JPN")
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [_vm._v("-")]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [
-              _vm._v("250")
-            ]),
-            _vm._v(" "),
-            _c("td", { staticClass: "d-none d-md-table-cell" }, [
-              _vm._v("1500")
-            ])
-          ])
-        ])
+        _c(
+          "th",
+          {
+            staticClass: "d-none d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Rank Change")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "d-none d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Most High")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "d-table-cell d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Pt")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "d-none d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Pt Change")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "d-table-cell d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Name")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "d-none d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Age")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "d-table-cell d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Country")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "d-none d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Current Tour")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "d-none d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Pre Tour")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "d-none d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Next Pt")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          {
+            staticClass: "d-none d-md-table-cell border border-light",
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Max Pt")]
+        )
       ])
     ])
   }
