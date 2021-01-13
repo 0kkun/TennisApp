@@ -20,3 +20,5 @@ use Illuminate\Http\Request;
 Route::get('/get_brands_data', 'ApiController@getBrandsData');
 Route::post('/add_brand', 'ApiController@addBrand');
 Route::delete('/delete_brand', 'ApiController@deleteBrand');
+
+Route::get('/v1/rankings', 'RankingController@getRankings');
