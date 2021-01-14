@@ -30,6 +30,7 @@ Route::prefix('favorite_brand')->group(function () {
 Route::get('/favorite_brand/top', 'FavoriteBrandController@top')->name('favorite_brand.top');
 
 Route::get('/ranking', 'RankingController@index')->name('ranking.index');
+Route::get('/news', 'NewsController@index')->name('news.index');
 
 Route::get('/analysis', 'AnalysisController@index')->name('analysis.index');
 
