@@ -23,7 +23,7 @@ class EloquentRankingRepository implements RankingRepository
     /**
      * バルクインサート処理
      *
-     * @param  Collection|array $data
+     * @param  Collection|Ranking|array $data
      * @return void
      */
     public function bulkInsertOrUpdate($data): void
