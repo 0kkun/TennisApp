@@ -5,7 +5,7 @@
 @section('content')
     @if(Auth::check())
         <div id="news-vue">
-            <news-component></news-component>
+            <news-component v-bind:user_id="{{ ($user_id) }}"></news-component>
         </div>
     @else
         @include('top.welcome')
