@@ -56,9 +56,10 @@ export default {
     },
     methods: {
         getBrandData: function() {
-            axios.get('/api/get_brands_data', { params: {
-                user_id: this.user_id
-            }
+            axios.get('/api/get_brands_data', {
+                params: {
+                    user_id: this.user_id
+                }
             })
             .then((response) => {
                 this.brands = response.data;
@@ -82,10 +83,12 @@ export default {
             });
         },
         deleteBrand: function(brand_id) {
-            axios.delete('/api/delete_brand', { params: {
-                favorite_brand_id: brand_id,
-                user_id: this.user_id
-            }})
+            axios.delete('/api/delete_brand', {
+                params: {
+                    favorite_brand_id: brand_id,
+                    user_id: this.user_id
+                }
+            })
             .then((response) => {
                 this.updated = true;
                 this.brands = response.data;
