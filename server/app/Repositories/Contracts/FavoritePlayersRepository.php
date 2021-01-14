@@ -36,7 +36,8 @@ interface FavoritePlayersRepository
     /**
      * ログインユーザーが持っているお気に入り選手の名前・出身を取得する
      *
+     * @param integer|null $user_id
      * @return Collection
      */
-    public function getFavoritePlayerData(): Collection;
+    public function getFavoritePlayers(?int $user_id=null): Collection;
 }

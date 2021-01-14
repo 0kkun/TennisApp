@@ -73,14 +73,16 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
     /**
      * ログインユーザーが持っているお気に入り選手の名前・出身を取得する
      *
+     * @param integer|null $user_id
      * @return Collection
      */
-    public function getFavoritePlayerData(): Collection
+    public function getFavoritePlayers(?int $user_id=null): Collection
     {
-        $current_user_id = Auth::user()->id;
-
+        if ( empty($user_id) ) {
+            $user_id = Auth::user()->id;
+        }
         return $this->favorite_players
-                    ->where('user_id', '=', $current_user_id)
+                    ->where('user_id', $user_id)
                     ->with('players')
                     ->join('players', 'favorite_players.player_id', 'players.id')
                     ->get();

@@ -62,12 +62,13 @@ class TopService implements TopServiceInterface
         if ( $this->hasFavoritePlayer() ) {
 
             // お気に入り選手の名前を取得
-            $favorite_player_data = $this->favorite_players_repository->getFavoritePlayerData()->toArray();
+            $favorite_player_data = $this->favorite_players_repository->getFavoritePlayers()->toArray();
 
             // ファーストネームだけにする
             $player_names = $this->getFirstName( $favorite_player_data );
             // ファーストネームを使って記事を取得
-            $news_articles = $this->news_articles_repository->getArticleByPlayerNames( $player_names );
+            $is_pagenate = true;
+            $news_articles = $this->news_articles_repository->getArticleByPlayerNames($player_names, $is_pagenate);
 
         } else {
             $news_articles = $this->news_articles_repository->getAll();
@@ -102,7 +103,7 @@ class TopService implements TopServiceInterface
     {
         if ( $this->hasFavoritePlayer() ) {
             // お気に入り選手のidを取得
-            $favorite_player_ids = $this->favorite_players_repository->getFavoritePlayerData()->pluck('player_id')->toArray();
+            $favorite_player_ids = $this->favorite_players_repository->getFavoritePlayers()->pluck('player_id')->toArray();
             // idを使って動画を取得
             $youtube_videos = $this->youtube_videos_repository->getVideosByPlayerIds( $favorite_player_ids );
         } else {

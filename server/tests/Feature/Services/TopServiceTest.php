@@ -101,7 +101,7 @@ class TopServiceTest extends TestCase
 
         // モックリポジトリのメソッドをセット
         $this->setFavotritePlayersRepositoryMethod('getAll', $favorite_players);
-        $this->setFavotritePlayersRepositoryMethod('getFavoritePlayerData', $players_for_favorite);
+        $this->setFavotritePlayersRepositoryMethod('getFavoritePlayers', $players_for_favorite);
         $this->setNewsArticlesRepositoryMethod('getArticleByPlayerNames', $favorite_news_article_pagenate);
 
         $results = $this->top_service->getArticleByFavoritePlayer()->toArray();
