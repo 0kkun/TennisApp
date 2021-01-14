@@ -2095,23 +2095,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('open-modal-component', __webpack_require__(/*! ./OpenModalComponent.vue */ "./resources/js/components/OpenModalComponent.vue")["default"]);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      showContent: false
+      showContent: false,
+      loadStatus: false,
+      articles: []
     };
+  },
+  props: ["user_id"],
+  mounted: function mounted() {
+    this.fetchNews(this.user_id);
   },
   methods: {
     openModal: function openModal() {
@@ -2119,8 +2116,51 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('open-modal-component', __w
     },
     closeModal: function closeModal() {
       this.showContent = false;
+    },
+    fetchNews: function fetchNews() {
+      var _this = this;
+
+      axios.get('/api/v1/news', {
+        params: {
+          user_id: this.user_id
+        }
+      }).then(function (response) {
+        _this.articles = response.data;
+        _this.loadStatus = true; // console.log(response.data);
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/OpenModalComponent.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/OpenModalComponent.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["url"]
 });
 
 /***/ }),
@@ -6674,7 +6714,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "a[data-v-6929860f] {\n  text-decoration: none;\n}\n.news-detail-button[data-v-6929860f] {\n  text-align: center;\n  background-color: cornflowerblue;\n  cursor: pointer;\n  width: 100px;\n  margin-left: auto;\n  margin-right: auto;\n  margin-top: 8px;\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n.news-text[data-v-6929860f] {\n  height: 70px;\n  /* テキストが多すぎる時に消す  */\n  text-overflow: ellipsis;\n  overflow: hidden;\n}\n.news-detail-button[data-v-6929860f] {\n  width: 100px;\n  background-color: cornflowerblue;\n  border: none;\n  cursor: pointer;\n  position: absolute;\n  bottom: 10px;\n  left: 10px;\n}\n.news-card-parent[data-v-6929860f] {\n  height: 180px;\n  position: relative;\n}", ""]);
 
 // exports
 
@@ -38746,63 +38786,63 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "mt-3" }, [
     _c("div", { staticClass: "text-center pt-3 pb-2 h3" }, [_vm._v("News")]),
     _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "card-deck" },
-      [
-        _c("div", { staticClass: "card" }, [
-          _vm._m(0),
-          _vm._v(" "),
-          _c("div", { staticClass: "card-body" }, [
-            _c("div", { staticClass: "card-text" }, [
-              _c("p", [
-                _vm._v(
-                  "ナダルのブレークポイント獲得率を分析、過去3度ツアーで1位に＜男子テニス＞"
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "text-white",
-                  attrs: { href: "#" },
-                  on: { click: _vm.openModal }
-                },
-                [
-                  _c(
-                    "div",
-                    { staticClass: "news-detail-button border-light rounded" },
-                    [_vm._v("Detail")]
-                  )
-                ]
-              )
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _vm._m(1),
-        _vm._v(" "),
-        _c("open-modal-component", {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.showContent,
-              expression: "showContent"
-            }
-          ],
-          on: {
-            close: function($event) {
-              _vm.showContent = false
-            }
-          }
-        })
-      ],
-      1
-    )
+    _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
+    _vm._v(" "),
+    _vm.loadStatus == true
+      ? _c(
+          "div",
+          { staticClass: "card-columns" },
+          _vm._l(_vm.articles, function(article) {
+            return _c(
+              "div",
+              { key: article.id, staticClass: "card news-card-parent" },
+              [
+                _c("div", { staticClass: "card-header" }, [
+                  _c("span", [_vm._v(_vm._s(article.post_time) + " up")])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card-body" }, [
+                  _c("div", { staticClass: "card-text news-text" }, [
+                    _c("p", [_vm._v(_vm._s(article.title))]),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "news-detail-button text-white border-light rounded",
+                        on: { click: _vm.openModal }
+                      },
+                      [_vm._v("Detail")]
+                    )
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("open-modal-component", {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.showContent,
+                      expression: "showContent"
+                    }
+                  ],
+                  attrs: { url: article.url },
+                  on: {
+                    close: function($event) {
+                      _vm.showContent = false
+                    }
+                  }
+                })
+              ],
+              1
+            )
+          }),
+          0
+        )
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -38810,38 +38850,9 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-header" }, [
-      _c("span", [_vm._v("2021/01/13 up")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card" }, [
-      _c("div", { staticClass: "card-header" }, [
-        _c("span", [_vm._v("2021/01/13 up")])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "card-body" }, [
-        _c("div", { staticClass: "card-text" }, [
-          _c("p", [
-            _vm._v(
-              "ナダルのブレークポイント獲得率を分析、過去3度ツアーで1位に＜男子テニス＞"
-            )
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "news-detail-button border-light rounded" },
-            [
-              _c("a", { staticClass: "text-white", attrs: { href: "#" } }, [
-                _vm._v("Detail")
-              ])
-            ]
-          )
-        ])
-      ])
+    return _c("div", { staticClass: "h2 text-center text-danger" }, [
+      _vm._v("Now on loading ....."),
+      _c("i", { staticClass: "fas fa-broadcast-tower" })
     ])
   }
 ]
@@ -38884,18 +38895,21 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _vm._m(0)
+      _c("div", [
+        _c("iframe", {
+          attrs: {
+            width: "100%",
+            height: "400px",
+            src: _vm.url,
+            sandbox:
+              "allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"
+          }
+        })
+      ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [_c("p", [_vm._v("開きました！！")])])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -51595,17 +51609,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _OpenModalComponent_vue_vue_type_template_id_499f9a65_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./OpenModalComponent.vue?vue&type=template&id=499f9a65&scoped=true& */ "./resources/js/components/OpenModalComponent.vue?vue&type=template&id=499f9a65&scoped=true&");
-/* harmony import */ var _OpenModalComponent_vue_vue_type_style_index_0_id_499f9a65_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OpenModalComponent.vue?vue&type=style&index=0&id=499f9a65&lang=scss&scoped=true& */ "./resources/js/components/OpenModalComponent.vue?vue&type=style&index=0&id=499f9a65&lang=scss&scoped=true&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* harmony import */ var _OpenModalComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./OpenModalComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/OpenModalComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _OpenModalComponent_vue_vue_type_style_index_0_id_499f9a65_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./OpenModalComponent.vue?vue&type=style&index=0&id=499f9a65&lang=scss&scoped=true& */ "./resources/js/components/OpenModalComponent.vue?vue&type=style&index=0&id=499f9a65&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
-var script = {}
+
+
 
 
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  script,
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _OpenModalComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _OpenModalComponent_vue_vue_type_template_id_499f9a65_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
   _OpenModalComponent_vue_vue_type_template_id_499f9a65_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
   false,
@@ -51619,6 +51635,20 @@ var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_
 if (false) { var api; }
 component.options.__file = "resources/js/components/OpenModalComponent.vue"
 /* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/OpenModalComponent.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************!*\
+  !*** ./resources/js/components/OpenModalComponent.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_OpenModalComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./OpenModalComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/OpenModalComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_OpenModalComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
