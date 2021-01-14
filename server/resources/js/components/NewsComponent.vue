@@ -1,37 +1,28 @@
 <template>
-    <div>
+    <div class="mt-3">
         <div class="text-center pt-3 pb-2 h3">News</div>
-        <div class="card-deck">
 
-            <div class="card">
+        <div v-if="loadStatus == false">
+            <div class="h2 text-center text-danger">Now on loading .....<i class="fas fa-broadcast-tower"></i></div>
+        </div>
+
+        <div  v-if="loadStatus == true" class="card-columns">
+            <div v-for="article in articles" :key="article.id" class="card news-card-parent">
                 <div class="card-header">
-                    <span>2021/01/13 up</span>
+                    <span>{{ article.post_time }} up</span>
                 </div>
                 <div class="card-body">
-                    <div class="card-text">
-                        <p>ナダルのブレークポイント獲得率を分析、過去3度ツアーで1位に＜男子テニス＞</p>
-                        <a class="text-white" @click="openModal" href="#"><div class="news-detail-button border-light rounded">Detail</div></a>
+                    <div class="card-text news-text">
+                        <p>{{ article.title }}</p>
+                        <button class="news-detail-button text-white border-light rounded" @click="openModal">Detail</button>
                     </div>
                 </div>
+                <open-modal-component :url="article.url"  v-show="showContent" @close="showContent = false"></open-modal-component>
             </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <span>2021/01/13 up</span>
-                </div>
-                <div class="card-body">
-                    <div class="card-text">
-                        <p>ナダルのブレークポイント獲得率を分析、過去3度ツアーで1位に＜男子テニス＞</p>
-                        <div class="news-detail-button border-light rounded"><a class="text-white" href="#">Detail</a></div>
-                    </div>
-                </div>
-            </div>
-
-            <open-modal-component v-show="showContent" @close="showContent = false"></open-modal-component>
-
         </div>
     </div>
 </template>
+
 
 <script>
 import Vue from 'vue'
@@ -42,7 +33,13 @@ export default {
     data() {
         return {
             showContent: false,
+            loadStatus: false,
+            articles: []
         }
+    },
+    props:["user_id"],
+    mounted: function() {
+        this.fetchNews(this.user_id);
     },
     methods: {
         openModal: function() {
@@ -50,23 +47,45 @@ export default {
         },
         closeModal: function() {
             this.showContent = false;
+        },
+        fetchNews: function() {
+            axios.get('/api/v1/news', {
+                params: {
+                    user_id: this.user_id
+                }
+            })
+            .then((response) => {
+                this.articles = response.data;
+                this.loadStatus = true;
+                // console.log(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         }
-    },
+    }
 }
 </script>
 
+
 <style lang="scss" scoped>
-a {
-    text-decoration: none;
+.news-text {
+    height: 70px;
+    /* テキストが多すぎる時に消す  */
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 .news-detail-button {
-    text-align: center;
-    background-color:cornflowerblue;
-    cursor: pointer;
     width: 100px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 8px;
+    background-color:cornflowerblue;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
 }
-
+.news-card-parent {
+    height: 180px;
+    position: relative;
+}
 </style>
