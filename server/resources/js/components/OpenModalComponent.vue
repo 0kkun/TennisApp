@@ -5,7 +5,7 @@
                 <button type="button" v-on:click="$emit('close')" class="btn btn-danger h4"><i class="fas fa-times"></i></button>
             </div>
             <div>
-                <iframe width="100%" height="400px" :src="url"  sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"></iframe>
+                <!-- <iframe width="100%" height="400px" :src="url"  sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation"></iframe> -->
             </div>
         </div>
     </div>
@@ -14,7 +14,7 @@
 
 <script>
 export default {
-    props:["url"],
+    // props:["url"],
 }
 </script>
 

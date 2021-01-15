@@ -2104,13 +2104,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-// import Vue from 'vue'
 // import OpenModalComponent from './OpenModalComponent.vue'
-// Vue.component('open-modal-component', require('./OpenModalComponent.vue').default);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2123,6 +2117,9 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.fetchNews(this.user_id);
   },
+  // components: { 
+  //     OpenModalComponent 
+  // },
   methods: {
     // openModal: function() {
     //     this.showContent = true;

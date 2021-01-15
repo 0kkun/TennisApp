@@ -12,25 +12,21 @@
                     <div class="card-header">
                         <span>{{ article.post_time }} up <br> from {{ article.vender }}</span>
                     </div>
-                    
-                        <div class="row no-gutters">
-                            <div class="col-4">
-                                <img class="pt-3 pl-3" :src="article.image" alt="image">
-                            </div>
-                            <div class="col-8">
-                                <div class="card-body">
-                                    <div class="card-text news-text">
-                                        <a :href="article.url">{{ article.title }}</a>
-                                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-4">
+                            <img class="pt-3 pl-3" :src="article.image" alt="image">
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body">
+                                <div class="card-text news-text">
+                                    <a :href="article.url">{{ article.title }}</a>
                                 </div>
                             </div>
-                            <!-- MEMO: iframeでアクセスして開くとアクセス拒否されてしまう。解決方法がわかったらモーダル&iframe表示を実装する -->
-                            <!-- <button class="news-detail-button text-white border-light rounded" @click="openModal">Detail</button> -->
                         </div>
-
-
-                    
-                    <!-- <open-modal-component :url="article.url"  v-show="showContent" @close="showContent = false"></open-modal-component> -->
+                        <!-- MEMO: iframeでアクセスして開くとアクセス拒否されてしまう。解決方法がわかったらモーダル&iframe表示を実装する -->
+                        <!-- <button class="news-detail-button text-white border-light rounded" @click="openModal">Detail</button> -->
+                        <!-- <open-modal-component :url="article.url"  v-show="showContent" @close="showContent = false"></open-modal-component> -->
+                    </div>
                 </div>
             </div>
         </transition>
@@ -39,9 +35,8 @@
 
 
 <script>
-// import Vue from 'vue'
+
 // import OpenModalComponent from './OpenModalComponent.vue'
-// Vue.component('open-modal-component', require('./OpenModalComponent.vue').default);
 
 export default {
     data() {
@@ -55,6 +50,9 @@ export default {
     mounted: function() {
         this.fetchNews(this.user_id);
     },
+    // components: { 
+    //     OpenModalComponent 
+    // },
     methods: {
         // openModal: function() {
         //     this.showContent = true;
