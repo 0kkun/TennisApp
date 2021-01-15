@@ -8,6 +8,7 @@ use App\Modules\BatchLogger;
 use Exception;
 use Carbon\Carbon;
 use Symfony\Component\Console\Helper\ProgressBar;
+use App\Repositories\Contracts\PlayersNewsArticleRepository;
 
 class ScrapeNewsCommand extends Command
 {
@@ -26,14 +27,19 @@ class ScrapeNewsCommand extends Command
     ];
     const LOOP_COUNT = 701;
 
+    private $players_news_article_repository;
+
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        PlayersNewsArticleRepository $players_news_article_repository
+    )
     {
         parent::__construct();
+        $this->players_news_article_repository = $players_news_article_repository;
     }
 
 
@@ -54,9 +60,11 @@ class ScrapeNewsCommand extends Command
             $results = $this->scrapeNews($progress_bar);
             $this->logger->write('スクレイピング実行完了', 'info' ,true);
 
+            $results = $this->makeInsertValue($results);
+
             if ( !empty($results) ) {
-                // $this->ranking_repository->bulkInsertOrUpdate($results);
-                $this->logger->write('テーブル保存処理完了', 'info' ,true);
+                $this->players_news_article_repository->bulkInsertOrUpdate($results);
+                $this->logger->write(count($results) . '件、テーブル保存処理完了', 'info' ,true);
                 $progress_bar->advance(1);
             }
 
@@ -142,5 +150,31 @@ class ScrapeNewsCommand extends Command
             });
         }
         return $data;
+    }
+
+
+    /**
+     * テーブル保存用に加工する
+     *
+     * @param array $data
+     * @return array|Exception
+     */
+    private function makeInsertValue(array $data)
+    {
+        $value = [];
+        $now = Carbon::now();
+
+        for ($i=0; $i < count($data['title']); $i++) {
+            $value[$i] = [
+                'title'      => (string) $data['title'][$i],
+                'image'      => (string) $data['image'][$i],
+                'url'        => (string) $data['url'][$i],
+                'post_time'  => Carbon::parse($data['post_time'][$i]),
+                'vender'     => (string) $data['vender'][$i],
+                'created_at' => $now,
+                'updated_at' => $now
+            ];
+        }
+        return $value;
     }
 }
