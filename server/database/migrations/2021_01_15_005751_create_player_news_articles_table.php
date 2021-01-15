@@ -21,6 +21,8 @@ class CreatePlayerNewsArticlesTable extends Migration
             $table->date('post_time')->comment('記事の投稿日時');
             $table->string('vender', 50)->comment('情報のソース');
             $table->timestamps();
+
+            $table->unique(['title', 'post_time']);
         });
     }
 
