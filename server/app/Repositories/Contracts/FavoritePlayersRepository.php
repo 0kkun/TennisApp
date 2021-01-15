@@ -11,7 +11,7 @@ interface FavoritePlayersRepository
      *
      * @return Collection
      */  
-    public function getAll(): Collection;
+    public function getAll(?int $user_id=null): Collection;
 
 
     /**

@@ -28,14 +28,13 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
      *
      * @return Collection
      */
-    public function getAll(): Collection
+    public function getAll(?int $user_id=null): Collection
     {
-        $current_user_id = null;
-        if( isset(Auth::user()->id) ) {
-            $current_user_id = Auth::user()->id;
+        if( empty($user_id) ) {
+            $user_id = Auth::user()->id;
         }
         return $this->favorite_players
-                    ->where('user_id', '=', $current_user_id)
+                    ->where('user_id', '=', $user_id)
                     ->get();
     }
 

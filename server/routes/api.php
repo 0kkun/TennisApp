@@ -24,3 +24,5 @@ Route::delete('/delete_brand', 'ApiController@deleteBrand');
 Route::get('/v1/rankings', 'RankingController@fetchRankings');
 
 Route::get('/v1/news', 'NewsController@fetchNews');
+
+Route::get('/v1/movies', 'MovieController@fetchMovies');

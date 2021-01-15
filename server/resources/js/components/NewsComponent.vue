@@ -41,7 +41,7 @@
 export default {
     data() {
         return {
-            showContent: false,
+            // showContent: false,
             loadStatus: false,
             articles: []
         }

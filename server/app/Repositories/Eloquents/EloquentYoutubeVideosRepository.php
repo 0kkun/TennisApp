@@ -25,15 +25,22 @@ class EloquentYoutubeVideosRepository implements YoutubeVideosRepository
 
 
     /**
-     * 全レコード取得
-     *
-     * @return LengthAwarePaginator
-     */
-    public function getAll(): LengthAwarePaginator
+     * 全レコードを取得
+     * 
+     * @param integer $num
+     * @param bool $is_paginate
+     * @return LengthAwarePaginator|Collection
+     */ 
+    public function getAll(int $num, bool $is_paginate)
     {
         return $this->youtube_videos
                     ->orderBy('created_at', 'desc')
-                    ->paginate(config('const.PAGINATE.MOVIE_LINK_NUM'));
+                    ->when($is_paginate, function ($query) {
+                        // パラメータ名を指定することでページネーションを独立させる
+                        return $query->paginate(config('const.PAGINATE.MOVIE_LINK_NUM'), ["*"], 'youtubepage'); 
+                    }, function ($query) use ($num) {
+                        return $query->limit($num)->get();
+                    });
     }
 
 
@@ -52,14 +59,22 @@ class EloquentYoutubeVideosRepository implements YoutubeVideosRepository
     /**
      * player_idを元にyoutube動画を取得する
      *
+     * @param integer $num
      * @param array $player_ids
-     * @return LengthAwarePaginator
+     * @param bool $is_paginate
+     * @return LengthAwarePaginator|Collection
      */
-    public function getVideosByPlayerIds( array $player_ids ): LengthAwarePaginator
+    public function getVideosByPlayerIds(int $num, array $player_ids, bool $is_paginate)
     {
         return $this->youtube_videos
                     ->whereIn('player_id', $player_ids)
+                    ->limit($num)
                     ->orderBy('created_at', 'desc')
-                    ->paginate(config('const.PAGINATE.MOVIE_LINK_NUM'), ["*"], 'youtubepage'); // パラメータ名を指定することでページネーションを独立させる
+                    ->when($is_paginate, function ($query) {
+                        // パラメータ名を指定することでページネーションを独立させる
+                        return $query->paginate(config('const.PAGINATE.MOVIE_LINK_NUM'), ["*"], 'youtubepage'); 
+                    }, function ($query) use ($num) {
+                        return $query->limit($num)->get();
+                    });
     }
 }

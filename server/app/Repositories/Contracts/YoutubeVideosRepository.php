@@ -9,10 +9,12 @@ interface YoutubeVideosRepository
 {
     /**
      * 全レコードを取得
-     *
-     * @return LengthAwarePaginator
+     * 
+     * @param integer $num
+     * @param bool $is_paginate
+     * @return LengthAwarePaginator|Collection
      */  
-    public function getAll(): LengthAwarePaginator;
+    public function getAll(int $num, bool $is_paginate);
 
 
     /**
@@ -28,8 +30,10 @@ interface YoutubeVideosRepository
     /**
      * player_idを元にyoutube動画を取得する
      *
+     * @param integer $num
      * @param array $player_ids
-     * @return LengthAwarePaginator
+     * @param bool $is_paginate
+     * @return LengthAwarePaginator|Collection
      */
-    public function getVideosByPlayerIds( array $player_ids ): LengthAwarePaginator;
+    public function getVideosByPlayerIds(int $num, array $player_ids, bool $is_paginate);
 }
