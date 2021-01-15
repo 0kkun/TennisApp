@@ -6,28 +6,42 @@
             <div class="h2 text-center text-danger">Now on loading .....<i class="fas fa-broadcast-tower"></i></div>
         </div>
 
-        <div  v-if="loadStatus == true" class="card-columns">
-            <div v-for="article in articles" :key="article.id" class="card news-card-parent">
-                <div class="card-header">
-                    <span>{{ article.post_time }} up</span>
-                </div>
-                <div class="card-body">
-                    <div class="card-text news-text">
-                        <p>{{ article.title }}</p>
-                        <button class="news-detail-button text-white border-light rounded" @click="openModal">Detail</button>
+        <transition name="fade">
+            <div  v-if="loadStatus == true" class="card-columns">
+                <div v-for="article in articles" :key="article.id" class="card news-card-parent">
+                    <div class="card-header">
+                        <span>{{ article.post_time }} up <br> from {{ article.vender }}</span>
                     </div>
+                    
+                        <div class="row no-gutters">
+                            <div class="col-4">
+                                <img class="pt-3 pl-3" :src="article.image" alt="image">
+                            </div>
+                            <div class="col-8">
+                                <div class="card-body">
+                                    <div class="card-text news-text">
+                                        <a :href="article.url">{{ article.title }}</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- MEMO: iframeでアクセスして開くとアクセス拒否されてしまう。解決方法がわかったらモーダル&iframe表示を実装する -->
+                            <!-- <button class="news-detail-button text-white border-light rounded" @click="openModal">Detail</button> -->
+                        </div>
+
+
+                    
+                    <!-- <open-modal-component :url="article.url"  v-show="showContent" @close="showContent = false"></open-modal-component> -->
                 </div>
-                <open-modal-component :url="article.url"  v-show="showContent" @close="showContent = false"></open-modal-component>
             </div>
-        </div>
+        </transition>
     </div>
 </template>
 
 
 <script>
-import Vue from 'vue'
-import OpenModalComponent from './OpenModalComponent.vue'
-Vue.component('open-modal-component', require('./OpenModalComponent.vue').default);
+// import Vue from 'vue'
+// import OpenModalComponent from './OpenModalComponent.vue'
+// Vue.component('open-modal-component', require('./OpenModalComponent.vue').default);
 
 export default {
     data() {
@@ -42,12 +56,12 @@ export default {
         this.fetchNews(this.user_id);
     },
     methods: {
-        openModal: function() {
-            this.showContent = true;
-        },
-        closeModal: function() {
-            this.showContent = false;
-        },
+        // openModal: function() {
+        //     this.showContent = true;
+        // },
+        // closeModal: function() {
+        //     this.showContent = false;
+        // },
         fetchNews: function() {
             axios.get('/api/v1/news', {
                 params: {
@@ -57,7 +71,6 @@ export default {
             .then((response) => {
                 this.articles = response.data;
                 this.loadStatus = true;
-                // console.log(response.data);
             })
             .catch((error) => {
                 console.log(error);
@@ -87,5 +100,13 @@ export default {
 .news-card-parent {
     height: 180px;
     position: relative;
+}
+
+/* アニメーション */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
 }
 </style>
