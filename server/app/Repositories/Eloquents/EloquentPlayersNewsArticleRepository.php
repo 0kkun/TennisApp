@@ -29,6 +29,6 @@ class EloquentPlayersNewsArticleRepository implements PlayersNewsArticleReposito
      */
     public function bulkInsertOrUpdate($data): void
     {
-        $this->news_articles->bulkInsertOrUpdate($data);
+        $this->players_news_articles->bulkInsertOrUpdate($data);
     }
 }
