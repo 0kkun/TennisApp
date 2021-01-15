@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\FavoritePlayersRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\Contracts\PlayersNewsArticleRepository;
 
 class NewsController extends Controller
 {
@@ -16,6 +17,9 @@ class NewsController extends Controller
     private $brand_news_article_repository;
     private $top_service;
     private $favorite_player_repository;
+    private $players_news_article_repository;
+
+    const MAX_ARTICLE_NUM = 30;
 
     /**
      * リポジトリをDI
@@ -25,13 +29,15 @@ class NewsController extends Controller
         NewsArticlesRepository $news_article_repository,
         BrandNewsArticlesRepository $brand_news_article_repository,
         TopServiceInterface $top_service,
-        FavoritePlayersRepository $favorite_player_repository
+        FavoritePlayersRepository $favorite_player_repository,
+        PlayersNewsArticleRepository $players_news_article_repository
     )
     {
         $this->news_article_repository = $news_article_repository;
         $this->brand_news_article_repository = $brand_news_article_repository;
         $this->top_service = $top_service;
         $this->favorite_player_repository = $favorite_player_repository;
+        $this->players_news_article_repository = $players_news_article_repository;
     }
 
 
@@ -53,21 +59,22 @@ class NewsController extends Controller
         try {
             $user_id = $request->input('user_id');
 
-            $is_pagenate = false;
+            $is_paginate = false;
             
             $favorite_players = $this->favorite_player_repository->getFavoritePlayers($user_id)->toArray();
 
             // お気に入り選手が無い場合は全件取得にする
             if ( empty($favorite_players) ) {
-                $response = $this->news_article_repository->getAllArticles($is_pagenate);
+                $response = $this->players_news_article_repository->fetchArticles(self::MAX_ARTICLE_NUM, $is_paginate);
                 return request()->json(200, $response);
             }
 
+            // TODO: playersテーブルのソースを変更する。
             // ファーストネームだけにする
             $player_names = $this->getFirstName( $favorite_players );
 
-            // お気に入り選手の
-            $response = $this->news_article_repository->getArticleByPlayerNames($player_names, $is_pagenate);
+            // お気に入り選手の名前で記事を検索し取得
+            $response = $this->players_news_article_repository->fetchArticlesByPlayerNames($player_names, self::MAX_ARTICLE_NUM, $is_paginate);
 
             return request()->json(200, $response);
         } catch ( Exception $e ) {
