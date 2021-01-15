@@ -7,31 +7,33 @@
                 <div class="h2 text-center text-danger">Now on loading .....<i class="fas fa-broadcast-tower"></i></div>
             </div>
 
-            <div v-if="loadStatus == true">
-                <table class="table table-striped">
-                    <thead>
-                        <tr class="w-100 bg-dark text-white">
-                            <th class="d-table-cell d-md-table-cell border border-light" scope="col">Brand Name</th>　<!-- 常に表示 -->
-                            <th class="d-table-cell d-md-table-cell border border-light" scope="col">Country</th>
-                            <th class="d-table-cell d-md-table-cell border border-light" scope="col">Add / Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody >
-                        <tr v-for="brand in brands" :key="brand.id" class="border-bottom">
-                            <td class="d-table-cell d-md-table-cell">{{ brand.name_jp }}</td> <!-- 常に表示 -->
-                            <td class="d-table-cell d-md-table-cell">{{ brand.country }}</td>
-                            <td class="d-table-cell d-md-table-cell">
-                                <div v-if="brand.favorite_status == 0">
-                                    <button @click.prevent="createBrand(brand.id)" class="btn btn-success p-1" style="width:66px;">add</button>
-                                </div>
-                                <div v-else-if="brand.favorite_status == 1">
-                                    <button @click.prevent="deleteBrand(brand.id)" class="btn btn-danger p-1" style="width:66px;">remove</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <transition name="fade">
+                <div v-if="loadStatus == true">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr class="w-100 bg-dark text-white">
+                                <th class="d-table-cell d-md-table-cell border border-light" scope="col">Brand Name</th>　<!-- 常に表示 -->
+                                <th class="d-table-cell d-md-table-cell border border-light" scope="col">Country</th>
+                                <th class="d-table-cell d-md-table-cell border border-light" scope="col">Add / Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody >
+                            <tr v-for="brand in brands" :key="brand.id" class="border-bottom">
+                                <td class="d-table-cell d-md-table-cell">{{ brand.name_jp }}</td> <!-- 常に表示 -->
+                                <td class="d-table-cell d-md-table-cell">{{ brand.country }}</td>
+                                <td class="d-table-cell d-md-table-cell">
+                                    <div v-if="brand.favorite_status == 0">
+                                        <button @click.prevent="createBrand(brand.id)" class="btn btn-success p-1" style="width:66px;">add</button>
+                                    </div>
+                                    <div v-else-if="brand.favorite_status == 1">
+                                        <button @click.prevent="deleteBrand(brand.id)" class="btn btn-danger p-1" style="width:66px;">remove</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </transition>
 
         </div>
     </div>
@@ -113,5 +115,13 @@ th {
 td {
     text-align: center;
     padding-top: 20px;
+}
+
+/* アニメーション */
+.fade-enter-active, .fade-leave-active {
+    transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
 }
 </style>

@@ -1996,6 +1996,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2156,6 +2158,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -6677,7 +6680,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "td.break[data-v-096f6d1d] {\n  word-break: break-all;\n}\nth[data-v-096f6d1d] {\n  text-align: center;\n  padding: 10px;\n}\ntd[data-v-096f6d1d] {\n  text-align: center;\n  padding-top: 20px;\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\ntd.break[data-v-096f6d1d] {\n  word-break: break-all;\n}\nth[data-v-096f6d1d] {\n  text-align: center;\n  padding: 10px;\n}\ntd[data-v-096f6d1d] {\n  text-align: center;\n  padding-top: 20px;\n}\n\n/* アニメーション */\n.fade-enter-active[data-v-096f6d1d], .fade-leave-active[data-v-096f6d1d] {\n  transition: opacity 1s;\n}\n.fade-enter[data-v-096f6d1d], .fade-leave-to[data-v-096f6d1d] {\n  opacity: 0;\n}", ""]);
 
 // exports
 
@@ -6696,7 +6699,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\n.news-text[data-v-6929860f] {\n  height: 70px;\n  /* テキストが多すぎる時に消す  */\n  text-overflow: ellipsis;\n  overflow: hidden;\n}\n.news-detail-button[data-v-6929860f] {\n  width: 100px;\n  background-color: cornflowerblue;\n  border: none;\n  cursor: pointer;\n  position: absolute;\n  bottom: 10px;\n  left: 10px;\n}\n.news-card-parent[data-v-6929860f] {\n  height: 180px;\n  position: relative;\n}\n\n/* アニメーション */\n.fade-enter-active[data-v-6929860f], .fade-leave-active[data-v-6929860f] {\n  transition: opacity 2s;\n}\n.fade-enter[data-v-6929860f], .fade-leave-to[data-v-6929860f] {\n  opacity: 0;\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\n.news-text[data-v-6929860f] {\n  height: 70px;\n  /* テキストが多すぎる時に消す  */\n  text-overflow: ellipsis;\n  overflow: hidden;\n}\n.news-detail-button[data-v-6929860f] {\n  width: 100px;\n  background-color: cornflowerblue;\n  border: none;\n  cursor: pointer;\n  position: absolute;\n  bottom: 10px;\n  left: 10px;\n}\n.news-card-parent[data-v-6929860f] {\n  height: 180px;\n  position: relative;\n}\n\n/* アニメーション */\n.fade-enter-active[data-v-6929860f], .fade-leave-active[data-v-6929860f] {\n  transition: opacity 1s;\n}\n.fade-enter[data-v-6929860f], .fade-leave-to[data-v-6929860f] {\n  opacity: 0;\n}", ""]);
 
 // exports
 
@@ -6715,7 +6718,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "td.break[data-v-19115452] {\n  word-break: break-all;\n}\nth[data-v-19115452], td[data-v-19115452] {\n  text-align: center;\n  padding: 5px;\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\ntd.break[data-v-19115452] {\n  word-break: break-all;\n}\nth[data-v-19115452], td[data-v-19115452] {\n  text-align: center;\n  padding: 5px;\n}\n\n/* アニメーション */\n.fade-enter-active[data-v-19115452], .fade-leave-active[data-v-19115452] {\n  transition: opacity 1s;\n}\n.fade-enter[data-v-19115452], .fade-leave-to[data-v-19115452] {\n  opacity: 0;\n}", ""]);
 
 // exports
 
@@ -38573,83 +38576,122 @@ var render = function() {
   return _c("div", { staticClass: "card mt-3" }, [
     _c("div", { staticClass: "text-center pt-3 h3" }, [_vm._v("BRAND")]),
     _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
-      _vm._v(" "),
-      _vm.loadStatus == true
-        ? _c("div", [
-            _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.brands, function(brand) {
-                  return _c(
-                    "tr",
-                    { key: brand.id, staticClass: "border-bottom" },
-                    [
+    _c(
+      "div",
+      { staticClass: "card-body" },
+      [
+        _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
+        _vm._v(" "),
+        _c("transition", { attrs: { name: "fade" } }, [
+          _vm.loadStatus == true
+            ? _c("div", [
+                _c("table", { staticClass: "table table-striped" }, [
+                  _c("thead", [
+                    _c("tr", { staticClass: "w-100 bg-dark text-white" }, [
                       _c(
-                        "td",
-                        { staticClass: "d-table-cell d-md-table-cell" },
-                        [_vm._v(_vm._s(brand.name_jp))]
+                        "th",
+                        {
+                          staticClass:
+                            "d-table-cell d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Brand Name")]
                       ),
                       _vm._v(" "),
                       _c(
-                        "td",
-                        { staticClass: "d-table-cell d-md-table-cell" },
-                        [_vm._v(_vm._s(brand.country))]
+                        "th",
+                        {
+                          staticClass:
+                            "d-table-cell d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Country")]
                       ),
                       _vm._v(" "),
                       _c(
-                        "td",
-                        { staticClass: "d-table-cell d-md-table-cell" },
+                        "th",
+                        {
+                          staticClass:
+                            "d-table-cell d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Add / Remove")]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.brands, function(brand) {
+                      return _c(
+                        "tr",
+                        { key: brand.id, staticClass: "border-bottom" },
                         [
-                          brand.favorite_status == 0
-                            ? _c("div", [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-success p-1",
-                                    staticStyle: { width: "66px" },
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        return _vm.createBrand(brand.id)
-                                      }
-                                    }
-                                  },
-                                  [_vm._v("add")]
-                                )
-                              ])
-                            : brand.favorite_status == 1
-                            ? _c("div", [
-                                _c(
-                                  "button",
-                                  {
-                                    staticClass: "btn btn-danger p-1",
-                                    staticStyle: { width: "66px" },
-                                    on: {
-                                      click: function($event) {
-                                        $event.preventDefault()
-                                        return _vm.deleteBrand(brand.id)
-                                      }
-                                    }
-                                  },
-                                  [_vm._v("remove")]
-                                )
-                              ])
-                            : _vm._e()
+                          _c(
+                            "td",
+                            { staticClass: "d-table-cell d-md-table-cell" },
+                            [_vm._v(_vm._s(brand.name_jp))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "d-table-cell d-md-table-cell" },
+                            [_vm._v(_vm._s(brand.country))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "d-table-cell d-md-table-cell" },
+                            [
+                              brand.favorite_status == 0
+                                ? _c("div", [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-success p-1",
+                                        staticStyle: { width: "66px" },
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            return _vm.createBrand(brand.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("add")]
+                                    )
+                                  ])
+                                : brand.favorite_status == 1
+                                ? _c("div", [
+                                    _c(
+                                      "button",
+                                      {
+                                        staticClass: "btn btn-danger p-1",
+                                        staticStyle: { width: "66px" },
+                                        on: {
+                                          click: function($event) {
+                                            $event.preventDefault()
+                                            return _vm.deleteBrand(brand.id)
+                                          }
+                                        }
+                                      },
+                                      [_vm._v("remove")]
+                                    )
+                                  ])
+                                : _vm._e()
+                            ]
+                          )
                         ]
                       )
-                    ]
+                    }),
+                    0
                   )
-                }),
-                0
-              )
-            ])
-          ])
-        : _vm._e()
-    ])
+                ])
+              ])
+            : _vm._e()
+        ])
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -38660,41 +38702,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "h2 text-center text-danger" }, [
       _vm._v("Now on loading ....."),
       _c("i", { staticClass: "fas fa-broadcast-tower" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", { staticClass: "w-100 bg-dark text-white" }, [
-        _c(
-          "th",
-          {
-            staticClass: "d-table-cell d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Brand Name")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-table-cell d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Country")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-table-cell d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Add / Remove")]
-        )
-      ])
     ])
   }
 ]
@@ -38809,85 +38816,214 @@ var render = function() {
   return _c("div", { staticClass: "card mt-3" }, [
     _c("div", { staticClass: "text-center pt-3 h3" }, [_vm._v("RANKING")]),
     _vm._v(" "),
-    _c("div", { staticClass: "card-body" }, [
-      _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
-      _vm._v(" "),
-      _vm.loadStatus == true
-        ? _c("div", [
-            _c("table", { staticClass: "table table-striped" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "tbody",
-                _vm._l(_vm.rankings, function(ranking) {
-                  return _c(
-                    "tr",
-                    { key: ranking.id, staticClass: "border-bottom" },
-                    [
+    _c(
+      "div",
+      { staticClass: "card-body" },
+      [
+        _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
+        _vm._v(" "),
+        _c("transition", { attrs: { name: "fade" } }, [
+          _vm.loadStatus == true
+            ? _c("div", [
+                _c("table", { staticClass: "table table-striped" }, [
+                  _c("thead", [
+                    _c("tr", { staticClass: "w-100 bg-dark text-white" }, [
                       _c(
-                        "td",
-                        { staticClass: "d-table-cell d-md-table-cell" },
-                        [_vm._v(_vm._s(ranking.rank))]
+                        "th",
+                        {
+                          staticClass:
+                            "d-table-cell d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Rnk")]
                       ),
                       _vm._v(" "),
-                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                        _vm._v(_vm._s(ranking.rank_change))
-                      ]),
-                      _vm._v(" "),
-                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                        _vm._v(_vm._s(ranking.most_highest))
-                      ]),
-                      _vm._v(" "),
                       _c(
-                        "td",
-                        { staticClass: "d-table-cell d-md-table-cell" },
-                        [_vm._v(_vm._s(ranking.point))]
+                        "th",
+                        {
+                          staticClass:
+                            "d-none d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Rank Change")]
                       ),
                       _vm._v(" "),
-                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                        _vm._v(_vm._s(ranking.point_change))
-                      ]),
-                      _vm._v(" "),
                       _c(
-                        "td",
-                        { staticClass: "d-table-cell d-md-table-cell" },
-                        [_vm._v(_vm._s(ranking.name))]
+                        "th",
+                        {
+                          staticClass:
+                            "d-none d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Most High")]
                       ),
                       _vm._v(" "),
-                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                        _vm._v(_vm._s(ranking.age))
-                      ]),
-                      _vm._v(" "),
                       _c(
-                        "td",
-                        { staticClass: "d-table-cell d-md-table-cell" },
-                        [_vm._v(_vm._s(ranking.country))]
+                        "th",
+                        {
+                          staticClass:
+                            "d-table-cell d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Pt")]
                       ),
                       _vm._v(" "),
-                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                        _vm._v(_vm._s(ranking.current_tour_result))
-                      ]),
+                      _c(
+                        "th",
+                        {
+                          staticClass:
+                            "d-none d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Pt Change")]
+                      ),
                       _vm._v(" "),
-                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                        _vm._v(_vm._s(ranking.pre_tour_result))
-                      ]),
+                      _c(
+                        "th",
+                        {
+                          staticClass:
+                            "d-table-cell d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Name")]
+                      ),
                       _vm._v(" "),
-                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                        _vm._v(_vm._s(ranking.next_point))
-                      ]),
+                      _c(
+                        "th",
+                        {
+                          staticClass:
+                            "d-none d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Age")]
+                      ),
                       _vm._v(" "),
-                      _c("td", { staticClass: "d-none d-md-table-cell" }, [
-                        _vm._v(_vm._s(ranking.max_point))
-                      ])
-                    ]
+                      _c(
+                        "th",
+                        {
+                          staticClass:
+                            "d-table-cell d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Country")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "th",
+                        {
+                          staticClass:
+                            "d-none d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Current Tour")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "th",
+                        {
+                          staticClass:
+                            "d-none d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Pre Tour")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "th",
+                        {
+                          staticClass:
+                            "d-none d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Next Pt")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "th",
+                        {
+                          staticClass:
+                            "d-none d-md-table-cell border border-light",
+                          attrs: { scope: "col" }
+                        },
+                        [_vm._v("Max Pt")]
+                      )
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.rankings, function(ranking) {
+                      return _c(
+                        "tr",
+                        { key: ranking.id, staticClass: "border-bottom" },
+                        [
+                          _c(
+                            "td",
+                            { staticClass: "d-table-cell d-md-table-cell" },
+                            [_vm._v(_vm._s(ranking.rank))]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                            _vm._v(_vm._s(ranking.rank_change))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                            _vm._v(_vm._s(ranking.most_highest))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "d-table-cell d-md-table-cell" },
+                            [_vm._v(_vm._s(ranking.point))]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                            _vm._v(_vm._s(ranking.point_change))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "d-table-cell d-md-table-cell" },
+                            [_vm._v(_vm._s(ranking.name))]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                            _vm._v(_vm._s(ranking.age))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            { staticClass: "d-table-cell d-md-table-cell" },
+                            [_vm._v(_vm._s(ranking.country))]
+                          ),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                            _vm._v(_vm._s(ranking.current_tour_result))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                            _vm._v(_vm._s(ranking.pre_tour_result))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                            _vm._v(_vm._s(ranking.next_point))
+                          ]),
+                          _vm._v(" "),
+                          _c("td", { staticClass: "d-none d-md-table-cell" }, [
+                            _vm._v(_vm._s(ranking.max_point))
+                          ])
+                        ]
+                      )
+                    }),
+                    0
                   )
-                }),
-                0
-              )
-            ])
-          ])
-        : _vm._e()
-    ])
+                ])
+              ])
+            : _vm._e()
+        ])
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = [
@@ -38898,122 +39034,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "h2 text-center text-danger" }, [
       _vm._v("Now on loading ....."),
       _c("i", { staticClass: "fas fa-broadcast-tower" })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", [
-      _c("tr", { staticClass: "w-100 bg-dark text-white" }, [
-        _c(
-          "th",
-          {
-            staticClass: "d-table-cell d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Rnk")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-none d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Rank Change")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-none d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Most High")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-table-cell d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Pt")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-none d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Pt Change")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-table-cell d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Name")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-none d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Age")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-table-cell d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Country")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-none d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Current Tour")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-none d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Pre Tour")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-none d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Next Pt")]
-        ),
-        _vm._v(" "),
-        _c(
-          "th",
-          {
-            staticClass: "d-none d-md-table-cell border border-light",
-            attrs: { scope: "col" }
-          },
-          [_vm._v("Max Pt")]
-        )
-      ])
     ])
   }
 ]
