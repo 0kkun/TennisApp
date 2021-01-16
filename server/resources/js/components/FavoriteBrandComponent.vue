@@ -1,5 +1,5 @@
 <template>
-    <div class="card mt-3 font-alegreya font-weight-bold">
+    <div class="card mt-3 font-alegreya">
         <div class="text-center pt-3 h2">Brand</div>
         <div class="card-body">
 

@@ -28,3 +28,7 @@ Route::get('/v1/news', 'NewsController@fetchNews');
 Route::get('/v1/movies', 'MovieController@fetchMovies');
 
 Route::get('/v1/tour_schedules', 'TourScheduleController@fetchTourSchedules');
+
+Route::get('/v1/players', 'FavoritePlayerController@fetchPlayers');
+Route::post('/v1/add_player', 'FavoritePlayerController@addPlayer');
+Route::delete('/v1/delete_player', 'FavoritePlayerController@deletePlayer');

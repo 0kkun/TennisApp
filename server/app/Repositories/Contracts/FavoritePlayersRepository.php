@@ -27,10 +27,10 @@ interface FavoritePlayersRepository
     /**
      * お気に入り選手削除メソッド
      *
-     * @param integer $favorite_player_id
+     * @param array $data
      * @return void
      */
-    public function deleteRecord(int $favorite_player_id): void;
+    public function deleteRecord(array $data): void;
 
 
     /**

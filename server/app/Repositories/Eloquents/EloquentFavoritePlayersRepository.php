@@ -47,7 +47,6 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
      */
     public function bulkInsertOrUpdate($data): void
     {
-        $data['user_id'] = Auth::user()->id;
         $this->favorite_players->bulkInsertOrUpdate($data);
     }
 
@@ -58,13 +57,14 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
      * @param integer $favorite_player_id
      * @return void
      */
-    public function deleteRecord(int $favorite_player_id): void
+    public function deleteRecord(array $data): void
     {
-        $current_user_id = Auth::user()->id;
-
+        if ( !isset($data['user_id']) ) {
+            $data['user_id'] = Auth::user()->id;
+        }
         $this->favorite_players
-            ->where('user_id', $current_user_id)
-            ->where('player_id', $favorite_player_id)
+            ->where('user_id', $data['user_id'])
+            ->where('player_id', $data['player_id'])
             ->delete();
     }
 
