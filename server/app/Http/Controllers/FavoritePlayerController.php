@@ -116,7 +116,6 @@ class FavoritePlayerController extends Controller
             $player_lists[$index]['name_jp']         = $player['name_jp'];
             $player_lists[$index]['name_en']         = $player['name_en'];
             $player_lists[$index]['country']         = $player['country'];
-            $player_lists[$index]['wiki_url']        = $player['wiki_url'];
             $player_lists[$index]['age']             = $player['age'];
             $player_lists[$index]['favorite_status'] = 0;
 
