@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\Top\TopServiceInterface;
 use Exception;
 use App\Repositories\Contracts\YoutubeVideosRepository;
 use App\Repositories\Contracts\FavoritePlayersRepository;

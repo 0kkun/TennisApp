@@ -8,6 +8,7 @@ use App\Modules\BatchLogger;
 use Exception;
 use Carbon\Carbon;
 use App\Repositories\Contracts\RankingRepository;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class scrapeRankingCommand extends Command
 {
@@ -93,7 +94,7 @@ class scrapeRankingCommand extends Command
      *
      * @return array
      */
-    private function scrapeRanking($progress_bar): array
+    private function scrapeRanking(ProgressBar $progress_bar): array
     {
         $data = [];
         $goutte = GoutteFacade::request('GET', self::URL);
