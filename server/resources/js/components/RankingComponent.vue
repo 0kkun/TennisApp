@@ -33,11 +33,11 @@
                                 <td class="d-none d-md-table-cell">{{ ranking.most_highest }}</td>
                                 <td class="d-table-cell d-md-table-cell">{{ ranking.point }}</td> <!-- 常に表示 -->
                                 <td class="d-none d-md-table-cell">{{ ranking.point_change }}</td>
-                                <td class="d-table-cell d-md-table-cell">{{ ranking.name }}</td> <!-- 常に表示 -->
+                                <td class="d-table-cell d-md-table-cell">{{ ranking.name_en }}</td> <!-- 常に表示 -->
                                 <td class="d-none d-md-table-cell">{{ ranking.age }}</td>
                                 <td class="d-table-cell d-md-table-cell">{{ ranking.country }}</td>
-                                <td class="d-none d-md-table-cell">{{ ranking.current_tour_result }}</td>
-                                <td class="d-none d-md-table-cell">{{ ranking.pre_tour_result }}</td>
+                                <td class="d-none d-md-table-cell">{{ ranking.current_tour_result_en }}</td>
+                                <td class="d-none d-md-table-cell">{{ ranking.pre_tour_result_en }}</td>
                                 <td class="d-none d-md-table-cell">{{ ranking.next_point }}</td>
                                 <td class="d-none d-md-table-cell">{{ ranking.max_point }}</td>
                             </tr>

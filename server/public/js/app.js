@@ -39474,7 +39474,7 @@ var render = function() {
                             _c(
                               "td",
                               { staticClass: "d-table-cell d-md-table-cell" },
-                              [_vm._v(_vm._s(ranking.name))]
+                              [_vm._v(_vm._s(ranking.name_en))]
                             ),
                             _vm._v(" "),
                             _c(
@@ -39492,13 +39492,13 @@ var render = function() {
                             _c(
                               "td",
                               { staticClass: "d-none d-md-table-cell" },
-                              [_vm._v(_vm._s(ranking.current_tour_result))]
+                              [_vm._v(_vm._s(ranking.current_tour_result_en))]
                             ),
                             _vm._v(" "),
                             _c(
                               "td",
                               { staticClass: "d-none d-md-table-cell" },
-                              [_vm._v(_vm._s(ranking.pre_tour_result))]
+                              [_vm._v(_vm._s(ranking.pre_tour_result_en))]
                             ),
                             _vm._v(" "),
                             _c(
