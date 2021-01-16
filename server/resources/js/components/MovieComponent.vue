@@ -1,6 +1,6 @@
 <template>
-    <div class="mt-3">
-        <div class="text-center pt-3 pb-2 h3">Youtube</div>
+    <div class="card mt-3 font-alegreya font-weight-bold">
+        <div class="text-center pt-3 pb-2 h2">Youtube</div>
 
         <div v-if="loadStatus == false">
             <div class="h2 text-center text-danger">Now on loading .....<i class="fas fa-broadcast-tower"></i></div>

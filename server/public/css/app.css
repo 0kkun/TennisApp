@@ -10918,7 +10918,7 @@ a.text-dark:focus {
   background-color: powderblue;
 }
 
-.side-bar .btn-block a {
+.side-bar > a {
   text-decoration: none;
 }
 

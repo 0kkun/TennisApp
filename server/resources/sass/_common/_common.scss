@@ -16,8 +16,8 @@ body{
 .side-bar {
     .btn-block {
         &:hover { background-color: powderblue; }
-        a { text-decoration: none; }
     }
+    > a { text-decoration: none; }
 }
 
 footer{
