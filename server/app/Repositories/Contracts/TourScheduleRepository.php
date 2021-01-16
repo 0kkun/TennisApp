@@ -11,10 +11,11 @@ interface TourScheduleRepository
      * 開催中の大会とこれから始まる予定の大会だけを取得する
      * すでに終了した大会は取得しない
      *
-     * @param $is_paginate
+     * @param integer $num
+     * @param bool $is_paginate
      * @return Collection|LengthAwarePaginator
      */  
-    public function getAll(bool $is_paginate);
+    public function getAll(int $num, bool $is_paginate);
 
 
     /**

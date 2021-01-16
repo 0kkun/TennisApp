@@ -27,11 +27,12 @@ class TourScheduleController extends Controller
      *
      * @return void
      */
-    public function fetchTourSchedules()
+    public function fetchTourSchedules(Request $request)
     {
         try {
+            $num = $request->input('num');
             $is_paginate = false;
-            $response = $this->tour_schedule_repository->getAll($is_paginate);
+            $response = $this->tour_schedule_repository->getAll($num, $is_paginate);
             return request()->json(200, $response);
 
         } catch (Exception $e) {

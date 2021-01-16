@@ -24,10 +24,11 @@ class EloquentTourScheduleRepository implements TourScheduleRepository
      * 開催中の大会とこれから始まる予定の大会だけを取得する
      * すでに終了した大会は取得しない
      *
+     * @param integer $num
      * @param bool $is_paginate
      * @return Collection
      */
-    public function getAll(bool $is_paginate)
+    public function getAll(int $num, bool $is_paginate)
     {
         $today = Carbon::today();
 
@@ -36,8 +37,8 @@ class EloquentTourScheduleRepository implements TourScheduleRepository
                     ->orderBy('start_date', 'asc')
                     ->when($is_paginate, function ($query) {
                         return $query->paginate(config('const.PAGINATE.NEWS_LINK_NUM'), ["*"], 'tour'); 
-                    }, function ($query) {
-                        return $query->get();
+                    }, function ($query) use ($num) {
+                        return $query->limit($num)->get();
                     });
     }
 
