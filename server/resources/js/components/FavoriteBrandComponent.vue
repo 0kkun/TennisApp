@@ -23,10 +23,10 @@
                                 <td class="d-table-cell d-md-table-cell">{{ brand.country }}</td>
                                 <td class="d-table-cell d-md-table-cell">
                                     <div v-if="brand.favorite_status == 0">
-                                        <button @click.prevent="createBrand(brand.id)" class="btn btn-success p-1" style="width:66px;">add</button>
+                                        <button @click.prevent="createBrand(brand.id)" class="btn btn-success pt-0 pb-0">add</button>
                                     </div>
                                     <div v-else-if="brand.favorite_status == 1">
-                                        <button @click.prevent="deleteBrand(brand.id)" class="btn btn-danger p-1" style="width:66px;">remove</button>
+                                        <button @click.prevent="deleteBrand(brand.id)" class="btn btn-danger pt-0 pb-0">remove</button>
                                     </div>
                                 </td>
                             </tr>
@@ -114,7 +114,6 @@ th {
 }
 td {
     text-align: center;
-    padding-top: 20px;
 }
 
 /* アニメーション */

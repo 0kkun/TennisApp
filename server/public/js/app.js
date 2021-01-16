@@ -2074,6 +2074,43 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({});
 
 /***/ }),
@@ -6837,7 +6874,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "@charset \"UTF-8\";\ntd.break[data-v-096f6d1d] {\n  word-break: break-all;\n}\nth[data-v-096f6d1d] {\n  text-align: center;\n  padding: 10px;\n}\ntd[data-v-096f6d1d] {\n  text-align: center;\n  padding-top: 20px;\n}\n\n/* アニメーション */\n.fade-enter-active[data-v-096f6d1d], .fade-leave-active[data-v-096f6d1d] {\n  transition: opacity 1s;\n}\n.fade-enter[data-v-096f6d1d], .fade-leave-to[data-v-096f6d1d] {\n  opacity: 0;\n}", ""]);
+exports.push([module.i, "@charset \"UTF-8\";\ntd.break[data-v-096f6d1d] {\n  word-break: break-all;\n}\nth[data-v-096f6d1d] {\n  text-align: center;\n  padding: 10px;\n}\ntd[data-v-096f6d1d] {\n  text-align: center;\n}\n\n/* アニメーション */\n.fade-enter-active[data-v-096f6d1d], .fade-leave-active[data-v-096f6d1d] {\n  transition: opacity 1s;\n}\n.fade-enter[data-v-096f6d1d], .fade-leave-to[data-v-096f6d1d] {\n  opacity: 0;\n}", ""]);
 
 // exports
 
@@ -38906,8 +38943,8 @@ var render = function() {
                                       _c(
                                         "button",
                                         {
-                                          staticClass: "btn btn-success p-1",
-                                          staticStyle: { width: "66px" },
+                                          staticClass:
+                                            "btn btn-success pt-0 pb-0",
                                           on: {
                                             click: function($event) {
                                               $event.preventDefault()
@@ -38923,8 +38960,8 @@ var render = function() {
                                       _c(
                                         "button",
                                         {
-                                          staticClass: "btn btn-danger p-1",
-                                          staticStyle: { width: "66px" },
+                                          staticClass:
+                                            "btn btn-danger pt-0 pb-0",
                                           on: {
                                             click: function($event) {
                                               $event.preventDefault()
@@ -38995,7 +39032,81 @@ var staticRenderFns = [
     return _c(
       "div",
       { staticClass: "card mt-3 font-alegreya font-weight-bold" },
-      [_c("div", { staticClass: "text-center pt-3 h2" }, [_vm._v("Player")])]
+      [
+        _c("div", { staticClass: "text-center pt-3 h2" }, [_vm._v("Player")]),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body pt-0 pb-2" }, [
+          _c("div", { staticClass: "form-group p-4 h4 bg-light rounded" }, [
+            _c("div", { staticClass: "font-alegreya h4 pb-2" }, [
+              _vm._v("Search Player")
+            ]),
+            _vm._v(" "),
+            _c("form", { attrs: { action: "" } }, [
+              _c("input", {
+                staticClass: "form-control mb-1",
+                attrs: {
+                  type: "text",
+                  name: "name",
+                  value: "",
+                  placeholder: "Please input keywords..."
+                }
+              })
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "pr-3 pl-3" }, [
+          _c("table", { staticClass: "table table-striped table-bordered" }, [
+            _c("thead", { staticClass: "thead-dark" }, [
+              _c("tr", [
+                _c("th", { staticClass: "text-center" }, [_vm._v("Name")]),
+                _vm._v(" "),
+                _c("th", { staticClass: "text-center" }, [_vm._v("Country")]),
+                _vm._v(" "),
+                _c("th", { staticClass: "text-center" }, [_vm._v("Age")]),
+                _vm._v(" "),
+                _c("th", { staticClass: "text-center" }, [
+                  _vm._v("Add / Remove")
+                ])
+              ])
+            ]),
+            _vm._v(" "),
+            _c("tbody", [
+              _c("tr", [
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v("Kei Nishikori")
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [_vm._v("JPN")]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [_vm._v("31")]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _c("button", { staticClass: "btn btn-success pt-0 pb-0" }, [
+                    _vm._v("Add")
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("tr", [
+                _c("td", { staticClass: "text-center" }, [
+                  _vm._v("Roger Federer")
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [_vm._v("JPN")]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [_vm._v("31")]),
+                _vm._v(" "),
+                _c("td", { staticClass: "text-center" }, [
+                  _c("button", { staticClass: "btn btn-danger pt-0 pb-0" }, [
+                    _vm._v("Remove")
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ]
     )
   }
 ]
