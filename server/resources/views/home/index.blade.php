@@ -5,7 +5,7 @@
 @section('content')
     @if(Auth::check())
         <div id="home-vue">
-            <tour-component v-bind:user_id="{{ ($user_id) }}"></tour-component>
+            <tour-schedule-component v-bind:user_id="{{ ($user_id) }}"></tour-schedule-component>
             <movie-component v-bind:user_id="{{ ($user_id) }}"></movie-component>
         </div>
     @else
