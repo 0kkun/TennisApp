@@ -8,6 +8,7 @@ use App\Modules\BatchLogger;
 use Exception;
 use Carbon\Carbon;
 use Symfony\Component\Console\Helper\ProgressBar;
+use App\Repositories\Contracts\TourScheduleRepository;
 
 class ScrapeTourScheduleCommand extends Command
 {
@@ -15,16 +16,21 @@ class ScrapeTourScheduleCommand extends Command
     protected $description = 'テニスの大会情報を公式サイトからスクレイピングするコマンド';
 
     const URL = 'https://www.atptour.com/en/tournaments';
-    const LOOP_COUNT = 14121;
+    const LOOP_COUNT = 454;
+
+    private $tour_schedule_repository;
 
     /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(
+        TourScheduleRepository $tour_schedule_repository
+    )
     {
         parent::__construct();
+        $this->tour_schedule_repository = $tour_schedule_repository;
     }
 
     /**
@@ -35,9 +41,9 @@ class ScrapeTourScheduleCommand extends Command
     public function handle()
     {
         $this->info("【実行開始】");
-        $this->logger = new BatchLogger( 'scrapeRanking' );
+        $this->logger = new BatchLogger( 'scrapeTourSchedule' );
 
-        // try {
+        try {
             $loop_count = self::LOOP_COUNT;
             $progress_bar = $this->output->createProgressBar($loop_count);
 
@@ -48,11 +54,11 @@ class ScrapeTourScheduleCommand extends Command
             $results = $this->scrapeTourSchedule($progress_bar);
             $this->logger->write('スクレイピング実行完了', 'info' ,true);
 
-            dd($results);
+            $results = $this->makeInsertValue($results);
 
             if ( !empty($results) ) {
-                // $this->ranking_repository->bulkInsertOrUpdate($results);
-                $this->logger->write('テーブル保存処理完了', 'info' ,true);
+                $this->tour_schedule_repository->bulkInsertOrUpdate($results);
+                $this->logger->write(count($results) . '件、テーブル保存処理完了', 'info' ,true);
                 $progress_bar->advance(100);
             }
 
@@ -60,9 +66,9 @@ class ScrapeTourScheduleCommand extends Command
             $progress_bar->finish();
             $this->logger->success();
 
-        // } catch (Exception $e) {
-        //     $this->logger->exception($e);
-        // }
+        } catch (Exception $e) {
+            $this->logger->exception($e);
+        }
         unset($this->logger);
 
         $this->info("\n" . "【実行終了】");
@@ -114,8 +120,9 @@ class ScrapeTourScheduleCommand extends Command
             $progress_bar->advance(1);
         });
 
-        $data['start_date'][] = $this->extractDate($data['term'], $is_start=true);
-        $data['end_date'][] = $this->extractDate($data['term'], $is_start=false);
+        $data['start_date'] = $this->extractDate($data['term'], $is_start=true);
+        $data['end_date'] = $this->extractDate($data['term'], $is_start=false);
+        $data['year'] = $this->extractYear($data['start_date']);
 
         $goutte->filter('.tourney-details-table-wrapper')->each(function ($node) use (&$data, $progress_bar){
             if ( $node->count() > 0) {
@@ -137,7 +144,7 @@ class ScrapeTourScheduleCommand extends Command
             $progress_bar->advance(1);
         });
 
-        $data['category'] = $this->extractCategory($data['category']);
+        $data['category'] = $this->extractCategory($data);
 
         return $data;
     }
@@ -148,15 +155,31 @@ class ScrapeTourScheduleCommand extends Command
      * @param array $string_arr
      * @return array
      */
-    private function extractCategory(array $strings): array
+    private function extractCategory(array $data): array
     {
-        foreach ( $strings as $string ) {
+        $is_occur_offset = false;
+
+        foreach ( $data['category'] as $string ) {
             $start_pos = strpos($string, "_") + 1;
             $end_pos = strpos($string, ".");
             $extract_length = $end_pos - $start_pos;
             $results[] = substr($string, $start_pos, $extract_length);
         }
-        return $results;
+
+        for ($i=0; $i<count($data['name']); $i++) {
+            // 「オリンピック」が含まれている場合は空白を代入
+            if ( strpos($data['name'][$i],'Olympics') !== false ) {
+                $category[] = '';
+                $is_occur_offset = true; 
+            // オフセットが発生していない場合はそのまま代入
+            } elseif ( !$is_occur_offset ) {
+                $category[] = $results[$i];
+            // オフセットが発生している場合は一つずらす
+            } elseif ( $is_occur_offset ) {
+                $category[] = $results[$i -1];
+            }
+        }
+        return $category;
     }
 
 
@@ -179,5 +202,48 @@ class ScrapeTourScheduleCommand extends Command
         $results = str_replace($search='.', $replace='-', $results);
 
         return $results;
+    }
+
+
+    /**
+     * $start_dateのテキスト中のyear情報を抽出する
+     *
+     * @param array $start_dates
+     * @return array
+     */
+    private function extractYear(array $start_dates): array
+    {
+        foreach($start_dates as $start_date) {
+            $results[] = substr($start_date, 0, 4);
+        }
+        return $results;
+    }
+
+
+    /**
+     * テーブル保存用に加工する
+     *
+     * @param array $data
+     * @return array
+     */
+    private function makeInsertValue(array $data): array
+    {
+        $now = Carbon::now();
+        $values = [];
+
+        for ($i=0; $i<count($data['name']); $i++) {
+            $values[] = [
+                'name'       => (string) $data['name'][$i],
+                'location'   => (string) $data['location'][$i],
+                'surface'    => (string) $data['surface'][$i],
+                'category'   => (string) $data['category'][$i],
+                'year'       => $data['year'][$i],
+                'start_date' => $data['start_date'][$i],
+                'end_date'   => $data['end_date'][$i],
+                'updated_at' => $now,
+                'created_at' => $now
+            ];
+        }
+        return $values;
     }
 }
