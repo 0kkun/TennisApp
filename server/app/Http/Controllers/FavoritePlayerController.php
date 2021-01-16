@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Repositories\Contracts\PlayersRepository;
 use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Services\FavoritePlayer\FavoritePlayerServiceInterface;
+use Illuminate\Support\Facades\Auth;
 
 class FavoritePlayerController extends Controller
 {
@@ -155,5 +156,18 @@ class FavoritePlayerController extends Controller
         array_multisort( $sort, SORT_DESC, $lists );
 
         return $lists;
+    }
+
+
+    /**
+     * 新しいデザインのブランド登録トップ画面
+     *
+     * @return void
+     */
+    public function top()
+    {
+        $user_id = Auth::user()->id;
+
+        return view('favorite_player.top',compact('user_id'));
     }
 }

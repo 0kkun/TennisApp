@@ -1,6 +1,6 @@
 @extends('common.layout')
 
-@section('title', 'Favorite')
+@section('title', 'Brand')
 
 @section('content')
     @if(Auth::check())
