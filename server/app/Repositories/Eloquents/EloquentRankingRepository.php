@@ -41,7 +41,10 @@ class EloquentRankingRepository implements RankingRepository
      */
     public function fetchRankings(?int $num=100): Collection
     {
+        $latest_date = $this->rankings->max('ymd');
+
         return $this->rankings
+                    ->where('ymd', $latest_date)
                     ->limit($num)
                     ->get();
     }
