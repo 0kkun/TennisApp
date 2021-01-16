@@ -8,15 +8,18 @@ use App\Modules\BatchLogger;
 use Exception;
 use Carbon\Carbon;
 use App\Repositories\Contracts\RankingRepository;
+use Symfony\Component\Console\Helper\ProgressBar;
 
-class scrapeRankingDataCommand extends Command
+class scrapeRankingCommand extends Command
 {
     protected $signature = 'command:scrapeRanking';
     protected $description = 'テニスのランキングデータをスクレイピングで取得するコマンド';
 
-    const URL = 'https://live-tennis.eu/en/atp-live-ranking';
+    const URL_EN = 'https://live-tennis.eu/en/atp-live-ranking';
+    const URL_JP = 'https://live-tennis.eu/ja/atp-live-ranking';
     const CHUNK_SIZE = 14;
-    const LOOP_COUNT = 14121;
+    const LOOP_COUNT = 28142;
+    const CHUNK_SIZE_FOR_INSERT = 100;
 
     private $ranking_repository;
 
@@ -56,21 +59,26 @@ class scrapeRankingDataCommand extends Command
             $progress_bar->start();
 
             // スクレイピング実行
-            $scrape_row_results = $this->scrapeRanking($progress_bar);
+            $scrape_row_results_en = $this->scrapeRanking(self::URL_EN, $progress_bar);
+            $scrape_row_results_jp = $this->scrapeRanking(self::URL_JP, $progress_bar);
             $this->logger->write('スクレイピング実行完了', 'info' ,true);
 
             // 余分なテキストを削除する
-            $results = $this->excludeText($scrape_row_results);
-
+            $results_en = $this->excludeText($scrape_row_results_en);
+            $results_jp = $this->excludeText($scrape_row_results_jp);
             // 選手ごとにchunkする
-            $results = array_chunk($results, self::CHUNK_SIZE);
+            $results_en = array_chunk($results_en, self::CHUNK_SIZE);
+            $results_jp = array_chunk($results_jp, self::CHUNK_SIZE);
 
             // テーブル保存用に加工
-            $results = $this->makeInsertValue($results);
+            $results = $this->makeInsertValue($results_en, $results_jp);
             $this->logger->write('テーブル保存用に加工完了', 'info' ,true);
 
             if ( !empty($results) ) {
-                $this->ranking_repository->bulkInsertOrUpdate($results);
+                $results = array_chunk($results, self::CHUNK_SIZE_FOR_INSERT);
+                foreach($results as $value) {
+                    $this->ranking_repository->bulkInsertOrUpdate($value);
+                }
                 $this->logger->write('テーブル保存処理完了', 'info' ,true);
                 $progress_bar->advance(100);
             }
@@ -91,12 +99,14 @@ class scrapeRankingDataCommand extends Command
     /**
      * スクレイピングを実行する
      *
+     * @param string $url
+     * @param ProgressBar $progress_bar
      * @return array
      */
-    private function scrapeRanking($progress_bar): array
+    private function scrapeRanking(string $url, ProgressBar $progress_bar): array
     {
         $data = [];
-        $goutte = GoutteFacade::request('GET', self::URL);
+        $goutte = GoutteFacade::request('GET', $url);
         sleep(1);
 
         $goutte->filter('tbody tr td')->each(function ($node) use (&$data, $progress_bar){
@@ -108,7 +118,6 @@ class scrapeRankingDataCommand extends Command
             }
             $progress_bar->advance(1);
         });
-
         return $data;
     }
 
@@ -123,7 +132,7 @@ class scrapeRankingDataCommand extends Command
     {
         $results = [];
         $blank_pattern = '/\A[\p{C}\p{Z}]++|[\p{C}\p{Z}]++\z/u';
-        $exclude_text = ["Advertisement", "Advertisement (adsbygoogle = window.adsbygoogle || []).push({});"];
+        $exclude_text = ["Advertisement", "Advertisement (adsbygoogle = window.adsbygoogle || []).push({});", "広告"];
 
         foreach ( $data as $datum ) {
             // マルチバイト文字の空白を削除する
@@ -145,7 +154,7 @@ class scrapeRankingDataCommand extends Command
      * @param array $data
      * @return array
      */
-    private function makeInsertValue(array $data): array
+    private function makeInsertValue(array $data, $data_jp): array
     {
         $today = Carbon::now();
 
@@ -157,20 +166,24 @@ class scrapeRankingDataCommand extends Command
                 if ( strpos($datum[1], "NCH") !== false ) $most_highest_rank = null;
 
                 $formated_data[$index] = [
-                    'rank'                => (int) $datum[0],
-                    'most_highest'        => (int) $most_highest_rank ?? null,
-                    'name'                => $this->transliterateString($datum[3]),
-                    'age'                 => (int) $datum[4],
-                    'country'             => (string) substr($datum[5], 0, 3),
-                    'point'               => (int) $datum[6],
-                    'rank_change'         => (int) $datum[7] ?? 0,
-                    'point_change'        => (int) $datum[8] ?? 0,
-                    'current_tour_result' => (string) $datum[9],
-                    'pre_tour_result'     => (string) $datum[10],
-                    'next_point'          => (int) $datum[12] ?? 0,
-                    'max_point'           => (int) $datum[13] ?? 0,
-                    'created_at'          => $today,
-                    'updated_at'          => $today
+                    'rank'                   => (int) $datum[0],
+                    'most_highest'           => (int) $most_highest_rank ?? null,
+                    'name_en'                => $this->transliterateString($datum[3]),
+                    'name_jp'                => (string) $data_jp[$index][3],
+                    'age'                    => (int) $datum[4],
+                    'country'                => (string) substr($datum[5], 0, 3),
+                    'point'                  => (int) $datum[6],
+                    'rank_change'            => (int) $datum[7] ?? 0,
+                    'point_change'           => (int) $datum[8] ?? 0,
+                    'current_tour_result_en' => (string) $datum[9],
+                    'current_tour_result_jp' => (string) $data_jp[$index][9],
+                    'pre_tour_result_en'     => (string) $datum[10],
+                    'pre_tour_result_jp'     => (string) $data_jp[$index][10],
+                    'next_point'             => (int) $datum[12] ?? 0,
+                    'max_point'              => (int) $datum[13] ?? 0,
+                    'ymd'                    => $today,
+                    'created_at'             => $today,
+                    'updated_at'             => $today
                 ];
             }
         }

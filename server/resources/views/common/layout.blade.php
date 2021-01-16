@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:300">
         {{-- Fontawesome --}}
         <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
+        <link rel="icon" href="{{ asset('/tennis-favicon.ico') }}" type="image/x-icon">
     </head>
 
     <body>

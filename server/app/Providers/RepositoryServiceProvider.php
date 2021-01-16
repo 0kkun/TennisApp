@@ -22,7 +22,9 @@ class RepositoryServiceProvider extends ServiceProvider
         'BrandNewsArticles',
         'YoutubeVideos',
         'BrandYoutubeVideos',
-        'Ranking'
+        'Ranking',
+        'PlayersNewsArticle',
+        'TourSchedule'
     ];
 
 

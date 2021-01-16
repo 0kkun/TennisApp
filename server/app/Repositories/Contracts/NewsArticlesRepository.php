@@ -25,13 +25,21 @@ interface NewsArticlesRepository
     public function bulkInsertOrUpdate($data): void;
 
 
-
-
     /**
      * 選手名を元に記事を取得する
      *
      * @param array $player_names
-     * @return LengthAwarePaginator
+     * @param bool $is_paginate
+     * @return Collection|LengthAwarePaginator
      */
-    public function getArticleByPlayerNames(array $player_names): LengthAwarePaginator;
+    public function getArticleByPlayerNames(array $player_names, bool $is_paginate);
+
+
+    /**
+     * ニュース記事を全て取得する
+     *
+     * @param boolean $is_paginate
+     * @return Collection|LengthAwarePaginator
+     */
+    public function getAllArticles(bool $is_paginate);
 }

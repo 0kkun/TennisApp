@@ -18,8 +18,7 @@ class CreatePlayersTable extends Migration
             $table->string('name_jp',100);
             $table->string('name_en',100);
             $table->string('country',100)->nullable();
-            $table->string('wiki_url')->nullable();
-            $table->integer('age')->nullable();
+            $table->integer('age')->length(3)->nullable();
             $table->timestamps();
         });
     }

@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Repositories\Contracts\PlayersRepository;
 use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Services\FavoritePlayer\FavoritePlayerServiceInterface;
+use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class FavoritePlayerController extends Controller
 {
@@ -68,6 +70,7 @@ class FavoritePlayerController extends Controller
     public function add( Request $request )
     {
         $data['player_id'] = $request->favorite_player_id;
+        $data['user_id'] = Auth::user()->id;
 
         // バルクインサートで保存
         if ( !empty($data) ) {
@@ -86,11 +89,12 @@ class FavoritePlayerController extends Controller
      * @param Request $request
      * @return void
      */
-    public function remove( Request $request )
+    public function remove(Request $request)
     {
-        $favorite_player_id = $request->favorite_player_id;
+        $data['player_id'] = $request->favorite_player_id;
+        $data['user_id'] = Auth::user()->id;
 
-        $this->favorite_players_repository->deleteRecord( $favorite_player_id );
+        $this->favorite_players_repository->deleteRecord($data);
 
         session()->flash('flash_alert', 'You removed player.');
 
@@ -115,7 +119,6 @@ class FavoritePlayerController extends Controller
             $player_lists[$index]['name_jp']         = $player['name_jp'];
             $player_lists[$index]['name_en']         = $player['name_en'];
             $player_lists[$index]['country']         = $player['country'];
-            $player_lists[$index]['wiki_url']        = $player['wiki_url'];
             $player_lists[$index]['age']             = $player['age'];
             $player_lists[$index]['favorite_status'] = 0;
 
@@ -155,5 +158,92 @@ class FavoritePlayerController extends Controller
         array_multisort( $sort, SORT_DESC, $lists );
 
         return $lists;
+    }
+
+
+    /**
+     * 新しいデザインのブランド登録トップ画面
+     *
+     * @return void
+     */
+    public function top()
+    {
+        $user_id = Auth::user()->id;
+
+        return view('favorite_player.top',compact('user_id'));
+    }
+
+    /**
+     * ユーザーがお気に入り選手登録済みかどうかのステータス付きで選手一覧を取得する
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function fetchPlayers(Request $request)
+    {
+        try {
+            $user_id = $request->input('user_id');
+
+            $players = $this->players_repository
+                ->getAll()
+                ->toArray();
+
+            $favorite_player_ids = $this->favorite_players_repository
+                ->getAll($user_id)
+                ->pluck('player_id')->toArray();
+
+            $response = $this->makePlayerLists( $players, $favorite_player_ids );
+
+            return request()->json(200, $response);
+
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * お気に入り選手登録API
+     *
+     * @param Request $request
+     * @return Json|Exception
+     */
+    public function addPlayer(Request $request)
+    {
+        try {
+            $data['user_id'] = $request->input('user_id');
+            $data['player_id'] = $request->input('favorite_player_id');
+
+            if ( !empty($data) ) {
+                $this->favorite_players_repository->bulkInsertOrUpdate($data);
+            }
+            $response = $this->fetchPlayers($request);
+            return request()->json(200, $response);
+
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * お気に入り選手削除API
+     *
+     * @param Request $request
+     * @return Json|Exception
+     */
+    public function deletePlayer(Request $request)
+    {
+        try {
+            $data['user_id'] = $request->input('user_id');
+            $data['player_id'] = $request->input('favorite_player_id');
+    
+            if ( !empty($data) ) {
+                $this->favorite_players_repository->deleteRecord($data);
+            }
+            $response = $this->fetchPlayers($request);
+            return request()->json(200, $response);
+
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
     }
 }

@@ -9,14 +9,9 @@ class Player extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'players';
-    protected $guarded = [];
-    protected $fillable = [
-        'name_jp',
-        'name_en',
-        'wiki_url',
-        'country',
-        'age'
-    ];
+    protected $guarded = ['id'];
+
+    public $timestamps = true;
 
     /**
      * バルクインサート時のカラム指定
@@ -28,7 +23,6 @@ class Player extends Model
         return [
             'name_jp',
             'name_en',
-            'wiki_url',
             'country',
             'age',
             'updated_at',

@@ -23,7 +23,7 @@ class EloquentRankingRepository implements RankingRepository
     /**
      * バルクインサート処理
      *
-     * @param  Collection|array $data
+     * @param  Collection|Ranking|array $data
      * @return void
      */
     public function bulkInsertOrUpdate($data): void
@@ -41,7 +41,10 @@ class EloquentRankingRepository implements RankingRepository
      */
     public function fetchRankings(?int $num=100): Collection
     {
+        $latest_date = $this->rankings->max('ymd');
+
         return $this->rankings
+                    ->where('ymd', $latest_date)
                     ->limit($num)
                     ->get();
     }

@@ -11,7 +11,7 @@ interface FavoritePlayersRepository
      *
      * @return Collection
      */  
-    public function getAll(): Collection;
+    public function getAll(?int $user_id=null): Collection;
 
 
     /**
@@ -27,16 +27,17 @@ interface FavoritePlayersRepository
     /**
      * お気に入り選手削除メソッド
      *
-     * @param integer $favorite_player_id
+     * @param array $data
      * @return void
      */
-    public function deleteRecord(int $favorite_player_id): void;
+    public function deleteRecord(array $data): void;
 
 
     /**
      * ログインユーザーが持っているお気に入り選手の名前・出身を取得する
      *
+     * @param integer|null $user_id
      * @return Collection
      */
-    public function getFavoritePlayerData(): Collection;
+    public function getFavoritePlayers(?int $user_id=null): Collection;
 }

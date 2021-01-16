@@ -128,8 +128,8 @@
                                     <tbody>
                                         @foreach ($player_lists as $player)
                                         <tr>
-                                            <td class="favorite-td favorite-name-jp-w text-center pt-3"><a href="{{ $player['wiki_url'] }}">{{ $player['name_jp'] }}</a></td>
-                                            <td class="favorite-td favorite-name-en-w text-center pt-3"><a href="{{ $player['wiki_url'] }}">{{ $player['name_en'] }}</a></td>
+                                            <td class="favorite-td favorite-name-jp-w text-center pt-3">{{ $player['name_jp'] }}</td>
+                                            <td class="favorite-td favorite-name-en-w text-center pt-3">{{ $player['name_en'] }}</td>
                                             <td class="favorite-td favorite-country-w text-center pt-3">{{ $player['country'] }}</td>
                                             <td class="favorite-td favorite-age-w text-center pt-3">{{ $player['age'] }}</td>
 

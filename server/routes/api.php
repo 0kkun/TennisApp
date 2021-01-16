@@ -22,3 +22,13 @@ Route::post('/add_brand', 'ApiController@addBrand');
 Route::delete('/delete_brand', 'ApiController@deleteBrand');
 
 Route::get('/v1/rankings', 'RankingController@fetchRankings');
+
+Route::get('/v1/news', 'NewsController@fetchNews');
+
+Route::get('/v1/movies', 'MovieController@fetchMovies');
+
+Route::get('/v1/tour_schedules', 'TourScheduleController@fetchTourSchedules');
+
+Route::get('/v1/players', 'FavoritePlayerController@fetchPlayers');
+Route::post('/v1/add_player', 'FavoritePlayerController@addPlayer');
+Route::delete('/v1/delete_player', 'FavoritePlayerController@deletePlayer');
