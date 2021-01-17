@@ -132,7 +132,12 @@ class scrapeRankingCommand extends Command
     {
         $results = [];
         $blank_pattern = '/\A[\p{C}\p{Z}]++|[\p{C}\p{Z}]++\z/u';
-        $exclude_text = ["Advertisement", "Advertisement (adsbygoogle = window.adsbygoogle || []).push({});", "広告"];
+        $exclude_text = [
+            "Advertisement", 
+            "Advertisement (adsbygoogle = window.adsbygoogle || []).push({});",
+            "広告",
+            "広告 (adsbygoogle = window.adsbygoogle || []).push({});"
+        ];
 
         foreach ( $data as $datum ) {
             // マルチバイト文字の空白を削除する
