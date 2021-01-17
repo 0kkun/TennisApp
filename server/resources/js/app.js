@@ -3,6 +3,7 @@ import Vue from 'vue'
 import FavoriteBrandComponent from './components/FavoriteBrandComponent.vue'
 import RankingComponent from './components/RankingComponent.vue'
 import PlayersNewsComponent from './components/PlayersNewsComponent.vue'
+import BrandsNewsComponent from './components/BrandsNewsComponent.vue'
 import TourScheduleComponent from './components/TourScheduleComponent.vue'
 import MovieComponent from './components/MovieComponent.vue'
 import FavoritePlayerComponent from './components/FavoritePlayerComponent.vue'
@@ -11,6 +12,7 @@ import FavoritePlayerComponent from './components/FavoritePlayerComponent.vue'
 Vue.component('favorite-brand-component', require('./components/FavoriteBrandComponent.vue').default);
 Vue.component('ranking-component', require('./components/RankingComponent.vue').default);
 Vue.component('players-news-component', require('./components/PlayersNewsComponent.vue').default);
+Vue.component('brands-news-component', require('./components/BrandsNewsComponent.vue').default);
 Vue.component('tour-schedule-component', require('./components/TourScheduleComponent.vue').default);
 Vue.component('movie-component', require('./components/MovieComponent.vue').default);
 Vue.component('favorite-player-component', require('./components/FavoritePlayerComponent.vue').default);
@@ -38,6 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
             el: '#news-vue',
             components: {
                 PlayersNewsComponent,
+                BrandsNewsComponent,
             }
         });
     }

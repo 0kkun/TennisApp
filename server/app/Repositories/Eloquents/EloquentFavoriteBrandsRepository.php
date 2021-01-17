@@ -30,12 +30,10 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
      */
     public function getAll(?int $user_id=null): Collection
     {
-        $current_user_id = $user_id ? $user_id : '';
-        if ( isset(Auth::user()->id) ) {
-            $current_user_id = Auth::user()->id;
-        }
+        if ( empty($user_id) ) $user_id = Auth::user()->id;
+
         return $this->favorite_brands
-                    ->where('user_id', '=', $current_user_id)
+                    ->where('user_id', '=', $user_id)
                     ->get();
     }
 
@@ -60,13 +58,11 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
      */
     public function deleteRecord(array $data): void
     {
-        if ( !isset($data['user_id']) ) {
-            $data['user_id'] = Auth::user()->id;
-        }
+        if ( !isset($data['user_id']) ) $data['user_id'] = Auth::user()->id;
 
         $this->favorite_brands
             ->where('user_id', $data['user_id'])
-            ->where('brand_id', $data['favorite_brand_id'])
+            ->where('brand_id', $data['brand_id'])
             ->delete();
     }
 
@@ -74,14 +70,15 @@ class EloquentFavoriteBrandsRepository implements FavoriteBrandsRepository
     /**
      * ログインユーザーが持っているお気に入りブランドの名前・製造国を取得する
      *
+     * @param integer|null $user_id
      * @return Collection
      */
-    public function getFavoriteBrandData(): Collection
+    public function fetchFavoriteBrands(?int $user_id=null): Collection
     {
-        $current_user_id = Auth::user()->id;
+        if( empty($user_id) ) $user_id = Auth::user()->id;
 
         return $this->favorite_brands
-                    ->where('user_id', '=', $current_user_id)
+                    ->where('user_id', $user_id)
                     ->with('brands')
                     ->join('brands', 'favorite_brands.brand_id', 'brands.id')
                     ->get();

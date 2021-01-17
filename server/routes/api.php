@@ -21,11 +21,12 @@ use Illuminate\Http\Request;
 
 Route::prefix('v1')->group(function () {
     Route::get('/brands', 'FavoriteBrandController@fetchBrands');
-    Route::post('/brands/add', 'FavoriteBrandController@addBrand');
-    Route::delete('/brands/delete', 'FavoriteController@deleteBrand');
+    Route::post('/brands/create', 'FavoriteBrandController@addBrand');
+    Route::delete('/brands/delete', 'FavoriteBrandController@deleteBrand');
 
     Route::get('/rankings', 'RankingController@fetchRankings');
     Route::get('/players_news', 'NewsController@fetchPlayersNews');
+    Route::get('/brands_news', 'NewsController@fetchBrandsNews');
     Route::get('/movies', 'MovieController@fetchMovies');
     Route::get('/tour_schedules', 'TourScheduleController@fetchTourSchedules');
 

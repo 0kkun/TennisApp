@@ -84,11 +84,13 @@ class TopService implements TopServiceInterface
      */
     public function getArticleByFavoriteBrand()
     {
+        $is_paginate = true;
+
         if ( $this->hasFavoriteBrand() ) {
-            $favorite_brand_names = $this->favorite_brands_repository->getFavoriteBrandData()->pluck('name_en')->toArray();
-            $brand_news_articles = $this->brand_news_articles_repository->getArticleByBrandNames( $favorite_brand_names );
+            $favorite_brand_names = $this->favorite_brands_repository->fetchFavoriteBrands()->pluck('name_en')->toArray();
+            $brand_news_articles = $this->brand_news_articles_repository->fetchArticlesByBrandNames($favorite_brand_names, 20, $is_paginate);
         } else {
-            $brand_news_articles = $this->brand_news_articles_repository->getAll();
+            $brand_news_articles = $this->brand_news_articles_repository->fetchArticles(20, $is_paginate);
         }
         return $brand_news_articles;
     }
@@ -125,7 +127,7 @@ class TopService implements TopServiceInterface
     {
         if ( $this->hasFavoriteBrand() ) {
             // お気に入りブランドのidを取得
-            $favorite_brand_ids = $this->favorite_brands_repository->getFavoriteBrandData()->pluck('brand_id')->toArray();
+            $favorite_brand_ids = $this->favorite_brands_repository->fetchFavoriteBrands()->pluck('brand_id')->toArray();
             // idを使って動画を取得
             $youtube_videos = $this->brand_youtube_videos_repository->getVideosByBrandIds( $favorite_brand_ids );
         } else {

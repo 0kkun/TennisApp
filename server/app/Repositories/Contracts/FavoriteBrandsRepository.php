@@ -36,7 +36,8 @@ interface FavoriteBrandsRepository
     /**
      * ログインユーザーが持っているお気に入りブランドの名前・製造国を取得する
      *
+     * @param integer|null $user_id
      * @return Collection
      */
-    public function getFavoriteBrandData(): Collection;
+    public function fetchFavoriteBrands(?int $user_id=null): Collection;
 }

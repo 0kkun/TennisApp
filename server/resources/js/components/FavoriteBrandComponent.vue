@@ -1,6 +1,6 @@
 <template>
     <div class="card mt-3 font-alegreya">
-        <div class="text-center pt-3 h2">Brand</div>
+        <div class="text-center pt-3 h2 bg-secondary text-white">Brand</div>
         <div class="card-body">
 
             <div v-if="loadStatus == false">
@@ -71,7 +71,7 @@ export default {
             });
         },
         addBrand: function(brand_id) {
-            axios.post('/api/v1/brands/add', {
+            axios.post('/api/v1/brands/create', {
                 favorite_brand_id: brand_id,
                 user_id: this.user_id
             })

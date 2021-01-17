@@ -1,8 +1,8 @@
 <template>
     <div class="card mt-3 font-alegreya">
-        <div class="text-center pt-3 h2">Player</div>
+        <div class="text-center pt-3 h2 bg-secondary text-white">Player</div>
 
-        <div class="card-body pt-0 pb-2">
+        <div class="card-body pt-2 pb-2">
             <div class="form-group p-4 h4 bg-light rounded">
                 <div class="font-alegreya h4 pb-2">Search Player</div>
                 <form @submit.prevent action="">

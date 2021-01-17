@@ -77,9 +77,8 @@ class EloquentFavoritePlayersRepository implements FavoritePlayersRepository
      */
     public function getFavoritePlayers(?int $user_id=null): Collection
     {
-        if ( empty($user_id) ) {
-            $user_id = Auth::user()->id;
-        }
+        if ( empty($user_id) ) $user_id = Auth::user()->id;
+
         return $this->favorite_players
                     ->where('user_id', $user_id)
                     ->with('players')

@@ -1,6 +1,6 @@
 <template>
     <div class="card mt-3 font-alegreya font-weight-bold">
-        <div class="text-center pt-3 pb-2 h2 bg-secondary text-white">Player News</div>
+        <div class="text-center pt-3 pb-2 h2 bg-secondary text-white">Brand News</div>
 
         <div v-if="loadStatus == false">
             <div class="h2 text-center text-danger">Now on loading .....<i class="fas fa-broadcast-tower"></i></div>
@@ -10,22 +10,12 @@
             <div  v-if="loadStatus == true" class="card-columns">
                 <div v-for="article in articles" :key="article.id" class="card news-card-parent">
                     <div class="card-header">
-                        <span>{{ article.post_time }} up <br> from {{ article.vender }}</span>
+                        <span>{{ article.post_time }} up <br> from {{ article.brand_name }}</span>
                     </div>
-                    <div class="row no-gutters">
-                        <div class="col-4">
-                            <img class="pt-3 pl-3" :src="article.image" alt="image">
+                    <div class="card-body">
+                        <div class="card-text news-text">
+                            <a :href="article.url">{{ article.title }}</a>
                         </div>
-                        <div class="col-8">
-                            <div class="card-body">
-                                <div class="card-text news-text">
-                                    <a :href="article.url">{{ article.title }}</a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- MEMO: iframeでアクセスして開くとアクセス拒否されてしまう。解決方法がわかったらモーダル&iframe表示を実装する -->
-                        <!-- <button class="news-detail-button text-white border-light rounded" @click="openModal">Detail</button> -->
-                        <!-- <open-modal-component :url="article.url"  v-show="showContent" @close="showContent = false"></open-modal-component> -->
                     </div>
                 </div>
             </div>
@@ -33,37 +23,23 @@
     </div>
 </template>
 
-
 <script>
-
-// import OpenModalComponent from './OpenModalComponent.vue'
-
 export default {
     data() {
         return {
-            // showContent: false,
             loadStatus: false,
             articles: []
         }
     },
     props:["user_id"],
     mounted: function() {
-        this.fetchPlayersNews(this.user_id);
+        this.fetchBrandsNews(this.user_id);
     },
-    // components: { 
-    //     OpenModalComponent 
-    // },
     methods: {
-        // openModal: function() {
-        //     this.showContent = true;
-        // },
-        // closeModal: function() {
-        //     this.showContent = false;
-        // },
-        fetchPlayersNews: function() {
-            axios.get('/api/v1/players_news', {
+        fetchBrandsNews: function() {
+            axios.get('/api/v1/brands_news', {
                 params: {
-                    user_id: this.user_id
+                    user_id: this.user_id,
                 }
             })
             .then((response) => {
@@ -77,7 +53,6 @@ export default {
     }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .news-text {

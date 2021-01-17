@@ -1946,6 +1946,71 @@ module.exports = {
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BrandsNewsComponent.vue?vue&type=script&lang=js&":
+/*!******************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BrandsNewsComponent.vue?vue&type=script&lang=js& ***!
+  \******************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  data: function data() {
+    return {
+      loadStatus: false,
+      articles: []
+    };
+  },
+  props: ["user_id"],
+  mounted: function mounted() {
+    this.fetchBrandsNews(this.user_id);
+  },
+  methods: {
+    fetchBrandsNews: function fetchBrandsNews() {
+      var _this = this;
+
+      axios.get('/api/v1/brands_news', {
+        params: {
+          user_id: this.user_id
+        }
+      }).then(function (response) {
+        _this.articles = response.data;
+        _this.loadStatus = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteBrandComponent.vue?vue&type=script&lang=js&":
 /*!*********************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FavoriteBrandComponent.vue?vue&type=script&lang=js& ***!
@@ -2028,7 +2093,7 @@ __webpack_require__.r(__webpack_exports__);
     addBrand: function addBrand(brand_id) {
       var _this2 = this;
 
-      axios.post('/api/v1/brands/add', {
+      axios.post('/api/v1/brands/create', {
         favorite_brand_id: brand_id,
         user_id: this.user_id
       }).then(function (response) {
@@ -6938,6 +7003,25 @@ __webpack_require__.r(__webpack_exports__);
 
 })));
 //# sourceMappingURL=bootstrap.js.map
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "@charset \"UTF-8\";\n.news-text[data-v-0c68983a] {\n  height: 70px;\n  /* テキストが多すぎる時に消す  */\n  text-overflow: ellipsis;\n  overflow: hidden;\n}\n.news-detail-button[data-v-0c68983a] {\n  width: 100px;\n  background-color: cornflowerblue;\n  border: none;\n  cursor: pointer;\n  position: absolute;\n  bottom: 10px;\n  left: 10px;\n}\n.news-card-parent[data-v-0c68983a] {\n  height: 180px;\n  position: relative;\n}\n\n/* アニメーション */\n.fade-enter-active[data-v-0c68983a], .fade-leave-active[data-v-0c68983a] {\n  transition: opacity 1s;\n}\n.fade-enter[data-v-0c68983a], .fade-leave-to[data-v-0c68983a] {\n  opacity: 0;\n}", ""]);
+
+// exports
 
 
 /***/ }),
@@ -38215,6 +38299,36 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteBrandComponent.vue?vue&type=style&index=0&id=096f6d1d&lang=scss&scoped=true&":
 /*!************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/dist/cjs.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FavoriteBrandComponent.vue?vue&type=style&index=0&id=096f6d1d&lang=scss&scoped=true& ***!
@@ -38979,6 +39093,86 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BrandsNewsComponent.vue?vue&type=template&id=0c68983a&scoped=true&":
+/*!**********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/BrandsNewsComponent.vue?vue&type=template&id=0c68983a&scoped=true& ***!
+  \**********************************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    { staticClass: "card mt-3 font-alegreya font-weight-bold" },
+    [
+      _c(
+        "div",
+        { staticClass: "text-center pt-3 pb-2 h2 bg-secondary text-white" },
+        [_vm._v("Brand News")]
+      ),
+      _vm._v(" "),
+      _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
+      _vm._v(" "),
+      _c("transition", { attrs: { name: "fade" } }, [
+        _vm.loadStatus == true
+          ? _c(
+              "div",
+              { staticClass: "card-columns" },
+              _vm._l(_vm.articles, function(article) {
+                return _c(
+                  "div",
+                  { key: article.id, staticClass: "card news-card-parent" },
+                  [
+                    _c("div", { staticClass: "card-header" }, [
+                      _c("span", [
+                        _vm._v(_vm._s(article.post_time) + " up "),
+                        _c("br"),
+                        _vm._v(" from " + _vm._s(article.brand_name))
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("div", { staticClass: "card-text news-text" }, [
+                        _c("a", { attrs: { href: article.url } }, [
+                          _vm._v(_vm._s(article.title))
+                        ])
+                      ])
+                    ])
+                  ]
+                )
+              }),
+              0
+            )
+          : _vm._e()
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "h2 text-center text-danger" }, [
+      _vm._v("Now on loading ....."),
+      _c("i", { staticClass: "fas fa-broadcast-tower" })
+    ])
+  }
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/FavoriteBrandComponent.vue?vue&type=template&id=096f6d1d&scoped=true&":
 /*!*************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/FavoriteBrandComponent.vue?vue&type=template&id=096f6d1d&scoped=true& ***!
@@ -38995,7 +39189,9 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "card mt-3 font-alegreya" }, [
-    _c("div", { staticClass: "text-center pt-3 h2" }, [_vm._v("Brand")]),
+    _c("div", { staticClass: "text-center pt-3 h2 bg-secondary text-white" }, [
+      _vm._v("Brand")
+    ]),
     _vm._v(" "),
     _c(
       "div",
@@ -39150,9 +39346,13 @@ var render = function() {
     "div",
     { staticClass: "card mt-3 font-alegreya" },
     [
-      _c("div", { staticClass: "text-center pt-3 h2" }, [_vm._v("Player")]),
+      _c(
+        "div",
+        { staticClass: "text-center pt-3 h2 bg-secondary text-white" },
+        [_vm._v("Player")]
+      ),
       _vm._v(" "),
-      _c("div", { staticClass: "card-body pt-0 pb-2" }, [
+      _c("div", { staticClass: "card-body pt-2 pb-2" }, [
         _c("div", { staticClass: "form-group p-4 h4 bg-light rounded" }, [
           _c("div", { staticClass: "font-alegreya h4 pb-2" }, [
             _vm._v("Search Player")
@@ -39351,9 +39551,11 @@ var render = function() {
     "div",
     { staticClass: "card mt-3 font-alegreya font-weight-bold" },
     [
-      _c("div", { staticClass: "text-center pt-3 pb-2 h2" }, [
-        _vm._v("Youtube")
-      ]),
+      _c(
+        "div",
+        { staticClass: "text-center pt-3 pb-2 h2 bg-secondary text-white" },
+        [_vm._v("Player Movie")]
+      ),
       _vm._v(" "),
       _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
       _vm._v(" "),
@@ -39427,7 +39629,11 @@ var render = function() {
     "div",
     { staticClass: "card mt-3 font-alegreya font-weight-bold" },
     [
-      _c("div", { staticClass: "text-center pt-3 pb-2 h2" }, [_vm._v("News")]),
+      _c(
+        "div",
+        { staticClass: "text-center pt-3 pb-2 h2 bg-secondary text-white" },
+        [_vm._v("Player News")]
+      ),
       _vm._v(" "),
       _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
       _vm._v(" "),
@@ -39514,7 +39720,11 @@ var render = function() {
     "div",
     { staticClass: "card mt-3 font-alegreya font-weight-bold" },
     [
-      _c("div", { staticClass: "text-center pt-3 h2" }, [_vm._v("Ranking")]),
+      _c(
+        "div",
+        { staticClass: "text-center pt-3 h2 bg-secondary text-white" },
+        [_vm._v("Ranking")]
+      ),
       _vm._v(" "),
       _c(
         "div",
@@ -39779,9 +39989,11 @@ var render = function() {
     "div",
     { staticClass: "card mt-3 font-alegreya font-weight-bold" },
     [
-      _c("div", { staticClass: "text-center pt-3 pb-2 h2" }, [
-        _vm._v("Tour Schedule")
-      ]),
+      _c(
+        "div",
+        { staticClass: "text-center pt-3 pb-2 h2 bg-secondary text-white" },
+        [_vm._v("Tour Schedule")]
+      ),
       _vm._v(" "),
       _vm.loadStatus == false ? _c("div", [_vm._m(0)]) : _vm._e(),
       _vm._v(" "),
@@ -52043,9 +52255,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_FavoriteBrandComponent_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/FavoriteBrandComponent.vue */ "./resources/js/components/FavoriteBrandComponent.vue");
 /* harmony import */ var _components_RankingComponent_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/RankingComponent.vue */ "./resources/js/components/RankingComponent.vue");
 /* harmony import */ var _components_PlayersNewsComponent_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/PlayersNewsComponent.vue */ "./resources/js/components/PlayersNewsComponent.vue");
-/* harmony import */ var _components_TourScheduleComponent_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/TourScheduleComponent.vue */ "./resources/js/components/TourScheduleComponent.vue");
-/* harmony import */ var _components_MovieComponent_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/MovieComponent.vue */ "./resources/js/components/MovieComponent.vue");
-/* harmony import */ var _components_FavoritePlayerComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/FavoritePlayerComponent.vue */ "./resources/js/components/FavoritePlayerComponent.vue");
+/* harmony import */ var _components_BrandsNewsComponent_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/BrandsNewsComponent.vue */ "./resources/js/components/BrandsNewsComponent.vue");
+/* harmony import */ var _components_TourScheduleComponent_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/TourScheduleComponent.vue */ "./resources/js/components/TourScheduleComponent.vue");
+/* harmony import */ var _components_MovieComponent_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/MovieComponent.vue */ "./resources/js/components/MovieComponent.vue");
+/* harmony import */ var _components_FavoritePlayerComponent_vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/FavoritePlayerComponent.vue */ "./resources/js/components/FavoritePlayerComponent.vue");
+
 
 
 
@@ -52058,6 +52272,7 @@ __webpack_require__.r(__webpack_exports__);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('favorite-brand-component', __webpack_require__(/*! ./components/FavoriteBrandComponent.vue */ "./resources/js/components/FavoriteBrandComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('ranking-component', __webpack_require__(/*! ./components/RankingComponent.vue */ "./resources/js/components/RankingComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('players-news-component', __webpack_require__(/*! ./components/PlayersNewsComponent.vue */ "./resources/js/components/PlayersNewsComponent.vue")["default"]);
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('brands-news-component', __webpack_require__(/*! ./components/BrandsNewsComponent.vue */ "./resources/js/components/BrandsNewsComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('tour-schedule-component', __webpack_require__(/*! ./components/TourScheduleComponent.vue */ "./resources/js/components/TourScheduleComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('movie-component', __webpack_require__(/*! ./components/MovieComponent.vue */ "./resources/js/components/MovieComponent.vue")["default"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('favorite-player-component', __webpack_require__(/*! ./components/FavoritePlayerComponent.vue */ "./resources/js/components/FavoritePlayerComponent.vue")["default"]);
@@ -52085,7 +52300,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var _ranking = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
       el: '#news-vue',
       components: {
-        PlayersNewsComponent: _components_PlayersNewsComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+        PlayersNewsComponent: _components_PlayersNewsComponent_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+        BrandsNewsComponent: _components_BrandsNewsComponent_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
       }
     });
   }
@@ -52094,8 +52310,8 @@ document.addEventListener('DOMContentLoaded', function () {
     var _ranking2 = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
       el: '#home-vue',
       components: {
-        TourScheduleComponent: _components_TourScheduleComponent_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-        MovieComponent: _components_MovieComponent_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+        TourScheduleComponent: _components_TourScheduleComponent_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+        MovieComponent: _components_MovieComponent_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
       }
     });
   }
@@ -52104,7 +52320,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var _ranking3 = new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
       el: '#favorite-player-vue',
       components: {
-        FavoritePlayerComponent: _components_FavoritePlayerComponent_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
+        FavoritePlayerComponent: _components_FavoritePlayerComponent_vue__WEBPACK_IMPORTED_MODULE_8__["default"]
       }
     });
   }
@@ -52167,6 +52383,93 @@ if (token) {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     encrypted: true
 // });
+
+/***/ }),
+
+/***/ "./resources/js/components/BrandsNewsComponent.vue":
+/*!*********************************************************!*\
+  !*** ./resources/js/components/BrandsNewsComponent.vue ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _BrandsNewsComponent_vue_vue_type_template_id_0c68983a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./BrandsNewsComponent.vue?vue&type=template&id=0c68983a&scoped=true& */ "./resources/js/components/BrandsNewsComponent.vue?vue&type=template&id=0c68983a&scoped=true&");
+/* harmony import */ var _BrandsNewsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./BrandsNewsComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/BrandsNewsComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _BrandsNewsComponent_vue_vue_type_style_index_0_id_0c68983a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true& */ "./resources/js/components/BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
+  _BrandsNewsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _BrandsNewsComponent_vue_vue_type_template_id_0c68983a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _BrandsNewsComponent_vue_vue_type_template_id_0c68983a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  "0c68983a",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/BrandsNewsComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/BrandsNewsComponent.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/BrandsNewsComponent.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BrandsNewsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./BrandsNewsComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BrandsNewsComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_BrandsNewsComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true&":
+/*!*******************************************************************************************************************!*\
+  !*** ./resources/js/components/BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true& ***!
+  \*******************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_BrandsNewsComponent_vue_vue_type_style_index_0_id_0c68983a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/dist/cjs.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/dist/cjs.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BrandsNewsComponent.vue?vue&type=style&index=0&id=0c68983a&lang=scss&scoped=true&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_BrandsNewsComponent_vue_vue_type_style_index_0_id_0c68983a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_BrandsNewsComponent_vue_vue_type_style_index_0_id_0c68983a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_BrandsNewsComponent_vue_vue_type_style_index_0_id_0c68983a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_dist_cjs_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_BrandsNewsComponent_vue_vue_type_style_index_0_id_0c68983a_lang_scss_scoped_true___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+
+
+/***/ }),
+
+/***/ "./resources/js/components/BrandsNewsComponent.vue?vue&type=template&id=0c68983a&scoped=true&":
+/*!****************************************************************************************************!*\
+  !*** ./resources/js/components/BrandsNewsComponent.vue?vue&type=template&id=0c68983a&scoped=true& ***!
+  \****************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BrandsNewsComponent_vue_vue_type_template_id_0c68983a_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./BrandsNewsComponent.vue?vue&type=template&id=0c68983a&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/BrandsNewsComponent.vue?vue&type=template&id=0c68983a&scoped=true&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BrandsNewsComponent_vue_vue_type_template_id_0c68983a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_BrandsNewsComponent_vue_vue_type_template_id_0c68983a_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
 
 /***/ }),
 

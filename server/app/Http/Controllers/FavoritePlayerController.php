@@ -143,7 +143,7 @@ class FavoritePlayerController extends Controller
                     ->getAll($user_id)
                     ->pluck('player_id');
 
-                $response = $this->makePlayerLists2($players, $favorite_player_ids);
+                $response = $this->makePlayerLists($players, $favorite_player_ids);
                 return request()->json(200, $response);
             } else {
                 return request()->json(200, $response);

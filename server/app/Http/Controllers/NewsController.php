@@ -92,6 +92,42 @@ class NewsController extends Controller
 
 
     /**
+     * [API] お気に入りブランドに基づいたニュースを取得する
+     *
+     * @param Request $request
+     * @return Json|Exception
+     */
+    public function fetchBrandsNews(Request $request)
+    {
+        try {
+            $user_id = $request->input('user_id');
+            $is_paginate = false;
+            
+            $favorite_brand_names = $this->favorite_brand_repository
+                ->fetchFavoriteBrands($user_id)
+                ->pluck('name_en')
+                ->toArray();
+
+            // お気に入りが無い場合は全件取得
+            if ( empty($favorite_brand_names) ) {
+                $response = $this->brand_news_article_repository
+                    ->fetchArticles(self::MAX_ARTICLE_NUM, $is_paginate);
+                return request()->json(200, $response);
+
+            // お気に入りがある場合はブランドを絞る
+            } else {
+                $response = $this->brand_news_article_repository
+                    ->fetchArticlesByBrandNames($favorite_brand_names, self::MAX_ARTICLE_NUM, $is_paginate);
+                return request()->json(200, $response);
+            }
+
+        } catch ( Exception $e ) {
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
+
+    /**
      * ファーストネームだけにして返す
      *
      * @param array $players

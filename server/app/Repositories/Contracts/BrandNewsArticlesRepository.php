@@ -10,9 +10,11 @@ interface BrandNewsArticlesRepository
     /**
      * 全レコードを取得
      *
-     * @return LengthAwarePaginator
-     */  
-    public function getAll(): LengthAwarePaginator;
+     * @param integer $num
+     * @param boolean $is_paginate
+     * @return Collection|LengthAwarePaginator
+     */
+    public function fetchArticles(int $num, bool $is_paginate);
 
 
     /**
@@ -29,7 +31,9 @@ interface BrandNewsArticlesRepository
      * ブランド名を元に記事を取得する
      *
      * @param array $brand_names
-     * @return LengthAwarePaginator
+     * @param integer $num
+     * @param boolean $is_paginate
+     * @return Collection|LengthAwarePaginator
      */
-    public function getArticleByBrandNames(array $brand_names): LengthAwarePaginator;
+    public function fetchArticlesByBrandNames(array $brand_names, int $num, bool $is_paginate);
 }

@@ -40,7 +40,7 @@ class FavoriteBrandController extends Controller
     {
         $user_id = Auth::user()->id;
 
-        return view('favorite_brand.top',compact('user_id'));
+        return view('favorite_brand.top', compact('user_id'));
     }
 
 
@@ -104,7 +104,7 @@ class FavoriteBrandController extends Controller
     {
         try {
             $data['user_id'] = $request->input('user_id');
-            $data['favorite_brand_id'] = $request->input('favorite_brand_id');
+            $data['brand_id'] = $request->input('favorite_brand_id');
     
             if ( !empty($data) ) {
                 $this->favorite_brands_repository->deleteRecord($data);
@@ -183,7 +183,6 @@ class FavoriteBrandController extends Controller
         foreach ( $lists as $key => $value ) {
             $sort[$key] = $value[$based_key];
         }
-
         array_multisort( $sort, SORT_DESC, $lists );
 
         return $lists;
@@ -236,7 +235,7 @@ class FavoriteBrandController extends Controller
     public function remove( Request $request )
     {
         try {
-            $data['favorite_brand_id'] = $request->favorite_brand_id;
+            $data['brand_id'] = $request->favorite_brand_id;
             $data['user_id'] = Auth::user()->id;
 
             if ( !empty($data) ) {
