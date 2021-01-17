@@ -48,7 +48,7 @@ export default {
     },
     props:["user_id"],
     mounted: function() {
-        this.fetchNews(this.user_id);
+        this.fetchPlayersNews(this.user_id);
     },
     // components: { 
     //     OpenModalComponent 
@@ -60,8 +60,8 @@ export default {
         // closeModal: function() {
         //     this.showContent = false;
         // },
-        fetchNews: function() {
-            axios.get('/api/v1/news', {
+        fetchPlayersNews: function() {
+            axios.get('/api/v1/players_news', {
                 params: {
                     user_id: this.user_id
                 }

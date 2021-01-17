@@ -2,7 +2,7 @@ import './bootstrap'
 import Vue from 'vue'
 import FavoriteBrandComponent from './components/FavoriteBrandComponent.vue'
 import RankingComponent from './components/RankingComponent.vue'
-import NewsComponent from './components/NewsComponent.vue'
+import PlayersNewsComponent from './components/PlayersNewsComponent.vue'
 import TourScheduleComponent from './components/TourScheduleComponent.vue'
 import MovieComponent from './components/MovieComponent.vue'
 import FavoritePlayerComponent from './components/FavoritePlayerComponent.vue'
@@ -10,7 +10,7 @@ import FavoritePlayerComponent from './components/FavoritePlayerComponent.vue'
 // FavoriteBrandComponent.vue を <favorite-brand-component> で使えるよう読み込み
 Vue.component('favorite-brand-component', require('./components/FavoriteBrandComponent.vue').default);
 Vue.component('ranking-component', require('./components/RankingComponent.vue').default);
-Vue.component('news-component', require('./components/NewsComponent.vue').default);
+Vue.component('players-news-component', require('./components/PlayersNewsComponent.vue').default);
 Vue.component('tour-schedule-component', require('./components/TourScheduleComponent.vue').default);
 Vue.component('movie-component', require('./components/MovieComponent.vue').default);
 Vue.component('favorite-player-component', require('./components/FavoritePlayerComponent.vue').default);
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const ranking = new Vue({
             el: '#news-vue',
             components: {
-                NewsComponent,
+                PlayersNewsComponent,
             }
         });
     }

@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Repositories\Contracts\NewsArticlesRepository;
-use App\Repositories\Contracts\BrandNewsArticlesRepository;
+
 use Exception;
 use Illuminate\Http\Request;
-use App\Repositories\Contracts\FavoritePlayersRepository;
 use Illuminate\Support\Facades\Auth;
+use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Repositories\Contracts\PlayersNewsArticleRepository;
+use App\Repositories\Contracts\BrandNewsArticlesRepository;
+use App\Repositories\Contracts\FavoriteBrandsRepository;
 
 class NewsController extends Controller
 {
     private $favorite_player_repository;
     private $players_news_article_repository;
+    private $favorite_brand_repository;
+    private $brand_news_article_repository;
 
 
     const MAX_ARTICLE_NUM = 30;
@@ -24,14 +27,20 @@ class NewsController extends Controller
      *
      * @param FavoritePlayersRepository $favorite_player_repository
      * @param PlayersNewsArticleRepository $players_news_article_repository
+     * @param FavoriteBrandsRepository $favorite_brand_repository
+     * @param BrandNewsArticlesRepository $brand_news_article_repository
      */
     public function __construct(
         FavoritePlayersRepository $favorite_player_repository,
-        PlayersNewsArticleRepository $players_news_article_repository
+        PlayersNewsArticleRepository $players_news_article_repository,
+        FavoriteBrandsRepository $favorite_brand_repository,
+        BrandNewsArticlesRepository $brand_news_article_repository
     )
     {
         $this->favorite_player_repository = $favorite_player_repository;
         $this->players_news_article_repository = $players_news_article_repository;
+        $this->favorite_brand_repository = $favorite_brand_repository;
+        $this->brand_news_article_repository = $brand_news_article_repository;
     }
 
 
@@ -51,11 +60,10 @@ class NewsController extends Controller
      * @param Request $request
      * @return Json|Exception
      */
-    public function fetchNews(Request $request)
+    public function fetchPlayersNews(Request $request)
     {
         try {
             $user_id = $request->input('user_id');
-
             $is_paginate = false;
             
             $favorite_players = $this->favorite_player_repository

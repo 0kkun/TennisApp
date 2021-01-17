@@ -25,7 +25,7 @@ Route::prefix('v1')->group(function () {
     Route::delete('/brands/delete', 'FavoriteController@deleteBrand');
 
     Route::get('/rankings', 'RankingController@fetchRankings');
-    Route::get('/news', 'NewsController@fetchNews');
+    Route::get('/players_news', 'NewsController@fetchPlayersNews');
     Route::get('/movies', 'MovieController@fetchMovies');
     Route::get('/tour_schedules', 'TourScheduleController@fetchTourSchedules');
 
