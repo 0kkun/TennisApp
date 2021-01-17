@@ -8,6 +8,7 @@ use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Services\FavoritePlayer\FavoritePlayerServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Exception;
+use Illuminate\Support\Collection;
 
 class FavoritePlayerController extends Controller
 {
@@ -139,30 +140,7 @@ class FavoritePlayerController extends Controller
 
 
     /**
-     * 渡したキーのバリューに基づいて配列をソートする
-     *
-     * @param array $lists
-     * @param string $key
-     * @return array
-     */
-    private function sortByKey( array $lists, string $based_key ): array
-    {
-        // ここの配列宣言は必須。
-        $sort = array();
-
-        // ソート用の配列を用意
-        foreach ( $lists as $key => $value ) {
-            $sort[$key] = $value[$based_key];
-        }
-
-        array_multisort( $sort, SORT_DESC, $lists );
-
-        return $lists;
-    }
-
-
-    /**
-     * 新しいデザインのブランド登録トップ画面
+     * 新しいデザインのお気に入りプレイヤー登録トップ画面
      *
      * @return void
      */
@@ -173,8 +151,9 @@ class FavoritePlayerController extends Controller
         return view('favorite_player.top',compact('user_id'));
     }
 
+
     /**
-     * ユーザーがお気に入り選手登録済みかどうかのステータス付きで選手一覧を取得する
+     * [API] ユーザーがお気に入り選手登録済みかどうかのステータス付きで選手一覧を取得する
      *
      * @param Request $request
      * @return void
@@ -185,14 +164,13 @@ class FavoritePlayerController extends Controller
             $user_id = $request->input('user_id');
 
             $players = $this->players_repository
-                ->getAll()
-                ->toArray();
+                ->getAll();
 
             $favorite_player_ids = $this->favorite_players_repository
                 ->getAll($user_id)
-                ->pluck('player_id')->toArray();
+                ->pluck('player_id');
 
-            $response = $this->makePlayerLists( $players, $favorite_player_ids );
+            $response = $this->makePlayerLists2($players, $favorite_player_ids);
 
             return request()->json(200, $response);
 
@@ -201,8 +179,9 @@ class FavoritePlayerController extends Controller
         }
     }
 
+
     /**
-     * お気に入り選手登録API
+     * [API] お気に入り選手登録
      *
      * @param Request $request
      * @return Json|Exception
@@ -224,8 +203,9 @@ class FavoritePlayerController extends Controller
         }
     }
 
+
     /**
-     * お気に入り選手削除API
+     * [API] お気に入り選手削除
      *
      * @param Request $request
      * @return Json|Exception
@@ -245,5 +225,109 @@ class FavoritePlayerController extends Controller
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
         }
+    }
+
+
+    /**
+     * [API] インクリメンタルサーチメソッド
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function searchPlayers(Request $request)
+    {
+        try {
+            $inputs['name'] = $request->input('keyword');
+            $user_id = $request->input('user_id');
+            $response = [];
+    
+            if ( !empty($inputs) ) {
+                $players = $this->players_repository->searchPlayersByName($inputs);
+
+                $favorite_player_ids = $this->favorite_players_repository
+                    ->getAll($user_id)
+                    ->pluck('player_id');
+
+                $response = $this->makePlayerLists2($players, $favorite_player_ids);
+                return request()->json(200, $response);
+            } else {
+                return request()->json(200, $response);
+            }
+        } catch (Exception $e) {
+            return response()->json($e->getMessage(), 500);
+        }
+    }
+
+
+    /**
+     * お気に入り選手が含まれている場合はフラグを立てつつ配列に加工する
+     *
+     * @param Collection $players
+     * @param Collection $favorite_player_ids
+     * @return array
+     */
+    private function makePlayerLists2( Collection $players, Collection $favorite_player_ids ): array
+    {
+        $player_lists = [];
+
+        foreach ( $players as $index => $player ) {
+            $player_lists[] = [
+                'id'              => $player->id,
+                'name_jp'         => $player->name_jp,
+                'name_en'         => $player->name_en,
+                'country'         => $player->country,
+                'age'             => $player->age,
+                'is_favorited'    => false
+            ];
+
+            if ( count($favorite_player_ids) > 0 ) { 
+                $player_lists[$index]['is_favorited'] = $this->isFavoritePlayer($favorite_player_ids, $player_lists[$index]['id']);
+            }
+        }
+
+        $based_key = 'is_favorited';
+        $player_lists = $this->sortByKey($player_lists, $based_key);
+
+        return $player_lists;
+    }
+
+
+    /**
+     * お気に入り選手かどうか判定する
+     *
+     * @param Collection $favorite_player_ids
+     * @param integer $player_id
+     * @return boolean
+     */
+    private function isFavoritePlayer(Collection $favorite_player_ids, int $player_id): bool
+    {
+        $is_favorited = false;
+        foreach ( $favorite_player_ids as $favorite_player_id ) {
+            if ( $favorite_player_id == $player_id ) $is_favorited = true;
+        }
+        return $is_favorited;
+    }
+
+
+    /**
+     * 渡したキーのバリューに基づいて配列をソートする
+     *
+     * @param array $lists
+     * @param string $key
+     * @return array
+     */
+    private function sortByKey( array $lists, string $based_key ): array
+    {
+        // ここの配列宣言は必須。
+        $sort = array();
+
+        // ソート用の配列を用意
+        foreach ( $lists as $key => $value ) {
+            $sort[$key] = $value[$based_key];
+        }
+
+        array_multisort( $sort, SORT_DESC, $lists );
+
+        return $lists;
     }
 }

@@ -2121,6 +2121,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      keyword: "",
       loadStatus: false,
       players: [],
       favorite_player_id: ''
@@ -2170,6 +2171,27 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    searchPlayers: function searchPlayers() {
+      var _this4 = this;
+
+      axios.get('/api/v1/search_players', {
+        params: {
+          keyword: this.keyword,
+          user_id: this.user_id
+        }
+      }).then(function (response) {
+        _this4.players = response.data;
+        _this4.loadStatus = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    }
+  },
+  watch: {
+    keyword: function keyword() {
+      this.searchPlayers();
+      this.loadStatus = false;
     }
   }
 });
@@ -39133,12 +39155,58 @@ var render = function() {
     [
       _c("div", { staticClass: "text-center pt-3 h2" }, [_vm._v("Player")]),
       _vm._v(" "),
-      _vm._m(0),
+      _c("div", { staticClass: "card-body pt-0 pb-2" }, [
+        _c("div", { staticClass: "form-group p-4 h4 bg-light rounded" }, [
+          _c("div", { staticClass: "font-alegreya h4 pb-2" }, [
+            _vm._v("Search Player")
+          ]),
+          _vm._v(" "),
+          _c(
+            "form",
+            {
+              attrs: { action: "" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                }
+              }
+            },
+            [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.keyword,
+                    expression: "keyword"
+                  }
+                ],
+                staticClass: "form-control mb-1",
+                attrs: {
+                  type: "text",
+                  name: "name",
+                  value: "",
+                  placeholder: "Please input keywords..."
+                },
+                domProps: { value: _vm.keyword },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.keyword = $event.target.value
+                  }
+                }
+              })
+            ]
+          )
+        ])
+      ]),
       _vm._v(" "),
-      _vm.loadStatus == false ? _c("div", [_vm._m(1)]) : _vm._e(),
+      _vm.loadStatus === false ? _c("div", [_vm._m(0)]) : _vm._e(),
       _vm._v(" "),
       _c("transition", { attrs: { name: "fade" } }, [
-        _vm.loadStatus == true
+        _vm.loadStatus === true
           ? _c("div", { staticClass: "pr-3 pl-3" }, [
               _c(
                 "table",
@@ -39200,7 +39268,7 @@ var render = function() {
                           [_vm._v(_vm._s(player.age))]
                         ),
                         _vm._v(" "),
-                        player.favorite_status == false
+                        player.is_favorited == false
                           ? _c("td", { staticClass: "text-center" }, [
                               _c(
                                 "button",
@@ -39219,7 +39287,7 @@ var render = function() {
                             ])
                           : _vm._e(),
                         _vm._v(" "),
-                        player.favorite_status == true
+                        player.is_favorited == true
                           ? _c("td", { staticClass: "text-center" }, [
                               _c(
                                 "button",
@@ -39251,30 +39319,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body pt-0 pb-2" }, [
-      _c("div", { staticClass: "form-group p-4 h4 bg-light rounded" }, [
-        _c("div", { staticClass: "font-alegreya h4 pb-2" }, [
-          _vm._v("Search Player")
-        ]),
-        _vm._v(" "),
-        _c("form", { attrs: { action: "" } }, [
-          _c("input", {
-            staticClass: "form-control mb-1",
-            attrs: {
-              type: "text",
-              name: "name",
-              value: "",
-              placeholder: "Please input keywords..."
-            }
-          })
-        ])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
