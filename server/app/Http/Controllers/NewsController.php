@@ -19,7 +19,7 @@ class NewsController extends Controller
     private $brand_news_article_repository;
 
 
-    const MAX_ARTICLE_NUM = 30;
+    const MAX_ARTICLE_NUM = 9;
 
 
     /**

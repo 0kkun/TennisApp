@@ -14,9 +14,11 @@
                 @csrf
             </form>
             </li>
-            <li class="global-nav__item"><a href="{{ route('favorite_player.top') }}">Favorite Player</a></li>
-            <li class="global-nav__item"><a href="{{ route('favorite_brand.top') }}">Favorite Brand</a></li>
-            <li class="global-nav__item"><a href="{{ route('analysis.index') }}">Player Analysis</a></li>
+            <li class="global-nav__item"><a href="{{ route('ranking.top') }}">Ranking</a></li>
+            <li class="global-nav__item"><a href="{{ route('news.top') }}">News</a></li>
+            <li class="global-nav__item"><a href="{{ route('favorite_player.top') }}">Player</a></li>
+            <li class="global-nav__item"><a href="{{ route('favorite_brand.top') }}">Brand</a></li>
+            {{-- <li class="global-nav__item"><a href="{{ route('analysis.index') }}">Player Analysis</a></li> --}}
         @else
             <li class="global-nav__item"><a href="/">HOME</a></li>
             <li class="global-nav__item"><a href="{{ route('register') }}">Register</a></li>

@@ -20,6 +20,6 @@ Route::get('/analysis', 'AnalysisController@index')->name('analysis.index');
 
 Route::get('/favorite_brand', 'FavoriteBrandController@top')->name('favorite_brand.top');
 Route::get('/favorite_player', 'FavoritePlayerController@top')->name('favorite_player.top');
-Route::get('/ranking', 'RankingController@index')->name('ranking.index');
+Route::get('/ranking', 'RankingController@top')->name('ranking.top');
 Route::get('/news', 'NewsController@top')->name('news.top');
 Route::get('/home', 'HomeController@index')->name('home.index');
