@@ -16,7 +16,7 @@ use Exception;
 class getBrandsYoutube extends Command
 {
 
-    protected $signature = 'command:getBrandsYoutube {--sync : 同期処理}';
+    protected $signature = 'command:getBrandsYoutube';
     protected $description = 'ブランドのyoutube動画を取得する';
     const MAX_COUNT = 5;
     private $brands_repository;
