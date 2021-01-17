@@ -2003,19 +2003,18 @@ __webpack_require__.r(__webpack_exports__);
     return {
       brands: [],
       favorite_brand_id: '',
-      updated: false,
       loadStatus: false
     };
   },
   props: ["user_id"],
   mounted: function mounted() {
-    this.getBrandData(this.user_id);
+    this.fetchBrands(this.user_id);
   },
   methods: {
-    getBrandData: function getBrandData() {
+    fetchBrands: function fetchBrands() {
       var _this = this;
 
-      axios.get('/api/get_brands_data', {
+      axios.get('/api/v1/brands', {
         params: {
           user_id: this.user_id
         }
@@ -2026,14 +2025,13 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     },
-    createBrand: function createBrand(brand_id) {
+    addBrand: function addBrand(brand_id) {
       var _this2 = this;
 
-      axios.post('/api/add_brand', {
+      axios.post('/api/v1/brands/add', {
         favorite_brand_id: brand_id,
         user_id: this.user_id
       }).then(function (response) {
-        _this2.updated = true;
         _this2.brands = response.data;
       })["catch"](function (error) {
         console.log(error);
@@ -2042,13 +2040,12 @@ __webpack_require__.r(__webpack_exports__);
     deleteBrand: function deleteBrand(brand_id) {
       var _this3 = this;
 
-      axios["delete"]('/api/delete_brand', {
+      axios["delete"]('/api/v1/brands/delete', {
         params: {
           favorite_brand_id: brand_id,
           user_id: this.user_id
         }
       }).then(function (response) {
-        _this3.updated = true;
         _this3.brands = response.data;
       })["catch"](function (error) {
         console.log(error);
@@ -39067,7 +39064,7 @@ var render = function() {
                             "td",
                             { staticClass: "d-table-cell d-md-table-cell" },
                             [
-                              brand.favorite_status == 0
+                              brand.is_favorited == false
                                 ? _c("div", [
                                     _c(
                                       "button",
@@ -39077,14 +39074,14 @@ var render = function() {
                                         on: {
                                           click: function($event) {
                                             $event.preventDefault()
-                                            return _vm.createBrand(brand.id)
+                                            return _vm.addBrand(brand.id)
                                           }
                                         }
                                       },
                                       [_vm._v("add")]
                                     )
                                   ])
-                                : brand.favorite_status == 1
+                                : brand.is_favorited == true
                                 ? _c("div", [
                                     _c(
                                       "button",

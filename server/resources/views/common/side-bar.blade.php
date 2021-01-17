@@ -6,7 +6,7 @@
         </a>
     </div>
     <div class="mb-1">
-        <a class="pl-1 pt-2 pb-2 h2 btn-block rounded-pill d-flex" style="text-decoration:none;" href="{{ route('news.index') }}">
+        <a class="pl-1 pt-2 pb-2 h2 btn-block rounded-pill d-flex" style="text-decoration:none;" href="{{ route('news.top') }}">
             <div class="fas fa-newspaper pl-1"></div>
             <div class="pl-3 d-none d-md-block">News</div>
         </a>

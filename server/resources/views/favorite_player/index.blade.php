@@ -134,7 +134,7 @@
                                             <td class="favorite-td favorite-age-w text-center pt-3">{{ $player['age'] }}</td>
 
                                             <td class="favorite-td favorite-age-w text-center">
-                                                @if ( $player['favorite_status'] == 0 )
+                                                @if ( $player['is_favorited'] == false )
                                                 <form method="post" action="{{ route('favorite_player.add') }}">
                                                     @csrf
                                                     <input type="hidden" name="favorite_player_id" value="{{ $player['id'] }}">
