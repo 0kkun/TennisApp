@@ -19,8 +19,10 @@ class FavoritePlayerController extends Controller
 
     /**
      * リポジトリをDI
-     * 
+     *
      * @param PlayersRepository $players_repository
+     * @param FavoritePlayersRepository $favorite_players_repository
+     * @param FavoritePlayerServiceInterface $favorite_player_service
      */
     public function __construct(
         PlayersRepository $players_repository,
@@ -36,8 +38,6 @@ class FavoritePlayerController extends Controller
 
     /**
      * 新しいデザインのお気に入りプレイヤー登録トップ画面
-     *
-     * @return void
      */
     public function top()
     {
@@ -51,7 +51,7 @@ class FavoritePlayerController extends Controller
      * [API] ユーザーがお気に入り選手登録済みかどうかのステータス付きで選手一覧を取得する
      *
      * @param Request $request
-     * @return void
+     * @return Json|Exception
      */
     public function fetchPlayers(Request $request)
     {

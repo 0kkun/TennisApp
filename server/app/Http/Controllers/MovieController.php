@@ -13,9 +13,12 @@ class MovieController extends Controller
     private $youtube_video_repository;
     private $favorite_player_repository;
 
+
     /**
      * リポジトリをDI
-     * 
+     *
+     * @param YoutubeVideosRepository $youtube_video_repository
+     * @param FavoritePlayersRepository $favorite_player_repository
      */
     public function __construct(
         YoutubeVideosRepository $youtube_video_repository,
@@ -28,9 +31,10 @@ class MovieController extends Controller
 
 
     /**
-     * 動画取得用API
+     * [API] お気に入りに登録されたプレイヤーに基づいてYoutube取得
      *
-     * @return void
+     * @param Request $request
+     * @return Json|Exception
      */
     public function fetchMovies(Request $request)
     {
@@ -41,15 +45,20 @@ class MovieController extends Controller
     
             if ( $this->hasFavoritePlayer($user_id) ) {
                 // お気に入り選手のidを取得
-                $favorite_player_ids = $this->favorite_player_repository->getFavoritePlayers($user_id)->pluck('player_id')->toArray();
+                $favorite_player_ids = $this->favorite_player_repository->getFavoritePlayers($user_id)
+                    ->pluck('player_id')
+                    ->toArray();
 
                 // idを使って動画を取得
-                $response = $this->youtube_video_repository->getVideosByPlayerIds($max_movie_num, $favorite_player_ids, $is_paginate);
+                $response = $this->youtube_video_repository
+                    ->getVideosByPlayerIds($max_movie_num, $favorite_player_ids, $is_paginate);
+
+                return request()->json(200, $response);
+
             } else {
                 $response = $this->youtube_video_repository->getAll($max_movie_num, $is_paginate);
+                return request()->json(200, $response);
             }
-
-            return request()->json(200, $response);
 
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);

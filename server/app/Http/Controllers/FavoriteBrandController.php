@@ -17,8 +17,9 @@ class FavoriteBrandController extends Controller
 
     /**
      * リポジトリをDI
-     * 
+     *
      * @param BrandsRepository $brands_repository
+     * @param FavoriteBrandsRepository $favorite_brands_repository
      */
     public function __construct(
         BrandsRepository $brands_repository,
@@ -44,7 +45,7 @@ class FavoriteBrandController extends Controller
 
 
     /**
-     * ブランド一覧表示用メソッド
+     * [API] ブランド一覧表示用メソッド
      *
      * @param Request $request
      * @return Json|Exception
@@ -70,7 +71,7 @@ class FavoriteBrandController extends Controller
 
 
     /**
-     * お気に入りブランド登録メソッド
+     * [API] お気に入りブランド登録メソッド
      *
      * @param Request $request
      * @return Json|Exception
@@ -94,7 +95,7 @@ class FavoriteBrandController extends Controller
 
 
     /**
-     * お気に入りブランド削除メソッド
+     * [API] お気に入りブランド削除メソッド
      *
      * @param Request $request
      * @return Json|Exception
