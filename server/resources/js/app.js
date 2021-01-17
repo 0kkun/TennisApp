@@ -5,17 +5,20 @@ import RankingComponent from './components/RankingComponent.vue'
 import PlayersNewsComponent from './components/PlayersNewsComponent.vue'
 import BrandsNewsComponent from './components/BrandsNewsComponent.vue'
 import TourScheduleComponent from './components/TourScheduleComponent.vue'
-import MovieComponent from './components/MovieComponent.vue'
+import PlayerMovieComponent from './components/PlayerMovieComponent.vue'
+import BrandMovieComponent from './components/BrandMovieComponent.vue'
 import FavoritePlayerComponent from './components/FavoritePlayerComponent.vue'
 
-// FavoriteBrandComponent.vue を <favorite-brand-component> で使えるよう読み込み
+
 Vue.component('favorite-brand-component', require('./components/FavoriteBrandComponent.vue').default);
 Vue.component('ranking-component', require('./components/RankingComponent.vue').default);
 Vue.component('players-news-component', require('./components/PlayersNewsComponent.vue').default);
 Vue.component('brands-news-component', require('./components/BrandsNewsComponent.vue').default);
 Vue.component('tour-schedule-component', require('./components/TourScheduleComponent.vue').default);
-Vue.component('movie-component', require('./components/MovieComponent.vue').default);
+Vue.component('player-movie-component', require('./components/PlayerMovieComponent.vue').default);
+Vue.component('brand-movie-component', require('./components/BrandMovieComponent.vue').default);
 Vue.component('favorite-player-component', require('./components/FavoritePlayerComponent.vue').default);
+
 
 document.addEventListener('DOMContentLoaded', function() {
     // idが無い場合はVueインスタンスを作成しないようにする
@@ -49,7 +52,8 @@ document.addEventListener('DOMContentLoaded', function() {
             el: '#home-vue',
             components: {
                 TourScheduleComponent,
-                MovieComponent
+                PlayerMovieComponent,
+                BrandMovieComponent
             }
         });
     }
