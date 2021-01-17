@@ -35,111 +35,6 @@ class FavoritePlayerController extends Controller
 
 
     /**
-     * お気に入り選手登録画面
-     *
-     * @return void
-     */
-    public function index( Request $request )
-    {
-        // 入力された検索パラメータ取得
-        $inputs = $request->all();
-
-        $params = [
-            'name'    => $inputs['name'] ?? '',
-            'country' => $inputs['country'] ?? '',
-            'age'     => $inputs['age'] ?? '',
-        ];
-
-        $players = $this->favorite_player_service->searchPlayers($inputs)->toArray();
-
-        $favorite_player_ids = $this->favorite_players_repository->getAll()->pluck('player_id')->toArray();
-
-        $player_lists = $this->makePlayerLists( $players, $favorite_player_ids );
-
-        $country_names = $this->players_repository->getAllCountryNames();
-
-        return view('favorite_player.index', compact('player_lists','params','country_names'));
-    }
-
-
-    /**
-     * お気に入り選手登録メソッド
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function add( Request $request )
-    {
-        $data['player_id'] = $request->favorite_player_id;
-        $data['user_id'] = Auth::user()->id;
-
-        // バルクインサートで保存
-        if ( !empty($data) ) {
-            $this->favorite_players_repository->bulkInsertOrUpdate( $data );
-        }
-
-        session()->flash('flash_success', 'You added player!');
-
-        return redirect()->route('favorite_player.index');
-    }
-
-
-    /**
-     * お気に入り選手削除メソッド
-     *
-     * @param Request $request
-     * @return void
-     */
-    public function remove(Request $request)
-    {
-        $data['player_id'] = $request->favorite_player_id;
-        $data['user_id'] = Auth::user()->id;
-
-        $this->favorite_players_repository->deleteRecord($data);
-
-        session()->flash('flash_alert', 'You removed player.');
-
-        return redirect()->route('favorite_player.index');
-    }
-
-
-    /**
-     * お気に入り選手に登録されている場合はフラグを立てつつ、一覧表示用のデータを作成
-     *
-     * @param array $players
-     * @param array $favorite_players
-     * @return array
-     */
-    private function makePlayerLists( array $players, array $favorite_player_ids ): array
-    {
-        $player_lists = array();
-
-        foreach ( $players as $index => $player ) {
-
-            $player_lists[$index]['id']              = $player['id'];
-            $player_lists[$index]['name_jp']         = $player['name_jp'];
-            $player_lists[$index]['name_en']         = $player['name_en'];
-            $player_lists[$index]['country']         = $player['country'];
-            $player_lists[$index]['age']             = $player['age'];
-            $player_lists[$index]['favorite_status'] = 0;
-
-            if ( count($favorite_player_ids) > 0 ) {
-                for ( $i=0; $i<count($favorite_player_ids); $i++ ) {
-                    if ( $player_lists[$index]['id'] === $favorite_player_ids[$i] ) {
-                        $player_lists[$index]['favorite_status'] = 1;
-                    }
-                }
-            }
-        }
-
-        $based_key = 'favorite_status';
-        $player_lists = $this->sortByKey( $player_lists, $based_key );
-
-        return $player_lists;
-    }
-
-
-    /**
      * 新しいデザインのお気に入りプレイヤー登録トップ画面
      *
      * @return void
@@ -170,7 +65,7 @@ class FavoritePlayerController extends Controller
                 ->getAll($user_id)
                 ->pluck('player_id');
 
-            $response = $this->makePlayerLists2($players, $favorite_player_ids);
+            $response = $this->makePlayerLists($players, $favorite_player_ids);
 
             return request()->json(200, $response);
 
@@ -232,7 +127,7 @@ class FavoritePlayerController extends Controller
      * [API] インクリメンタルサーチメソッド
      *
      * @param Request $request
-     * @return void
+     * @return Json|Exception
      */
     public function searchPlayers(Request $request)
     {
@@ -266,7 +161,7 @@ class FavoritePlayerController extends Controller
      * @param Collection $favorite_player_ids
      * @return array
      */
-    private function makePlayerLists2( Collection $players, Collection $favorite_player_ids ): array
+    private function makePlayerLists( Collection $players, Collection $favorite_player_ids ): array
     {
         $player_lists = [];
 
@@ -281,7 +176,7 @@ class FavoritePlayerController extends Controller
             ];
 
             if ( count($favorite_player_ids) > 0 ) { 
-                $player_lists[$index]['is_favorited'] = $this->isFavoritePlayer($favorite_player_ids, $player_lists[$index]['id']);
+                $player_lists[$index]['is_favorited'] = $this->isFavorite($favorite_player_ids, $player_lists[$index]['id']);
             }
         }
 
@@ -293,17 +188,17 @@ class FavoritePlayerController extends Controller
 
 
     /**
-     * お気に入り選手かどうか判定する
+     * お気に入りかどうか判定する
      *
-     * @param Collection $favorite_player_ids
-     * @param integer $player_id
+     * @param Collection $favorite_ids
+     * @param integer $id
      * @return boolean
      */
-    private function isFavoritePlayer(Collection $favorite_player_ids, int $player_id): bool
+    private function isFavorite(Collection $favorite_ids, int $id): bool
     {
         $is_favorited = false;
-        foreach ( $favorite_player_ids as $favorite_player_id ) {
-            if ( $favorite_player_id == $player_id ) $is_favorited = true;
+        foreach ( $favorite_ids as $favorite_id ) {
+            if ( $favorite_id == $id ) $is_favorited = true;
         }
         return $is_favorited;
     }
@@ -329,5 +224,75 @@ class FavoritePlayerController extends Controller
         array_multisort( $sort, SORT_DESC, $lists );
 
         return $lists;
+    }
+
+    /* --------------------- 以下、旧タイプのソース ---------------------- */
+
+    /**
+     * お気に入り選手登録画面
+     *
+     * @return void
+     */
+    public function index( Request $request )
+    {
+        // 入力された検索パラメータ取得
+        $inputs = $request->all();
+
+        $params = [
+            'name'    => $inputs['name'] ?? '',
+            'country' => $inputs['country'] ?? '',
+            'age'     => $inputs['age'] ?? '',
+        ];
+
+        $players = $this->favorite_player_service->searchPlayers($inputs);
+
+        $favorite_player_ids = $this->favorite_players_repository->getAll()->pluck('player_id');
+
+        $player_lists = $this->makePlayerLists( $players, $favorite_player_ids );
+
+        $country_names = $this->players_repository->getAllCountryNames();
+
+        return view('favorite_player.index', compact('player_lists','params','country_names'));
+    }
+
+
+    /**
+     * お気に入り選手登録メソッド
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function add( Request $request )
+    {
+        $data['player_id'] = $request->favorite_player_id;
+        $data['user_id'] = Auth::user()->id;
+
+        // バルクインサートで保存
+        if ( !empty($data) ) {
+            $this->favorite_players_repository->bulkInsertOrUpdate( $data );
+        }
+
+        session()->flash('flash_success', 'You added player!');
+
+        return redirect()->route('favorite_player.index');
+    }
+
+
+    /**
+     * お気に入り選手削除メソッド
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function remove(Request $request)
+    {
+        $data['player_id'] = $request->favorite_player_id;
+        $data['user_id'] = Auth::user()->id;
+
+        $this->favorite_players_repository->deleteRecord($data);
+
+        session()->flash('flash_alert', 'You removed player.');
+
+        return redirect()->route('favorite_player.index');
     }
 }
