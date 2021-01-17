@@ -104,15 +104,15 @@ class TopService implements TopServiceInterface
     public function getVideosByFavoritePlayer()
     {
         $is_paginate = true;
-        $max_movie_num = 10;
+        $max_num = 6;
 
         if ( $this->hasFavoritePlayer() ) {
             // お気に入り選手のidを取得
             $favorite_player_ids = $this->favorite_players_repository->getFavoritePlayers()->pluck('player_id')->toArray();
             // idを使って動画を取得
-            $youtube_videos = $this->youtube_videos_repository->getVideosByPlayerIds($max_movie_num, $favorite_player_ids, $is_paginate);
+            $youtube_videos = $this->youtube_videos_repository->getVideosByPlayerIds($max_num, $favorite_player_ids, $is_paginate);
         } else {
-            $youtube_videos = $this->youtube_videos_repository->getAll($max_movie_num, $is_paginate);
+            $youtube_videos = $this->youtube_videos_repository->getAll($max_num, $is_paginate);
         }
         return $youtube_videos;
     }
@@ -125,13 +125,16 @@ class TopService implements TopServiceInterface
      */
     public function getVideosByFavoriteBrand()
     {
+        $is_paginate = true;
+        $max_num = 6;
+
         if ( $this->hasFavoriteBrand() ) {
             // お気に入りブランドのidを取得
             $favorite_brand_ids = $this->favorite_brands_repository->fetchFavoriteBrands()->pluck('brand_id')->toArray();
             // idを使って動画を取得
-            $youtube_videos = $this->brand_youtube_videos_repository->getVideosByBrandIds( $favorite_brand_ids );
+            $youtube_videos = $this->brand_youtube_videos_repository->getVideosByBrandIds($max_num, $favorite_brand_ids, $is_paginate );
         } else {
-            $youtube_videos = $this->brand_youtube_videos_repository->getAll();
+            $youtube_videos = $this->brand_youtube_videos_repository->getAll($max_num, $is_paginate);
         }
         return $youtube_videos;
     }
