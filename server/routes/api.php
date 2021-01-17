@@ -27,7 +27,8 @@ Route::prefix('v1')->group(function () {
     Route::get('/rankings', 'RankingController@fetchRankings');
     Route::get('/players_news', 'NewsController@fetchPlayersNews');
     Route::get('/brands_news', 'NewsController@fetchBrandsNews');
-    Route::get('/movies', 'MovieController@fetchMovies');
+    Route::get('/player_movies', 'MovieController@fetchPlayerMovies');
+    Route::get('/brand_movies', 'MovieController@fetchBrandMovies');
     Route::get('/tour_schedules', 'TourScheduleController@fetchTourSchedules');
 
     Route::get('/players', 'FavoritePlayerController@fetchPlayers');
