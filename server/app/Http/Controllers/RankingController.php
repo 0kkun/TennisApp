@@ -27,7 +27,7 @@ class RankingController extends Controller
     /**
      * 新しいデザインのランキングトップ画面
      */
-    public function index()
+    public function top()
     {
         return view('ranking.top');
     }
