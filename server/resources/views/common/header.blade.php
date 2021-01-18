@@ -3,7 +3,7 @@
     <nav class="global-nav">
         <ul class="global-nav__list font-alegreya font-weight-bold">
         @if(Auth::check())
-            <li class="global-nav__item"><a href="/">HOME</a></li>
+            <li class="global-nav__item"><a href="{{ route('home.index') }}">HOME</a></li>
             <li class="global-nav__item"><a href="{{ route('ranking.top') }}">Ranking</a></li>
             <li class="global-nav__item"><a href="{{ route('news.top') }}">News</a></li>
             <li class="global-nav__item"><a href="{{ route('favorite_player.top') }}">Player</a></li>
@@ -33,7 +33,7 @@
     </div>
     <div class="black-bg" id="js-black-bg"></div>
     <!------------------------------------------->
-    <a href="/" style="text-decoration: none;">
+    <a href="{{ route('home.index') }}" style="text-decoration: none;">
         <div class="text-white h1 font-alegreya pt-3 pb-2 pl-5">Tennis App</div>
     </a>
 </div>
