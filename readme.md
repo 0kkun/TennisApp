@@ -16,33 +16,50 @@
 - リンク：
 - テストユーザーアカウント
 
-> **ID :** admin@mail.com
+> **ID :** admin@gmail.com
 > **PASS :** secret
 
 ## 制作背景
 - 色々なサイトにアクセスして情報を集める手間を省き、効率よく必要とする情報を閲覧できるようにするため
+
+## このアプリでできること
+- 最新のランキング閲覧
+ユーザーが登録したお気に入り選手・ブランドに基づいて、以下を閲覧できる
+- 選手の最新ニュース記事
+- 選手の最新Youtube動画
+- ブランドのニュース記事
+- ブランドのレビューYoutube動画
+
+** データはスクレイピングとGoogle Apiを使用し、DBに保存しています **
 
 ## 工夫したポイント
 - スクレイピング技術を使用し、複数サイトからの情報を保管できるようにした
 - google apiを用いて動画情報を検索・取得できるようにした
 - レスポンシブデザインを採用
 
-## 使用技術
+## 使用技術・アーキテクチャ
+
 ### サーバーサイド
 - Laravel 5.7.29
 - PHP 7.2.29
 - MySQL 5.6
+- Docker
+- CircleCI
 - google api v3 (youtube)
-- scraping (goutte)
+- goutte (スクレイピング)
 - Repository pattern
 
 ### フロントエンド
-- HTML/CSS
-- Bootstrap ver4.2
+- HTML
+- SASS
+- Bootstrap
+- Vue.js
+- webpack
 - javascript
 - jquery
+
 - Chart.js (予定)
-- Vue.js (予定)
+
 
 ## 今後実装したい機能
 - 選手のランキング推移をチャートで表示
