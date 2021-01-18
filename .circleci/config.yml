@@ -10,7 +10,7 @@ jobs:
       - DB_CONNECTION: mysql
       - DB_DATABASE: laravel_testing
       - DB_USERNAME: root
-    working_directory: ~/server
+    working_directory: ~/TennisApp
     steps:
       - checkout
       - run:
@@ -21,15 +21,14 @@ jobs:
           command: sudo docker-php-ext-install pdo_mysql
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "server/composer.json" }}
+            - v1-dependencies-{{ checksum "./server/composer.json" }}
             - v1-dependencies-
       - run:
           name: Install PHP libraries
-          command: composer install -n --prefer-dist
+          command: composer install -n --prefer-dist --working-dir=./server
       - save_cache:
           paths:
-            - ./vendor
-          key: v1-dependencies-{{ checksum "server/composer.json" }}
-      - run:
-          name: Run PHPUnit
-          command: vendor/bin/phpunit
+            - .server/vendor
+          key: v1-dependencies-{{ checksum "./server/composer.json" }}
+      - run: php ./server/artisan --env=testing
+      - run: php ./server/vendor/bin/phpunit --configuration=./server/phpunit.xml
