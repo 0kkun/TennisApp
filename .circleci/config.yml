@@ -10,7 +10,7 @@ jobs:
       - DB_CONNECTION: mysql
       - DB_DATABASE: laravel_testing
       - DB_USERNAME: root
-    working_directory: ~/tennis-app
+    working_directory: ~/server
     steps:
       - checkout
       - run:
