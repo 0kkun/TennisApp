@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\RankingRepository;
 use Exception;
+use Illuminate\Support\Facades\Auth;
 
 class RankingController extends Controller
 {
@@ -29,7 +30,11 @@ class RankingController extends Controller
      */
     public function top()
     {
-        return view('ranking.top');
+        if (Auth::check()) {
+            return view('ranking.top');
+        } else {
+            return view('top.index');
+        }
     }
 
 

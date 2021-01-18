@@ -7,7 +7,5 @@
         <div id="favorite-player-vue">
             <favorite-player-component v-bind:user_id="{{ ($user_id) }}"></favorite-player-component>
         </div>
-    @else
-        @include('top.welcome')
     @endif
 @endsection

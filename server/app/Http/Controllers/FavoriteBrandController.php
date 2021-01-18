@@ -59,9 +59,12 @@ class FavoriteBrandController extends Controller
      */
     public function top()
     {
-        $user_id = Auth::user()->id;
-
-        return view('favorite_brand.top', compact('user_id'));
+        if (Auth::check()) {
+            $user_id = Auth::user()->id;
+            return view('favorite_brand.top', compact('user_id'));
+        } else {
+            return view('top.index');
+        }
     }
 
 

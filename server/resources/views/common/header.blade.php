@@ -20,7 +20,7 @@
             </li>
             {{-- <li class="global-nav__item"><a href="{{ route('analysis.index') }}">Player Analysis</a></li> --}}
         @else
-            <li class="global-nav__item"><a href="/">HOME</a></li>
+            <li class="global-nav__item"><a href="{{ route('home.index') }}">HOME</a></li>
             <li class="global-nav__item"><a href="{{ route('register') }}">Register</a></li>
             <li class="global-nav__item"><a href="{{ route('login') }}">Login</a></li>
         @endif

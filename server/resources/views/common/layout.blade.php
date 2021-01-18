@@ -16,6 +16,7 @@
     <body>
         <div class="content-body-background">
             @include('common.header')
+            {{-- md以上で表示 --}}
             <div class="container">
                 <div class="row">
                     <div class="col-md-3 d-none d-sm-none d-md-block">
