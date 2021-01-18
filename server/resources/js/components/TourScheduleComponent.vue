@@ -1,6 +1,6 @@
 <template>
     <div class="card mt-3 font-alegreya font-weight-bold">
-        <div class="text-center pt-3 pb-2 h2">Tour Schedule</div>
+        <div class="text-center pt-3 pb-2 h2 bg-secondary text-white">Tour Schedule</div>
 
         <div v-if="loadStatus == false">
             <div class="h2 text-center text-danger">Now on loading .....<i class="fas fa-broadcast-tower"></i></div>
@@ -57,7 +57,6 @@ export default {
             .then((response) => {
                 this.tourSchedules = response.data;
                 this.loadStatus = true;
-                console.log(this.tourSchedules);
             })
             .catch((error) => {
                 console.log(error); 

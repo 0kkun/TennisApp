@@ -9,9 +9,11 @@ interface BrandYoutubeVideosRepository
     /**
      * 全レコードを取得
      *
-     * @return LengthAwarePaginator
-     */  
-    public function getAll(): LengthAwarePaginator;
+     * @param integer $num
+     * @param boolean $is_paginate
+     * @return Collection|LengthAwarePaginator
+     */
+    public function getAll(int $num, bool $is_paginate);
 
 
     /**
@@ -27,8 +29,10 @@ interface BrandYoutubeVideosRepository
     /**
      * brand_idを元にyoutube動画を取得する
      *
+     * @param integer $num
      * @param array $brand_ids
-     * @return LengthAwarePaginator
+     * @param boolean $is_paginate
+     * @return Collection|LengthAwarePaginator
      */
-    public function getVideosByBrandIds( array $brand_ids ): LengthAwarePaginator;
+    public function getVideosByBrandIds(int $num, array $brand_ids, bool $is_paginate);
 }

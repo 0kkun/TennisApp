@@ -10,9 +10,11 @@ class RankingController extends Controller
 {
     private $ranking_repository;
 
+
     /**
      * リポジトリをDI
-     * 
+     *
+     * @param RankingRepository $ranking_repository
      */
     public function __construct(
         RankingRepository $ranking_repository
@@ -22,16 +24,20 @@ class RankingController extends Controller
     }
 
 
-    public function index()
+    /**
+     * 新しいデザインのランキングトップ画面
+     */
+    public function top()
     {
-        return view('ranking.index');
+        return view('ranking.top');
     }
 
+
     /**
-     * ランキング取得用のAPI
+     * [API] ランキング取得メソッド
      *
      * @param Request $request
-     * @return void
+     * @return Json|Exception
      */
     public function fetchRankings(Request $request)
     {

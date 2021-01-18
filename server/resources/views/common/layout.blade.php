@@ -18,18 +18,20 @@
             @include('common.header')
             <div class="container">
                 <div class="row">
-
-                    <div class="col-3">
+                    <div class="col-md-3 d-none d-sm-none d-md-block">
                         @include('common.side-bar')
                     </div>
-
-                    <div class="col-9">
+                    <div class="col-md-9">
                         @yield('content')
                     </div>
-
                 </div>
             </div>
+            {{-- smサイズのみ表示 --}}
+            <div class="fixed-bottom bg-light d-block d-sm-none" style="height:55px;">
+                @include('common.foot-bar')
+            </div>
         </div>
+
 
         <script src="{{ mix('js/app.js') }}"></script>
         <script type="text/javascript" src="/js/common/nav_menu.js"></script>

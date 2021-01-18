@@ -17,18 +17,22 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::get('/get_brands_data', 'ApiController@getBrandsData');
-Route::post('/add_brand', 'ApiController@addBrand');
-Route::delete('/delete_brand', 'ApiController@deleteBrand');
 
-Route::get('/v1/rankings', 'RankingController@fetchRankings');
 
-Route::get('/v1/news', 'NewsController@fetchNews');
+Route::prefix('v1')->group(function () {
+    Route::get('/brands', 'FavoriteBrandController@fetchBrands');
+    Route::post('/brands/create', 'FavoriteBrandController@addBrand');
+    Route::delete('/brands/delete', 'FavoriteBrandController@deleteBrand');
 
-Route::get('/v1/movies', 'MovieController@fetchMovies');
+    Route::get('/rankings', 'RankingController@fetchRankings');
+    Route::get('/players_news', 'NewsController@fetchPlayersNews');
+    Route::get('/brands_news', 'NewsController@fetchBrandsNews');
+    Route::get('/player_movies', 'MovieController@fetchPlayerMovies');
+    Route::get('/brand_movies', 'MovieController@fetchBrandMovies');
+    Route::get('/tour_schedules', 'TourScheduleController@fetchTourSchedules');
 
-Route::get('/v1/tour_schedules', 'TourScheduleController@fetchTourSchedules');
-
-Route::get('/v1/players', 'FavoritePlayerController@fetchPlayers');
-Route::post('/v1/add_player', 'FavoritePlayerController@addPlayer');
-Route::delete('/v1/delete_player', 'FavoritePlayerController@deletePlayer');
+    Route::get('/players', 'FavoritePlayerController@fetchPlayers');
+    Route::post('/add_player', 'FavoritePlayerController@addPlayer');
+    Route::delete('/delete_player', 'FavoritePlayerController@deletePlayer');
+    Route::get('/search_players', 'FavoritePlayerController@searchPlayers');
+});

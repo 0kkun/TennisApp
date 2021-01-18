@@ -1,6 +1,6 @@
 <template>
     <div class="card mt-3 font-alegreya font-weight-bold">
-        <div class="text-center pt-3 h2">Ranking</div>
+        <div class="text-center pt-3 h2 bg-secondary text-white">Ranking</div>
         <div class="card-body">
 
             <div v-if="loadStatus == false">

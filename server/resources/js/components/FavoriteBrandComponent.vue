@@ -1,6 +1,6 @@
 <template>
     <div class="card mt-3 font-alegreya">
-        <div class="text-center pt-3 h2">Brand</div>
+        <div class="text-center pt-3 h2 bg-secondary text-white">Brand</div>
         <div class="card-body">
 
             <div v-if="loadStatus == false">
@@ -22,10 +22,10 @@
                                 <td class="d-table-cell d-md-table-cell">{{ brand.name_jp }}</td> <!-- 常に表示 -->
                                 <td class="d-table-cell d-md-table-cell">{{ brand.country }}</td>
                                 <td class="d-table-cell d-md-table-cell">
-                                    <div v-if="brand.favorite_status == 0">
-                                        <button @click.prevent="createBrand(brand.id)" class="btn btn-success pt-0 pb-0">add</button>
+                                    <div v-if="brand.is_favorited == false">
+                                        <button @click.prevent="addBrand(brand.id)" class="btn btn-success pt-0 pb-0">add</button>
                                     </div>
-                                    <div v-else-if="brand.favorite_status == 1">
+                                    <div v-else-if="brand.is_favorited == true">
                                         <button @click.prevent="deleteBrand(brand.id)" class="btn btn-danger pt-0 pb-0">remove</button>
                                     </div>
                                 </td>
@@ -48,17 +48,16 @@ export default {
         return {
             brands: [],
             favorite_brand_id: '',
-            updated: false,
             loadStatus: false,
         }
     },
     props:["user_id"],
     mounted: function() {
-        this.getBrandData(this.user_id);
+        this.fetchBrands(this.user_id);
     },
     methods: {
-        getBrandData: function() {
-            axios.get('/api/get_brands_data', {
+        fetchBrands: function() {
+            axios.get('/api/v1/brands', {
                 params: {
                     user_id: this.user_id
                 }
@@ -71,13 +70,12 @@ export default {
                 console.log(error); 
             });
         },
-        createBrand: function(brand_id) {
-            axios.post('/api/add_brand', {
+        addBrand: function(brand_id) {
+            axios.post('/api/v1/brands/create', {
                 favorite_brand_id: brand_id,
                 user_id: this.user_id
             })
             .then((response) => {
-                this.updated = true;
                 this.brands = response.data;
             })
             .catch((error) => {
@@ -85,14 +83,13 @@ export default {
             });
         },
         deleteBrand: function(brand_id) {
-            axios.delete('/api/delete_brand', {
+            axios.delete('/api/v1/brands/delete', {
                 params: {
                     favorite_brand_id: brand_id,
                     user_id: this.user_id
                 }
             })
             .then((response) => {
-                this.updated = true;
                 this.brands = response.data;
             })
             .catch((error) => {

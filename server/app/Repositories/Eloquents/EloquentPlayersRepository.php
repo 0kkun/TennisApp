@@ -86,6 +86,20 @@ class EloquentPlayersRepository implements PlayersRepository
     }
 
     /**
+     * 名前検索メソッド
+     *
+     * @param array $input
+     * @return void
+     */
+    public function searchPlayersByName(array $input): Collection
+    {
+        return $this->players
+                    ->orWhere('name_jp', 'like', '%' . $input['name'] . '%')
+                    ->orWhere('name_en', 'like', '%' . $input['name'] . '%')
+                    ->get();
+    }
+
+    /**
      * 全ての国名を取得し、重複削除して一意にして返す
      *
      * @return array

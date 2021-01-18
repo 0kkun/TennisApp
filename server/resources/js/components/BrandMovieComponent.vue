@@ -1,6 +1,6 @@
 <template>
     <div class="card mt-3 font-alegreya font-weight-bold">
-        <div class="text-center pt-3 pb-2 h2">Youtube</div>
+        <div class="text-center pt-3 pb-2 h2 bg-secondary text-white">Brand Movie</div>
 
         <div v-if="loadStatus == false">
             <div class="h2 text-center text-danger">Now on loading .....<i class="fas fa-broadcast-tower"></i></div>
@@ -21,6 +21,7 @@
     </div>
 </template>
 
+
 <script>
 export default {
     data() {
@@ -35,7 +36,7 @@ export default {
     },
     methods: {
         fetchMovies: function() {
-            axios.get('/api/v1/movies', {
+            axios.get('/api/v1/brand_movies', {
                 params: {
                     user_id: this.user_id
                 }
@@ -51,6 +52,7 @@ export default {
     }
 }
 </script>
+
 
 <style lang="scss" scoped>
 /* アニメーション */

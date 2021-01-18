@@ -33,6 +33,14 @@ interface PlayersRepository
     public function searchPlayers( array $inputs ): Collection;
 
     /**
+     * 名前検索メソッド
+     *
+     * @param array $input
+     * @return void
+     */
+    public function searchPlayersByName(array $input): Collection;
+
+    /**
      * 全ての国名を取得
      *
      * @return array
