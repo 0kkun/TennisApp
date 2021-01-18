@@ -3,13 +3,15 @@ jobs:
   build:
     docker:
       - image: circleci/php:7.2-node-browsers
-      - image: circleci/mariadb:10.4
+      - image: circleci/mysql:5.7
     environment:
       - APP_DEBUG: true
       - APP_ENV: testing
       - DB_CONNECTION: mysql
       - DB_DATABASE: laravel_testing
       - DB_USERNAME: root
+      - MYSQL_ROOT_PASSWORD: password
+      - DB_HOST: 127.0.0.1
     working_directory: ~/TennisApp
     steps:
       - checkout
