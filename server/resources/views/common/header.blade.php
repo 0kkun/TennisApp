@@ -4,20 +4,20 @@
         <ul class="global-nav__list font-alegreya font-weight-bold">
         @if(Auth::check())
             <li class="global-nav__item"><a href="/">HOME</a></li>
-            <li class="global-nav__item">
-            <a class="dropdown-item" href="{{ route('logout') }}"
-                onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();">
-                Logout
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-            </form>
-            </li>
             <li class="global-nav__item"><a href="{{ route('ranking.top') }}">Ranking</a></li>
             <li class="global-nav__item"><a href="{{ route('news.top') }}">News</a></li>
             <li class="global-nav__item"><a href="{{ route('favorite_player.top') }}">Player</a></li>
             <li class="global-nav__item"><a href="{{ route('favorite_brand.top') }}">Brand</a></li>
+            <li class="global-nav__item">
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                    onclick="event.preventDefault();
+                    document.getElementById('logout-form').submit();">
+                    Logout
+                </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </li>
             {{-- <li class="global-nav__item"><a href="{{ route('analysis.index') }}">Player Analysis</a></li> --}}
         @else
             <li class="global-nav__item"><a href="/">HOME</a></li>

@@ -2244,6 +2244,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -39532,10 +39535,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "card mt-3 font-alegreya" },
-    [
+  return _c("div", [
+    _c("div", { staticClass: "card mt-3 font-alegreya" }, [
       _c(
         "div",
         { staticClass: "text-center pt-3 h2 bg-secondary text-white" },
@@ -39588,122 +39589,134 @@ var render = function() {
             ]
           )
         ])
-      ]),
-      _vm._v(" "),
-      _vm.loadStatus === false ? _c("div", [_vm._m(0)]) : _vm._e(),
-      _vm._v(" "),
-      _c("transition", { attrs: { name: "fade" } }, [
-        _vm.loadStatus === true
-          ? _c("div", { staticClass: "pr-3 pl-3" }, [
-              _c(
-                "table",
-                { staticClass: "table table-striped table-bordered" },
-                [
-                  _c("thead", { staticClass: "thead-dark" }, [
-                    _c("tr", [
-                      _c("th", { staticClass: "text-center" }, [
-                        _vm._v("Name")
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-center d-none d-md-table-cell" },
-                        [_vm._v("Name(jp)")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-center d-none d-md-table-cell" },
-                        [_vm._v("Country")]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "th",
-                        { staticClass: "text-center d-none d-md-table-cell" },
-                        [_vm._v("Age")]
-                      ),
-                      _vm._v(" "),
-                      _c("th", { staticClass: "text-center" }, [
-                        _vm._v("Add / Remove")
-                      ])
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "tbody",
-                    _vm._l(_vm.players, function(player) {
-                      return _c("tr", { key: player.id }, [
-                        _c("td", { staticClass: "text-center" }, [
-                          _vm._v(_vm._s(player.name_en))
+      ])
+    ]),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "card mt-2 pt-3" },
+      [
+        _vm.loadStatus === false ? _c("div", [_vm._m(0)]) : _vm._e(),
+        _vm._v(" "),
+        _c("transition", { attrs: { name: "fade" } }, [
+          _vm.loadStatus === true
+            ? _c("div", { staticClass: "pr-3 pl-3" }, [
+                _c(
+                  "table",
+                  { staticClass: "table table-striped table-bordered" },
+                  [
+                    _c("thead", { staticClass: "thead-dark" }, [
+                      _c("tr", [
+                        _c("th", { staticClass: "text-center" }, [
+                          _vm._v("Name")
                         ]),
                         _vm._v(" "),
                         _c(
-                          "td",
+                          "th",
                           { staticClass: "text-center d-none d-md-table-cell" },
-                          [_vm._v(_vm._s(player.name_jp))]
+                          [_vm._v("Name(jp)")]
                         ),
                         _vm._v(" "),
                         _c(
-                          "td",
+                          "th",
                           { staticClass: "text-center d-none d-md-table-cell" },
-                          [_vm._v(_vm._s(player.country))]
+                          [_vm._v("Country")]
                         ),
                         _vm._v(" "),
                         _c(
-                          "td",
+                          "th",
                           { staticClass: "text-center d-none d-md-table-cell" },
-                          [_vm._v(_vm._s(player.age))]
+                          [_vm._v("Age")]
                         ),
                         _vm._v(" "),
-                        player.is_favorited == false
-                          ? _c("td", { staticClass: "text-center" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass:
-                                    "btn btn-success pt-0 pb-0 pr-1 pl-1",
-                                  on: {
-                                    click: function($event) {
-                                      $event.preventDefault()
-                                      return _vm.createPlayer(player.id)
-                                    }
-                                  }
-                                },
-                                [_vm._v("Add")]
-                              )
-                            ])
-                          : _vm._e(),
-                        _vm._v(" "),
-                        player.is_favorited == true
-                          ? _c("td", { staticClass: "text-center" }, [
-                              _c(
-                                "button",
-                                {
-                                  staticClass:
-                                    "btn btn-danger pt-0 pb-0 pr-1 pl-1",
-                                  on: {
-                                    click: function($event) {
-                                      $event.preventDefault()
-                                      return _vm.deletePlayer(player.id)
-                                    }
-                                  }
-                                },
-                                [_vm._v("Remove")]
-                              )
-                            ])
-                          : _vm._e()
+                        _c("th", { staticClass: "text-center" }, [
+                          _vm._v("Add / Remove")
+                        ])
                       ])
-                    }),
-                    0
-                  )
-                ]
-              )
-            ])
-          : _vm._e()
-      ])
-    ],
-    1
-  )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "tbody",
+                      _vm._l(_vm.players, function(player) {
+                        return _c("tr", { key: player.id }, [
+                          _c("td", { staticClass: "text-center" }, [
+                            _vm._v(_vm._s(player.name_en))
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "text-center d-none d-md-table-cell"
+                            },
+                            [_vm._v(_vm._s(player.name_jp))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "text-center d-none d-md-table-cell"
+                            },
+                            [_vm._v(_vm._s(player.country))]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "td",
+                            {
+                              staticClass: "text-center d-none d-md-table-cell"
+                            },
+                            [_vm._v(_vm._s(player.age))]
+                          ),
+                          _vm._v(" "),
+                          player.is_favorited == false
+                            ? _c("td", { staticClass: "text-center" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-success pt-0 pb-0 pr-1 pl-1",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.createPlayer(player.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Add")]
+                                )
+                              ])
+                            : _vm._e(),
+                          _vm._v(" "),
+                          player.is_favorited == true
+                            ? _c("td", { staticClass: "text-center" }, [
+                                _c(
+                                  "button",
+                                  {
+                                    staticClass:
+                                      "btn btn-danger pt-0 pb-0 pr-1 pl-1",
+                                    on: {
+                                      click: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.deletePlayer(player.id)
+                                      }
+                                    }
+                                  },
+                                  [_vm._v("Remove")]
+                                )
+                              ])
+                            : _vm._e()
+                        ])
+                      }),
+                      0
+                    )
+                  ]
+                )
+              ])
+            : _vm._e()
+        ])
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = [
   function() {

@@ -1,4 +1,5 @@
 <template>
+<div>
     <div class="card mt-3 font-alegreya">
         <div class="text-center pt-3 h2 bg-secondary text-white">Player</div>
 
@@ -10,9 +11,11 @@
                 </form>
             </div>
         </div>
+    </div>
 
+    <div class="card mt-2 pt-3">
         <div v-if="loadStatus === false">
-                <div class="h2 text-center text-danger">Now on loading .....<i class="fas fa-broadcast-tower"></i></div>
+            <div class="h2 text-center text-danger">Now on loading .....<i class="fas fa-broadcast-tower"></i></div>
         </div>
 
         <transition name="fade">
@@ -44,8 +47,8 @@
                 </table>
             </div>
         </transition>
-
     </div>
+</div>
 </template>
 
 <script>
