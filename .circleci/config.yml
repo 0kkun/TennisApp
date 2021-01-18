@@ -10,7 +10,7 @@ jobs:
     environment:
       - APP_DEBUG: true
       - APP_ENV: testing
-      - APP_KEY: =base64:yxzsYHn4oyivCjHhH4wq0+37CykF6WhOCOhgnqOE4B4=
+      - APP_KEY: base64:yxzsYHn4oyivCjHhH4wq0+37CykF6WhOCOhgnqOE4B4=
       - DB_CONNECTION: mysql
       - DB_HOST: 127.0.0.1
       - DB_DATABASE: laravel_testing
