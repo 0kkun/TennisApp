@@ -10,7 +10,7 @@ jobs:
       - DB_CONNECTION: mysql
       - DB_DATABASE: laravel_testing
       - DB_USERNAME: root
-    working_directory: ~/TennisApp/server
+    working_directory: ~/server
     steps:
       - checkout
       - run:
@@ -21,7 +21,7 @@ jobs:
           command: sudo docker-php-ext-install pdo_mysql
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "composer.json" }}
+            - v1-dependencies-{{ checksum "server/composer.json" }}
             - v1-dependencies-
       - run:
           working_directory: ~/TennisApp/server
@@ -30,7 +30,7 @@ jobs:
       - save_cache:
           paths:
             - ./vendor
-          key: v1-dependencies-{{ checksum "composer.json" }}
+          key: v1-dependencies-{{ checksum "server/composer.json" }}
       - run:
           name: Run PHPUnit
           command: vendor/bin/phpunit
