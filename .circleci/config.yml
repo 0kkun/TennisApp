@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/php:7.3-node-browsers
+      - image: circleci/php:7.2-node-browsers
       - image: circleci/mariadb:10.4
     environment:
       - APP_DEBUG: true
@@ -10,7 +10,7 @@ jobs:
       - DB_CONNECTION: mysql
       - DB_DATABASE: laravel_testing
       - DB_USERNAME: root
-    working_directory: ~/TennisApp/server
+    working_directory: ~/TennisApp
     steps:
       - checkout
       - run:
@@ -21,7 +21,7 @@ jobs:
           command: sudo docker-php-ext-install pdo_mysql
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "composer.json" }}
+            - v1-dependencies-{{ checksum "server/composer.json" }}
             - v1-dependencies-
       - run:
           name: Install PHP libraries
@@ -29,7 +29,7 @@ jobs:
       - save_cache:
           paths:
             - ./vendor
-          key: v1-dependencies-{{ checksum "composer.json" }}
+          key: v1-dependencies-{{ checksum "server/composer.json" }}
       - run:
           name: Run PHPUnit
           command: vendor/bin/phpunit
