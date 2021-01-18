@@ -33,7 +33,6 @@
     <!------------------------------------------->
     <a href="/" style="text-decoration: none;">
         <span class="text-white h1 font-alegreya"> Tennis App </span>
-        <span class="text-info h4 font-alegreya pl-2"> - Integrate Infomation - </span>
     </a>
     <!-- トップリンクバー -->
     <div class="top-link rounded text-center bg-info w-100 ">
