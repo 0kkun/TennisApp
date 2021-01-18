@@ -8,11 +8,32 @@ use App\Repositories\Contracts\FavoriteBrandsRepository;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
+use App\Modules\BatchLogger;
 
 class FavoriteBrandController extends Controller
 {
     private $brands_repository;
     private $favorite_brands_repository;
+    private $logger;
+
+    // ステータスコード
+    private $status;
+
+    // レスポンスのフォーマット
+    protected $response = [
+        'status' => null,
+        'data'   => null
+    ];
+
+    // ステータスコード
+    const RESULT_STATUS = [
+        'success'      => 200,
+        'created'      => 201,
+        'deleted'      => 202,
+        'no_content'   => 204,
+        'bad_request'  => 400,
+        'server_error' => 500
+    ];
 
 
     /**
@@ -48,24 +69,65 @@ class FavoriteBrandController extends Controller
      * [API] ブランド一覧表示用メソッド
      *
      * @param Request $request
-     * @return Json|Exception
+     * @return Json
      */
-    public function fetchBrands(Request $request)
+    public function fetchBrands(Request $request, ?bool $is_internal=false)
     {
+        $this->logger = new BatchLogger('FavoriteBrandController');
+
         try {
-            $user_id = $request->input('user_id');
+            // クラス内からメソッドが実行された場合はステータスを更新しない
+            if ( !$is_internal ) $this->status = self::RESULT_STATUS['success'];
 
-            $brands = $this->brands_repository->getAll();
+            // リクエストの中身をチェック
+            $this->checkArgs($request);
 
-            $favorite_brand_ids = $this->favorite_brands_repository
-                ->getAll($user_id)
-                ->pluck('brand_id');
+            if ($this->status <= 299) {
 
-            $brand_lists = $this->makeBrandLists($brands, $favorite_brand_ids);
-            return request()->json(200, $brand_lists);
+                $user_id = $request->input('user_id');
+
+                $brands = $this->brands_repository->getAll();
+    
+                $favorite_brand_ids = $this->favorite_brands_repository
+                    ->getAll($user_id)
+                    ->pluck('brand_id');
+    
+                $brand_lists = $this->makeBrandLists($brands, $favorite_brand_ids);
+    
+                $this->response = [
+                    'status' => $this->status,
+                    'data'   => $brand_lists
+                ];
+
+            } else {
+                $this->response = [
+                    'status' => $this->status,
+                    'data'   => ''
+                ];
+            }
+            
+            $this->logger->write('status code :' . $this->status, 'info');
+            $this->logger->success();
+
+            return response()->json($this->response);
 
         } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500);
+            $this->logger->exception($e);
+
+            $this->status = self::RESULT_STATUS['server_error'];
+
+            $error_info = [
+                'message'   => $e->getMessage(),
+                'exception' => get_class($e),
+                'file'      => $e->getFile(),
+                'line'      => $e->getLine()
+            ];
+
+            $this->response = [
+                'status' => $this->status,
+                'data'   => $error_info
+            ];
+            return response()->json($this->response);
         }
     }
 
@@ -74,19 +136,23 @@ class FavoriteBrandController extends Controller
      * [API] お気に入りブランド登録メソッド
      *
      * @param Request $request
-     * @return Json|Exception
+     * @return Json
      */
-    public function addBrand( Request $request )
+    public function addBrand(Request $request)
     {
         try {
             $data['user_id'] = $request->input('user_id');
             $data['brand_id'] = $request->input('favorite_brand_id');
 
-            if ( !empty($data) ) {
-                $this->favorite_brands_repository->bulkInsertOrUpdate($data);
-            }
-            $response = $this->fetchBrands($request);
-            return request()->json(200, $response);
+            // 保存処理
+            if ( !empty($data) ) $this->favorite_brands_repository->bulkInsertOrUpdate($data);
+
+            $is_internal = true;
+            $this->status = self::RESULT_STATUS['created'];
+
+            $response = $this->fetchBrands($request, $is_internal);
+
+            return $response;
 
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
@@ -106,14 +172,31 @@ class FavoriteBrandController extends Controller
             $data['user_id'] = $request->input('user_id');
             $data['brand_id'] = $request->input('favorite_brand_id');
     
-            if ( !empty($data) ) {
-                $this->favorite_brands_repository->deleteRecord($data);
-            }
-            $response = $this->fetchBrands($request);
-            return request()->json(200, $response);
+            if ( !empty($data) ) $this->favorite_brands_repository->deleteRecord($data);
+
+            $is_internal = true;
+            $this->status = self::RESULT_STATUS['deleted'];
+
+            $response = $this->fetchBrands($request, $is_internal);
+
+            return $response;
 
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
+        }
+    }
+
+
+    /**
+     * APIリクエストの引数チェック
+     *
+     * @param Request $request
+     * @return void
+     */
+    private function checkArgs(Request $request): void
+    {
+        if (!$request->filled('user_id')) {
+            $this->status = self::RESULT_STATUS['bad_request'];
         }
     }
 
