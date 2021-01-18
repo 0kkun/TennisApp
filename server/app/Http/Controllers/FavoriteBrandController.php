@@ -74,7 +74,6 @@ class FavoriteBrandController extends Controller
     public function fetchBrands(Request $request, ?bool $is_internal=false)
     {
         $this->logger = new BatchLogger('FavoriteBrandController');
-        // $this->logger->write('params :' . $request->all(), 'info', true);
 
         try {
             // クラス内からメソッドが実行された場合はステータスを更新しない
