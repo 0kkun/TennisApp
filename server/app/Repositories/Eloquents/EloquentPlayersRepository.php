@@ -123,7 +123,7 @@ class EloquentPlayersRepository implements PlayersRepository
     public function getActivePlayers(): Collection
     {
         return $this->players
-                    ->where('youtube_active',1)
+                    ->where('youtube_active', 1)
                     ->limit(100)
                     ->get();
     }

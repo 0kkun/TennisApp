@@ -20,6 +20,24 @@ class UpdatePlayersCommand extends Command
     const CHUNK_SIZE = 100;
     const RECORD_COUNT = 1000;
 
+    // Youtube動画取得をONに設定
+    const YOUTUBE_ACTIVE_PLAYERS = [
+        'Novak Djokovic',
+        'Rafael Nadal',
+        'Dominic Thiem',
+        'Daniil Medvedev',
+        'Roger Federer',
+        'Stefanos Tsitsipas',
+        'Alexander Zverev',
+        'Gael Monfils',
+        'Fabio Fognini',
+        'Stan Wawrinka',
+        'Kei Nishikori',
+        'Yoshihito Nishioka',
+        'Tatsuma Ito',
+        'Sho Shimabukuro'
+    ];
+
     /**
      * Create a new command instance.
      *
@@ -43,22 +61,29 @@ class UpdatePlayersCommand extends Command
     public function handle()
     {
         $this->info("【実行開始】");
-        $this->logger = new BatchLogger( 'scrapePlayer' );
+        $this->logger = new BatchLogger( 'updatePlayer' );
 
         try {
             $insert_values = [];
+            $youtube_active = null;
 
             $rankings = $this->ranking_repository->fetchRankings(self::RECORD_COUNT);
             $now = Carbon::now();
     
             foreach ($rankings as $rank) {
+
+                if ( in_array($rank->name_en, self::YOUTUBE_ACTIVE_PLAYERS) )  $youtube_active = 1;
+                else $youtube_active = null;
+                $youtube_active = in_array($rank->name_en, self::YOUTUBE_ACTIVE_PLAYERS) ? 1 : 0;
+
                 $insert_values[] = [
-                    'name_jp'    => $rank->name_jp,
-                    'name_en'    => $rank->name_en,
-                    'country'    => $rank->country,
-                    'age'        => $rank->age,
-                    'updated_at' => $now,
-                    'created_at' => $now
+                    'name_jp'        => $rank->name_jp,
+                    'name_en'        => $rank->name_en,
+                    'country'        => $rank->country,
+                    'age'            => $rank->age,
+                    'updated_at'     => $now,
+                    'created_at'     => $now,
+                    'youtube_active' => $youtube_active
                 ];
             }
     

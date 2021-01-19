@@ -17,10 +17,11 @@ class getPlayersYoutube extends Command
 {
     protected $signature = 'command:getPlayersYoutube {--sync : 同期処理}';
     protected $description = '選手のyoutube動画を取得する';
-    const MAX_COUNT = 5;
+
     private $players_repository;
     private $youtube_videos_repository;
 
+    const MAX_COUNT = 5;
 
     /**
      * リポジトリのコンストラクタ
