@@ -38,8 +38,8 @@ jobs:
             - .server/vendor
           key: v1-dependencies-{{ checksum "./server/composer.json" }}
       - run:
-        name: Run Test
-        command: |
-          php ./server/artisan --env=testing
-          php ./server/artisan migrate
-          php ./server/vendor/bin/phpunit --configuration=./server/phpunit.xml
+          name: Run Test
+          command: |
+            php ./server/artisan --env=testing
+            php ./server/artisan migrate
+            php ./server/vendor/bin/phpunit --configuration=./server/phpunit.xml
