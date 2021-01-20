@@ -35,7 +35,8 @@ class UpdatePlayersCommand extends Command
         'Kei Nishikori',
         'Yoshihito Nishioka',
         'Tatsuma Ito',
-        'Sho Shimabukuro'
+        'Sho Shimabukuro',
+        'Brandon Nakashima'
     ];
 
     /**
