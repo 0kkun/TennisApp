@@ -90,7 +90,6 @@ th, td {
     text-align: center;
     padding: 5px;
 }
-
 /* アニメーション */
 .fade-enter-active, .fade-leave-active {
     transition: opacity 1s;
