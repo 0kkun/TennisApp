@@ -58,6 +58,7 @@ export default {
             loadStatus: false
         }
     },
+    props:["user_id"],
     mounted: function() {
         this.fetchRankings(this.num);
     },
@@ -65,7 +66,8 @@ export default {
         fetchRankings: function() {
             axios.get('/api/v1/rankings', { 
                 params: {
-                    num: this.num
+                    num: this.num,
+                    user_id: this.user_id
                 }
             })
             .then((response) => {

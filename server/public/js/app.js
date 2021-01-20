@@ -2548,6 +2548,7 @@ __webpack_require__.r(__webpack_exports__);
       loadStatus: false
     };
   },
+  props: ["user_id"],
   mounted: function mounted() {
     this.fetchRankings(this.num);
   },
@@ -2557,7 +2558,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/v1/rankings', {
         params: {
-          num: this.num
+          num: this.num,
+          user_id: this.user_id
         }
       }).then(function (response) {
         _this.rankings = response.data;
