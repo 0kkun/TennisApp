@@ -15,7 +15,7 @@ use Exception;
 
 class getPlayersYoutube extends Command
 {
-    protected $signature = 'command:getPlayersYoutube {--sync : 同期処理}';
+    protected $signature = 'command:getPlayersYoutube';
     protected $description = '選手のyoutube動画を取得する';
 
     private $players_repository;
