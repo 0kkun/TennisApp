@@ -99,7 +99,7 @@ class ScrapeNewsCommand extends Command
             $goutte = GoutteFacade::request('GET', self::URL[$i]);
             sleep(1);
 
-            $goutte->filter('.articleListBody .articleListTtl')->each(function ($node) use (&$data, $progress_bar) {
+            $goutte->filter('ul.articleList li.hasImg .articleListTtl')->each(function ($node) use (&$data, $progress_bar) {
                 if ( $node->count() > 0) {
                     $data['title'][] = $node->text();
                 } else {
@@ -109,7 +109,7 @@ class ScrapeNewsCommand extends Command
                 $progress_bar->advance(1);
             });
 
-            $goutte->filter('.hasImg > a')->each(function ($node) use (&$data, $progress_bar) {
+            $goutte->filter('ul.articleList .hasImg > a')->each(function ($node) use (&$data, $progress_bar) {
                 if ( $node->count() > 0) {
                     $data['url'][] = $node->attr('href');
                 } else {
@@ -119,7 +119,7 @@ class ScrapeNewsCommand extends Command
                 $progress_bar->advance(1);
             });
 
-            $goutte->filter('.articleListImg > img')->each(function ($node) use (&$data, $progress_bar) {
+            $goutte->filter('ul.articleList .hasImg .articleListImg > img')->each(function ($node) use (&$data, $progress_bar) {
                 if ( $node->count() > 0) {
                     $data['image'][] = $node->attr('src');
                 } else {
@@ -129,7 +129,7 @@ class ScrapeNewsCommand extends Command
                 $progress_bar->advance(1);
             });
 
-            $goutte->filter('.articleListBody > time')->each(function ($node) use (&$data, $progress_bar) {
+            $goutte->filter('ul.articleList .hasImg .articleListBody > time')->each(function ($node) use (&$data, $progress_bar) {
                 if ( $node->count() > 0) {
                     $data['post_time'][] = $node->attr('datetime');
                 } else {
@@ -139,7 +139,7 @@ class ScrapeNewsCommand extends Command
                 $progress_bar->advance(1);
             });
 
-            $goutte->filter('.articleListVender')->each(function ($node) use (&$data, $progress_bar) {
+            $goutte->filter('ul.articleList .hasImg .articleListVender')->each(function ($node) use (&$data, $progress_bar) {
                 if ( $node->count() > 0) {
                     $data['vender'][] = $node->text();
                 } else {
@@ -164,17 +164,40 @@ class ScrapeNewsCommand extends Command
         $value = [];
         $now = Carbon::now();
 
+        $this->checkConflict($data);
+
         for ($i=0; $i < count($data['title']); $i++) {
             $value[$i] = [
                 'title'      => (string) $data['title'][$i],
-                'image'      => (string) $data['image'][$i],
-                'url'        => (string) $data['url'][$i],
-                'post_time'  => Carbon::parse($data['post_time'][$i]),
-                'vender'     => (string) $data['vender'][$i],
+                'image'      => (string) $data['image'][$i] ?? '',
+                'url'        => (string) $data['url'][$i] ?? '',
+                'post_time'  => Carbon::parse($data['post_time'][$i]) ?? '',
+                'vender'     => (string) $data['vender'][$i] ?? '',
                 'created_at' => $now,
                 'updated_at' => $now
             ];
         }
         return $value;
+    }
+
+
+    /**
+     * データの齟齬をチェックする
+     *
+     * @param array $data
+     * @return void
+     */
+    private function checkConflict(array $data)
+    {
+        $array = [
+            count($data['title']),
+            count($data['image']),
+            count($data['url']),
+            count($data['vender'])
+        ];
+
+        if (count(array_unique($array)) !== 1) {
+            throw new Exception('データの齟齬が発生しています！');
+        }
     }
 }
