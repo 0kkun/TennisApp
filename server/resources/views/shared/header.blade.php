@@ -35,13 +35,13 @@
         <span class="text-white h1 font-alegreya"> Tennis App </span>
     </a>
     <!-- トップリンクバー -->
-    <div class="top-link rounded text-center bg-info w-100 ">
+    {{-- <div class="top-link rounded text-center bg-info w-100 ">
         @if(Auth::check())
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('top.index') }}">Home</a>
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('favorite_player.index') }}">Favorite Player</a>
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('favorite_brand.index') }}">Favorite Brand</a>
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('analysis.index') }}">Player Analysis</a>
         @endif
-    </div>
+    </div> --}}
 
 </header>

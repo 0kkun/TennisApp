@@ -1,7 +1,7 @@
 @extends('layouts.layout')
 
 @section('content')
-    @if(Auth::check())
+    {{-- @if(Auth::check())
         <div class="top-wrapper container-fluid pt-140">
             <div class="row">
                 <div class="col-sm-5 pt-3">
@@ -15,7 +15,7 @@
                 </div>
             </div>
         </div>
-    @else
+    @else --}}
         @include('top.welcome')
-    @endif
+    {{-- @endif --}}
 @endsection
