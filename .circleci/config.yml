@@ -37,6 +37,39 @@ jobs:
           paths:
             - .server/vendor
           key: v1-dependencies-{{ checksum "./server/composer.json" }}
-      - run: php ./server/artisan --env=testing
-      - run: php ./server/artisan migrate
-      - run: php ./server/vendor/bin/phpunit --configuration=./server/phpunit.xml
+      - run:
+          name: Run Test
+          command: |
+            php ./server/artisan --env=testing
+            php ./server/artisan migrate
+            php ./server/vendor/bin/phpunit --configuration=./server/phpunit.xml
+
+#  == デプロイ用のジョブ ==
+  deploy:
+    docker:
+      - image: circleci/php:7.2-node-browsers
+    steps:
+      - add_ssh_keys
+      - run:
+          name: deploy
+          command: |
+            ssh -o StrictHostKeyChecking=no -t webapp@${HOST_NAME} "cd TennisApp/server && \
+              git pull origin master && \
+              composer install -n --no-dev --prefer-dist && \
+              npm ci && \
+              npm run prod && \
+              php artisan migrate --force && \
+              php artisan config:cache"
+workflows:
+  version: 2
+  build_deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+#      == ここまで ==

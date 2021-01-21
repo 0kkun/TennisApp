@@ -19,7 +19,7 @@ use Illuminate\Http\Request;
 
 
 
-Route::prefix('v1')->group(function () {
+Route::middleware('throttle:60,1')->prefix('v1')->group(function () {
     Route::get('/brands', 'FavoriteBrandController@fetchBrands');
     Route::post('/brands/create', 'FavoriteBrandController@addBrand');
     Route::delete('/brands/delete', 'FavoriteBrandController@deleteBrand');

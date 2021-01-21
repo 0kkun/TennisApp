@@ -26,6 +26,7 @@ class Player extends Model
             'country',
             'age',
             'updated_at',
+            'youtube_active'
         ];
     }
 

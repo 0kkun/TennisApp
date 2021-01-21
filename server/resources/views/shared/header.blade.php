@@ -3,7 +3,7 @@
     <nav class="global-nav">
         <ul class="global-nav__list font-alegreya font-weight-bold">
         @if(Auth::check())
-            <li class="global-nav__item"><a href="/">HOME</a></li>
+            <li class="global-nav__item"><a href="{{ route('top.index') }}">HOME</a></li>
             <li class="global-nav__item">
             <a class="dropdown-item" href="{{ route('logout') }}"
                 onclick="event.preventDefault();
@@ -18,7 +18,7 @@
             <li class="global-nav__item"><a href="{{ route('favorite_brand.index') }}">Favorite Brand</a></li>
             <li class="global-nav__item"><a href="{{ route('analysis.index') }}">Player Analysis</a></li>
         @else
-            <li class="global-nav__item"><a href="/">HOME</a></li>
+            <li class="global-nav__item"><a href="{{ route('top.index') }}">HOME</a></li>
             <li class="global-nav__item"><a href="{{ route('register') }}">Register</a></li>
             <li class="global-nav__item"><a href="{{ route('login') }}">Login</a></li>
         @endif
@@ -33,12 +33,11 @@
     <!------------------------------------------->
     <a href="/" style="text-decoration: none;">
         <span class="text-white h1 font-alegreya"> Tennis App </span>
-        <span class="text-info h4 font-alegreya pl-2"> - Integrate Infomation - </span>
     </a>
     <!-- トップリンクバー -->
     <div class="top-link rounded text-center bg-info w-100 ">
         @if(Auth::check())
-        <a class="text-white font-20 font-alegreya top-link-tab p-1" href="/">Home</a>
+        <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('top.index') }}">Home</a>
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('favorite_player.index') }}">Favorite Player</a>
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('favorite_brand.index') }}">Favorite Brand</a>
         <a class="text-white font-20 font-alegreya top-link-tab p-1" href="{{ route('analysis.index') }}">Player Analysis</a>

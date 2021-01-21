@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\RankingRepository;
 use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Collection;
 
 class RankingController extends Controller
 {
@@ -29,7 +31,11 @@ class RankingController extends Controller
      */
     public function top()
     {
-        return view('ranking.top');
+        if (Auth::check()) {
+            return view('ranking.top');
+        } else {
+            return view('top.index');
+        }
     }
 
 
@@ -43,8 +49,10 @@ class RankingController extends Controller
     {
         try {
             $num = $request->input('num');
+
             $response = $this->ranking_repository->fetchRankings($num);
-            return request()->json(200, $response);
+
+            return response()->json($response, 200);
 
         } catch (Exception $e) {
             return response()->json($e->getMessage(), 500);
