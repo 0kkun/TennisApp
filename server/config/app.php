@@ -162,7 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Weidner\Goutte\GoutteServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class, //追記
+        // Barryvdh\Debugbar\ServiceProvider::class, //追記
 
         /*
          * Package Service Providers...
