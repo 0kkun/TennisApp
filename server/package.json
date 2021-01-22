@@ -29,5 +29,9 @@
         "vue-router": "^3.4.9",
         "vue-template-compiler": "^2.6.12",
         "watchify": "^3.11.1"
+    },
+    "dependencies": {
+        "chart.js": "^2.9.4",
+        "vue-chartjs": "^3.5.1"
     }
 }
