@@ -12,12 +12,12 @@
 ![TennisApp-home-](https://user-images.githubusercontent.com/59214278/99143388-3e7e0080-26a0-11eb-9c6f-1c7ae950ea3c.png)
 
 ## 本番環境
-- デプロイ先：AWS (予定)
-- リンク：
+- デプロイ先：AWS 
+- リンク：http://13.115.44.27/
 - テストユーザーアカウント
 
-> **ID :** admin@gmail.com
-> **PASS :** secret
+> **ID :** test@gmail.com
+> **PASS :** test1111
 
 ## 制作背景
 - 色々なサイトにアクセスして情報を集める手間を省き、効率よく必要とする情報を閲覧できるようにするため
@@ -35,7 +35,7 @@
 ## 工夫したポイント
 - スクレイピング技術を使用し、複数サイトからの情報を保管できるようにした
 - google apiを用いて動画情報を検索・取得できるようにした
-- レスポンシブデザインを採用
+- レスポンシブデザイン
 
 ## 使用技術・アーキテクチャ
 
@@ -53,7 +53,7 @@
 - HTML
 - SASS
 - Bootstrap
-- Vue.js
+- Vue.js 2系
 - webpack
 - javascript
 - jquery
@@ -67,6 +67,10 @@
 - ID(nickname)、emailどちらでもログインできるようにする
 - 女子テニスか男子テニスか切り替えることができる機能
 - テニスだけではなく、他のスポーツの情報も統合
+
+# インフラ構成
+
+<img width="704" alt="tennis-app-infra" src="https://user-images.githubusercontent.com/59214278/105456904-52119d00-5cc9-11eb-99fb-0964dc38e8e1.png">
 
 # DB設計
 
