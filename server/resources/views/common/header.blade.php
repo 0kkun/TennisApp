@@ -1,4 +1,4 @@
-<div class="site-header bg-dark" style="height: 100px">
+<div class="site-header bg-dark" style="height: 100px; opacity:0.9;">
     <!------------ ハンバーガーメニュー ------------>
     <nav class="global-nav">
         <ul class="global-nav__list font-alegreya font-weight-bold">
