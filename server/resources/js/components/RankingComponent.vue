@@ -1,6 +1,14 @@
 <template>
-    <div class="card mt-3 font-alegreya font-weight-bold">
-        <div class="text-center pt-3 h2 bg-secondary text-white">Ranking</div>
+<div class="mt-3">
+    <!-- タブ切り替え -->
+    <div class="tab d-flex">
+        <div @click="change('Ranking')" :class="{'active': isActive === 'Ranking'}" class="border rounded-top pt-1 pb-1 pl-3 pr-3">Ranking</div>
+        <div @click="change('Chart')" :class="{'active': isActive === 'Chart'}" class="border rounded-top pt-1 pb-1 pl-3 pr-3">Chart</div>
+    </div>
+
+    <!-- ランキングタブ -->
+    <div v-if="isActive === 'Ranking'" class="border font-alegreya font-weight-bold">
+        <div class="text-center pt-2 pb-2 h2 bg-secondary text-white">Ranking</div>
         <div class="card-body">
 
             <div v-if="loadStatus == false">
@@ -47,22 +55,42 @@
             </transition>
         </div>
     </div>
+
+    <!-- グラフタブ -->
+    <div v-else-if="isActive === 'Chart'" class="border font-alegreya font-weight-bold">
+        <div class="text-center pt-2 pb-2 h2 bg-secondary text-white">Analysis Chart</div>
+        <div class="card-body">
+            <RankingChartComponent></RankingChartComponent>
+        </div>
+    </div>
+
+</div>
 </template>
 
 <script>
+
+import RankingChartComponent from './RankingChartComponent.vue'
+
 export default {
     data : function () {
         return {
             rankings: [],
             num: 100,
-            loadStatus: false
+            loadStatus: false,
+            isActive: 'Ranking'
         }
     },
     props:["user_id"],
+    components: { 
+        RankingChartComponent
+    },
     mounted: function() {
         this.fetchRankings(this.num);
     },
     methods: {
+        change: function(tabName){
+            this.isActive = tabName
+        },
         fetchRankings: function() {
             axios.get('/api/v1/rankings', { 
                 params: {
@@ -92,9 +120,16 @@ th, td {
 }
 /* アニメーション */
 .fade-enter-active, .fade-leave-active {
-    transition: opacity 1s;
+    transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+}
+.tab {
+    cursor: pointer;
+}
+.tab div.active {
+    background-color: rgb(79, 81, 208);
+    color: white;
 }
 </style>
