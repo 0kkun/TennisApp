@@ -115,7 +115,8 @@ export default {
                 }
             })
             .then((response) => {
-                this.analysisData = response.data;
+                this.analysisData = response.data.data;
+                console.log('chartData-status:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error); 

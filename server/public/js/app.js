@@ -2760,7 +2760,8 @@ __webpack_require__.r(__webpack_exports__);
           num: this.analysisNum
         }
       }).then(function (response) {
-        _this2.analysisData = response.data;
+        _this2.analysisData = response.data.data;
+        console.log('chartData-status:' + response.data.status);
       })["catch"](function (error) {
         console.log(error);
       });
