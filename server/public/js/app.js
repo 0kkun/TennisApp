@@ -2274,7 +2274,7 @@ __webpack_require__.r(__webpack_exports__);
           user_id: this.user_id
         }
       }).then(function (response) {
-        _this.players = response.data;
+        _this.players = response.data.data;
         _this.loadStatus = true;
       })["catch"](function (error) {
         console.log(error);
@@ -2287,7 +2287,9 @@ __webpack_require__.r(__webpack_exports__);
         favorite_player_id: player_id,
         user_id: this.user_id
       }).then(function (response) {
-        _this2.players = response.data;
+        _this2.fetchPlayers(_this2.user_id);
+
+        console.log('create:' + response.data.status);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2301,7 +2303,9 @@ __webpack_require__.r(__webpack_exports__);
           user_id: this.user_id
         }
       }).then(function (response) {
-        _this3.players = response.data;
+        _this3.fetchPlayers(_this3.user_id);
+
+        console.log('delete:' + response.data.status);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2315,7 +2319,7 @@ __webpack_require__.r(__webpack_exports__);
           user_id: this.user_id
         }
       }).then(function (response) {
-        _this4.players = response.data;
+        _this4.players = response.data.data;
         _this4.loadStatus = true;
       })["catch"](function (error) {
         console.log(error);

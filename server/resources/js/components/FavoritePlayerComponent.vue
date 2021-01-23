@@ -73,7 +73,7 @@ export default {
                 }
             })
             .then((response) => {
-                this.players = response.data;
+                this.players = response.data.data;
                 this.loadStatus = true;
             })
             .catch((error) => {
@@ -86,7 +86,8 @@ export default {
                 user_id: this.user_id
             })
             .then((response) => {
-                this.players = response.data;
+                this.fetchPlayers(this.user_id);
+                console.log('create:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error); 
@@ -100,7 +101,8 @@ export default {
                 }
             })
             .then((response) => {
-                this.players = response.data;
+                this.fetchPlayers(this.user_id);
+                console.log('delete:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error); 
@@ -114,7 +116,7 @@ export default {
                 } 
             })
             .then(response => {
-                this.players = response.data;
+                this.players = response.data.data;
                 this.loadStatus = true;
                 
             })
