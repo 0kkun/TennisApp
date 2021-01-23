@@ -9,14 +9,18 @@
 - トップページ
 ![TennisApp-top-](https://user-images.githubusercontent.com/59214278/99143383-3625c580-26a0-11eb-8bf3-a1359a346fd9.png)
 - ホーム
-![TennisApp-home-](https://user-images.githubusercontent.com/59214278/99143388-3e7e0080-26a0-11eb-9c6f-1c7ae950ea3c.png)
+<img width="1380" alt="Home_TennisApp" src="https://user-images.githubusercontent.com/59214278/105606913-3ef0f100-5ddf-11eb-9860-6e7b70a2e401.png">
+- ニュース
+<img width="1382" alt="News_TennisApp" src="https://user-images.githubusercontent.com/59214278/105607005-b4f55800-5ddf-11eb-96bb-0ca34068c225.png">
+- ランキング
+<img width="1381" alt="Ranking_TennisApp" src="https://user-images.githubusercontent.com/59214278/105607099-48c72400-5de0-11eb-8c67-7e9f796af869.png">
 
 ## 本番環境
 - デプロイ先：AWS 
 - リンク：http://13.115.44.27/
 - テストユーザーアカウント
 
-> **ID :** test@gmail.com
+> **ID :** test@gmail.com <br>
 > **PASS :** test1111
 
 ## 制作背景
@@ -35,6 +39,7 @@
 ## 工夫したポイント
 - スクレイピング技術を使用し、複数サイトからの情報を保管できるようにした
 - google apiを用いて動画情報を検索・取得できるようにした
+- playersテーブルはランキングスクレイピング時のデータを使用し、コマンドでupdateできるようにした
 - レスポンシブデザイン
 
 ## 使用技術・アーキテクチャ
@@ -54,11 +59,11 @@
 - SASS
 - Bootstrap
 - Vue.js 2系
+- Vue-Chart
 - webpack
 - javascript
 - jquery
 
-- Chart.js (予定)
 
 
 ## 今後実装したい機能
@@ -67,10 +72,11 @@
 - ID(nickname)、emailどちらでもログインできるようにする
 - 女子テニスか男子テニスか切り替えることができる機能
 - テニスだけではなく、他のスポーツの情報も統合
+- HTTPS化
 
 # インフラ構成
 
-<img width="704" alt="tennis-app-infra" src="https://user-images.githubusercontent.com/59214278/105456904-52119d00-5cc9-11eb-99fb-0964dc38e8e1.png">
+![tennis-app-aws-infra](https://user-images.githubusercontent.com/59214278/105606686-321fcd80-5dde-11eb-981c-389275885a2e.png)
 
 # DB設計
 
