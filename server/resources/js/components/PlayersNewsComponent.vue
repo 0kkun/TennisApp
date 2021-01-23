@@ -67,8 +67,9 @@ export default {
                 }
             })
             .then((response) => {
-                this.articles = response.data;
+                this.articles = response.data.data;
                 this.loadStatus = true;
+                console.log('status:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error);
