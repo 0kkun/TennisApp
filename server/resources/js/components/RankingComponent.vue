@@ -2,8 +2,8 @@
 <div class="mt-3">
     <!-- タブ切り替え -->
     <div class="tab d-flex">
-        <div @click="change('Ranking')" :class="{'active': isActive === 'Ranking'}" class="border rounded-top pt-1 pb-1 pl-3 pr-3">Ranking</div>
-        <div @click="change('Chart')" :class="{'active': isActive === 'Chart'}" class="border rounded-top pt-1 pb-1 pl-3 pr-3">Chart</div>
+        <div @click="change('Ranking')" :class="{'active': isActive === 'Ranking'}" class="tab-btn border rounded-top pt-1 pb-1 pl-3 pr-3">Ranking</div>
+        <div @click="change('Chart')" :class="{'active': isActive === 'Chart'}" class="tab-btn border rounded-top pt-1 pb-1 pl-3 pr-3">Chart</div>
     </div>
 
     <!-- ランキングタブ -->
@@ -57,10 +57,10 @@
     </div>
 
     <!-- グラフタブ -->
-    <div v-else-if="isActive === 'Chart'" class="border font-alegreya font-weight-bold">
+    <div v-else-if="isActive === 'Chart'" class="border font-alegreya font-weight-bold mb-2">
         <div class="text-center pt-2 pb-2 h2 bg-secondary text-white">Analysis Chart</div>
-        <div class="card-body">
-            <RankingChartComponent></RankingChartComponent>
+        <div class="border mb-2 mr-2 ml-2">
+            <RankingChartComponent :height="250"></RankingChartComponent>
         </div>
     </div>
 
@@ -125,7 +125,7 @@ th, td {
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
 }
-.tab {
+.tab-btn {
     cursor: pointer;
 }
 .tab div.active {
