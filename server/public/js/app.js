@@ -2494,17 +2494,11 @@ var lightPurple = "rgba(141,63,223,0.5)";
 var lightRed = "rgba(141,29,73,0.4)";
 var lightGreen = "rgba(16,230,73,0.5)";
 var lightBlue = "rgba(0,0,255,0.5)";
-var averageAge = {
+var age = {
   0: 10,
   1: 20,
   2: 30,
   3: 40
-};
-var averageRank = {
-  0: 78,
-  1: 25,
-  2: 43,
-  3: 85
 }; // ここでチャートの種類を選択
 
 /**
@@ -2520,49 +2514,12 @@ var averageRank = {
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  props: ["analysisData"],
   "extends": vue_chartjs__WEBPACK_IMPORTED_MODULE_0__["Bubble"],
   name: 'Bubble',
   data: function data() {
     return {
-      chartdata: {
-        datasets: [{
-          // データ(0個目)
-          data: [{
-            "x": averageAge[0],
-            "y": averageRank[0],
-            "r": 20
-          }],
-          backgroundColor: lightBlue,
-          label: ["10s table"]
-        }, {
-          // データ(1個目)
-          data: [{
-            "x": averageAge[1],
-            "y": averageRank[1],
-            "r": 40
-          }],
-          backgroundColor: lightPurple,
-          label: ["20s table"]
-        }, {
-          // データ(2個目)
-          data: [{
-            "x": averageAge[2],
-            "y": averageRank[2],
-            "r": 50
-          }],
-          backgroundColor: lightRed,
-          label: ["30s table"]
-        }, {
-          // データ(3個目)
-          data: [{
-            "x": averageAge[3],
-            "y": averageRank[3],
-            "r": 30
-          }],
-          backgroundColor: lightGreen,
-          label: ["40s table"]
-        }]
-      },
+      chartdata: [],
       options: {
         title: {
           display: true,
@@ -2576,7 +2533,7 @@ var averageRank = {
           xAxes: [{
             ticks: {
               min: 0,
-              max: 50,
+              max: 40,
               stepSize: 10,
               callback: function callback(value) {
                 return value + 's'; //labelに「〜位」とかをつけれる
@@ -2610,14 +2567,58 @@ var averageRank = {
           callbacks: {
             label: function label(t, d) {
               var rLabel = d.datasets[t.datasetIndex].data[t.index].r;
-              return d.datasets[t.datasetIndex].label + ': (x軸:' + t.xLabel + ', y軸:' + t.yLabel + ', 円の大きさ:' + rLabel + ')';
+              return d.datasets[t.datasetIndex].label + ' : ( X[ Age ]:' + t.xLabel + ', Y[ Rank Ave ]:' + t.yLabel + ', Size[ num ]:' + rLabel + ' )';
             }
           }
         }
       }
     };
   },
+  methods: {
+    inputValue: function inputValue(data) {
+      this.chartdata = {
+        datasets: [{
+          // データ(0個目) X軸が年齢、Y軸が平均年齢、円の大きさが人数
+          data: [{
+            "x": age[0],
+            "y": data.average_rank['10s'],
+            "r": data.count_player['10s']
+          }],
+          backgroundColor: lightBlue,
+          label: ["10s table"]
+        }, {
+          // データ(1個目)
+          data: [{
+            "x": age[1],
+            "y": data.average_rank['20s'],
+            "r": data.count_player['20s']
+          }],
+          backgroundColor: lightPurple,
+          label: ["20s table"]
+        }, {
+          // データ(2個目)
+          data: [{
+            "x": age[2],
+            "y": data.average_rank['30s'],
+            "r": data.count_player['30s']
+          }],
+          backgroundColor: lightRed,
+          label: ["30s table"]
+        }, {
+          // データ(3個目)
+          data: [{
+            "x": age[3],
+            "y": data.average_rank['40s'],
+            "r": data.count_player['40s']
+          }],
+          backgroundColor: lightGreen,
+          label: ["40s table"]
+        }]
+      };
+    }
+  },
   mounted: function mounted() {
+    this.inputValue(this.analysisData);
     this.renderChart(this.chartdata, this.options);
   }
 });
@@ -2708,7 +2709,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       rankings: [],
+      analysisData: [],
       num: 100,
+      analysisNum: 100,
       loadStatus: false,
       isActive: 'Ranking'
     };
@@ -2719,6 +2722,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.fetchRankings(this.num);
+    this.fetchAnalysis(this.num);
   },
   methods: {
     change: function change(tabName) {
@@ -2735,6 +2739,20 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.rankings = response.data;
         _this.loadStatus = true;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    fetchAnalysis: function fetchAnalysis() {
+      var _this2 = this;
+
+      axios.get('/api/v1/analysis_age', {
+        params: {
+          num: this.analysisNum
+        }
+      }).then(function (response) {
+        _this2.analysisData = response.data;
+        console.log(_this2.analysisData.average_rank['10s']);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -78429,7 +78447,11 @@ var render = function() {
             _c(
               "div",
               { staticClass: "border mb-2 mr-2 ml-2" },
-              [_c("RankingChartComponent", { attrs: { height: 250 } })],
+              [
+                _c("RankingChartComponent", {
+                  attrs: { height: 250, analysisData: _vm.analysisData }
+                })
+              ],
               1
             )
           ]

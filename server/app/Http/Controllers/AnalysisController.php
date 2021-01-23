@@ -43,8 +43,7 @@ class AnalysisController extends Controller
     public function fetchAgeAnalysis(Request $request)
     {
         try {
-            // $num = $request->input('num');
-            $num = 100;
+            $num = $request->input('num');
 
             $rankings = $this->ranking_repository->fetchRankings($num)->toArray();
 

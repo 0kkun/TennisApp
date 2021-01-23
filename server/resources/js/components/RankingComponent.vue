@@ -60,7 +60,7 @@
     <div v-else-if="isActive === 'Chart'" class="border font-alegreya font-weight-bold mb-2">
         <div class="text-center pt-2 pb-2 h2 bg-secondary text-white">Analysis Chart</div>
         <div class="border mb-2 mr-2 ml-2">
-            <RankingChartComponent :height="250"></RankingChartComponent>
+            <RankingChartComponent :height="250" :analysisData="analysisData"></RankingChartComponent>
         </div>
     </div>
 
@@ -72,10 +72,12 @@
 import RankingChartComponent from './RankingChartComponent.vue'
 
 export default {
-    data : function () {
+    data: function () {
         return {
             rankings: [],
+            analysisData: [],
             num: 100,
+            analysisNum: 100,
             loadStatus: false,
             isActive: 'Ranking'
         }
@@ -86,6 +88,7 @@ export default {
     },
     mounted: function() {
         this.fetchRankings(this.num);
+        this.fetchAnalysis(this.num);
     },
     methods: {
         change: function(tabName){
@@ -101,6 +104,20 @@ export default {
             .then((response) => {
                 this.rankings = response.data;
                 this.loadStatus = true;
+            })
+            .catch((error) => {
+                console.log(error); 
+            });
+        },
+        fetchAnalysis: function() {
+            axios.get('/api/v1/analysis_age', { 
+                params: {
+                    num: this.analysisNum,
+                }
+            })
+            .then((response) => {
+                this.analysisData = response.data;
+                console.log(this.analysisData.average_rank['10s']);
             })
             .catch((error) => {
                 console.log(error); 
