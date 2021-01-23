@@ -55,7 +55,7 @@ class FavoritePlayerController extends Controller
     public function top()
     {
         if (Auth::check()) {
-            $user_id = Auth::user()->id;
+            $user_id = Auth::id();
             return view('favorite_player.top',compact('user_id'));
         } else {
             return view('top.index');

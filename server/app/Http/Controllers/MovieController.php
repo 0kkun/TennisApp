@@ -32,6 +32,9 @@ class MovieController extends Controller
      *
      * @param YoutubeVideosRepository $youtube_video_repository
      * @param FavoritePlayersRepository $favorite_player_repository
+     * @param BrandYoutubeVideosRepository $brand_youtube_video_repository
+     * @param FavoriteBrandsRepository $favorite_brand_repository
+     * @param ApiServiceInterface $api_service
      */
     public function __construct(
         YoutubeVideosRepository $youtube_video_repository,
