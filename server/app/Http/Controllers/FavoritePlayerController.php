@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Support\Collection;
 use App\Services\Api\ApiServiceInterface;
 use App\Modules\BatchLogger;
+use Illuminate\Http\JsonResponse;
 
 class FavoritePlayerController extends Controller
 {
@@ -66,9 +67,9 @@ class FavoritePlayerController extends Controller
      * [API] ユーザーがお気に入り選手登録済みかどうかのステータス付きで選手一覧を取得する
      *
      * @param Request $request
-     * @return Json
+     * @return JsonResponse
      */
-    public function fetchPlayers(Request $request)
+    public function fetchPlayers(Request $request): JsonResponse
     {
         try {
             // リクエストの中身をチェック
@@ -113,9 +114,9 @@ class FavoritePlayerController extends Controller
      * [API] お気に入り選手登録
      *
      * @param Request $request
-     * @return Json
+     * @return JsonResponse
      */
-    public function addPlayer(Request $request)
+    public function addPlayer(Request $request): JsonResponse
     {
         try {
             // リクエストの中身をチェック
@@ -154,9 +155,9 @@ class FavoritePlayerController extends Controller
      * [API] お気に入り選手削除
      *
      * @param Request $request
-     * @return Json
+     * @return JsonResponse
      */
-    public function deletePlayer(Request $request)
+    public function deletePlayer(Request $request): JsonResponse
     {
         try {
             // リクエストの中身をチェック
@@ -194,9 +195,9 @@ class FavoritePlayerController extends Controller
      * [API] インクリメンタルサーチメソッド
      *
      * @param Request $request
-     * @return Json
+     * @return JsonResponse
      */
-    public function searchPlayers(Request $request)
+    public function searchPlayers(Request $request): JsonResponse
     {
         try {
             // リクエストの中身をチェック

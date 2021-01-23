@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 use App\Modules\BatchLogger;
 use App\Services\Api\ApiServiceInterface;
+use Illuminate\Http\JsonResponse;
 
 class FavoriteBrandController extends Controller
 {
@@ -64,9 +65,9 @@ class FavoriteBrandController extends Controller
      * [API] ブランド一覧表示用メソッド
      *
      * @param Request $request
-     * @return Json
+     * @return JsonResponse
      */
-    public function fetchBrands(Request $request, ?bool $is_internal=false)
+    public function fetchBrands(Request $request, ?bool $is_internal=false): JsonResponse
     {
         try {
             // リクエストの中身をチェック
@@ -110,9 +111,9 @@ class FavoriteBrandController extends Controller
      * [API] お気に入りブランド登録メソッド
      *
      * @param Request $request
-     * @return Json
+     * @return JsonResponse
      */
-    public function addBrand(Request $request)
+    public function addBrand(Request $request): JsonResponse
     {
         try {
             // リクエストの中身をチェック
@@ -146,9 +147,9 @@ class FavoriteBrandController extends Controller
      * [API] お気に入りブランド削除メソッド
      *
      * @param Request $request
-     * @return Json|Exception
+     * @return JsonResponse
      */
-    public function deleteBrand(Request $request)
+    public function deleteBrand(Request $request): JsonResponse
     {
         try {
             // リクエストの中身をチェック
