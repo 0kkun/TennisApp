@@ -9,13 +9,20 @@ use App\Services\FavoritePlayer\FavoritePlayerServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Exception;
 use Illuminate\Support\Collection;
+use App\Services\Api\ApiServiceInterface;
+use App\Modules\BatchLogger;
 
 class FavoritePlayerController extends Controller
 {
     private $players_repository;
     private $favorite_players_repository;
     private $favorite_player_service;
+    private $api_service;
+    private $logger;
 
+    // レスポンスのフォーマット
+    protected $response;
+    protected $result_status;
 
     /**
      * リポジトリをDI
@@ -27,12 +34,17 @@ class FavoritePlayerController extends Controller
     public function __construct(
         PlayersRepository $players_repository,
         FavoritePlayersRepository $favorite_players_repository,
-        FavoritePlayerServiceInterface $favorite_player_service
+        FavoritePlayerServiceInterface $favorite_player_service,
+        ApiServiceInterface $api_service
     )
     {
+        $this->logger = new BatchLogger('FavoritePlayerController');
+        $this->response = config('api_template.response_format');
+        $this->result_status = config('api_template.result_status');
         $this->players_repository = $players_repository;
         $this->favorite_players_repository = $favorite_players_repository;
         $this->favorite_player_service = $favorite_player_service;
+        $this->api_service = $api_service;
     }
 
 
@@ -54,26 +66,45 @@ class FavoritePlayerController extends Controller
      * [API] ユーザーがお気に入り選手登録済みかどうかのステータス付きで選手一覧を取得する
      *
      * @param Request $request
-     * @return Json|Exception
+     * @return Json
      */
     public function fetchPlayers(Request $request)
     {
         try {
-            $user_id = $request->input('user_id');
+            // リクエストの中身をチェック
+            $expected_key = ['user_id'];
+            $status = $this->api_service->checkArgs($request, $expected_key);
 
-            $players = $this->players_repository
-                ->getAll();
+            if ($status === $this->result_status['success']) {
 
-            $favorite_player_ids = $this->favorite_players_repository
-                ->getAll($user_id)
-                ->pluck('player_id');
+                $user_id = $request->input('user_id');
 
-            $response = $this->makePlayerLists($players, $favorite_player_ids);
+                $players = $this->players_repository
+                    ->getAll();
 
-            return request()->json(200, $response);
+                $favorite_player_ids = $this->favorite_players_repository
+                    ->getAll($user_id)
+                    ->pluck('player_id');
+
+                $player_lists = $this->makePlayerLists($players, $favorite_player_ids);
+                $this->response = ['status' => $status, 'data' => $player_lists];
+
+            } else {
+                $this->response = ['status' => $status, 'data' => ''];
+            }
+
+            $this->logger->write('status code :' . $status, 'info');
+            $this->logger->success();
+
+            return response()->json($this->response);
 
         } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500);
+            $this->logger->exception($e);
+            $status = $this->result_status['server_error'];
+            $error_info = $this->api_service->makeErrorInfo($e);
+            $this->response = ['status' => $status,'data' => $error_info];
+
+            return response()->json($this->response);
         }
     }
 
@@ -82,22 +113,39 @@ class FavoritePlayerController extends Controller
      * [API] お気に入り選手登録
      *
      * @param Request $request
-     * @return Json|Exception
+     * @return Json
      */
     public function addPlayer(Request $request)
     {
         try {
-            $data['user_id'] = $request->input('user_id');
-            $data['player_id'] = $request->input('favorite_player_id');
+            // リクエストの中身をチェック
+            $expected_key = ['user_id', 'favorite_player_id'];
+            $status = $this->api_service->checkArgs($request, $expected_key);
 
-            if ( !empty($data) ) {
-                $this->favorite_players_repository->bulkInsertOrUpdate($data);
+            if ($status === $this->result_status['success']) {
+
+                $data['user_id'] = $request->input('user_id');
+                $data['player_id'] = $request->input('favorite_player_id');
+
+                if ( !empty($data) ) {
+                    $this->favorite_players_repository->bulkInsertOrUpdate($data);
+                    $status = $this->result_status['created'];
+                }
+                $this->response = ['status' => $status, 'data' => ''];
+
+            } else {
+                $this->response = ['status' => $status, 'data' => ''];
             }
-            $response = $this->fetchPlayers($request);
-            return request()->json(200, $response);
+
+            return response()->json($this->response);
 
         } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500);
+            $this->logger->exception($e);
+            $status = $this->result_status['server_error'];
+            $error_info = $this->api_service->makeErrorInfo($e);
+            $this->response = ['status' => $status,'data' => $error_info];
+
+            return response()->json($this->response);
         }
     }
 
@@ -106,22 +154,38 @@ class FavoritePlayerController extends Controller
      * [API] お気に入り選手削除
      *
      * @param Request $request
-     * @return Json|Exception
+     * @return Json
      */
     public function deletePlayer(Request $request)
     {
         try {
-            $data['user_id'] = $request->input('user_id');
-            $data['player_id'] = $request->input('favorite_player_id');
-    
-            if ( !empty($data) ) {
-                $this->favorite_players_repository->deleteRecord($data);
+            // リクエストの中身をチェック
+            $expected_key = ['user_id', 'favorite_player_id'];
+            $status = $this->api_service->checkArgs($request, $expected_key);
+
+            if ($status === $this->result_status['success']) {
+                $data['user_id'] = $request->input('user_id');
+                $data['player_id'] = $request->input('favorite_player_id');
+        
+                if ( !empty($data) ) {
+                    $this->favorite_players_repository->deleteRecord($data);
+                    $status = $this->result_status['deleted'];
+                }
+                $this->response = ['status' => $status, 'data' => ''];
+
+            } else {
+                $this->response = ['status' => $status, 'data' => ''];
             }
-            $response = $this->fetchPlayers($request);
-            return request()->json(200, $response);
+
+            return response()->json($this->response);
 
         } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500);
+            $this->logger->exception($e);
+            $status = $this->result_status['server_error'];
+            $error_info = $this->api_service->makeErrorInfo($e);
+            $this->response = ['status' => $status,'data' => $error_info];
+
+            return response()->json($this->response);
         }
     }
 
@@ -130,29 +194,42 @@ class FavoritePlayerController extends Controller
      * [API] インクリメンタルサーチメソッド
      *
      * @param Request $request
-     * @return Json|Exception
+     * @return Json
      */
     public function searchPlayers(Request $request)
     {
         try {
-            $inputs['name'] = $request->input('keyword');
-            $user_id = $request->input('user_id');
-            $response = [];
-    
-            if ( !empty($inputs) ) {
+            // リクエストの中身をチェック
+            $expected_key = ['keyword', 'user_id'];
+            $status = $this->api_service->checkArgs($request, $expected_key);
+
+            if ($status === $this->result_status['success']) {
+
+                $inputs['name'] = $request->input('keyword');
+                $user_id = $request->input('user_id');
+
                 $players = $this->players_repository->searchPlayersByName($inputs);
 
                 $favorite_player_ids = $this->favorite_players_repository
                     ->getAll($user_id)
                     ->pluck('player_id');
 
-                $response = $this->makePlayerLists($players, $favorite_player_ids);
-                return request()->json(200, $response);
+                $player_lists = $this->makePlayerLists($players, $favorite_player_ids);
+                $this->response = ['status' => $status, 'data' => $player_lists];
+
             } else {
-                return request()->json(200, $response);
+                $this->response = ['status' => $status, 'data' => ''];
             }
+
+            return response()->json($this->response);
+
         } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500);
+            $this->logger->exception($e);
+            $status = $this->result_status['server_error'];
+            $error_info = $this->api_service->makeErrorInfo($e);
+            $this->response = ['status' => $status,'data' => $error_info];
+
+            return response()->json($this->response);
         }
     }
 
