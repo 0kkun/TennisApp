@@ -42,8 +42,9 @@ export default {
                 }
             })
             .then((response) => {
-                this.movies = response.data;
+                this.movies = response.data.data;
                 this.loadStatus = true;
+                console.log('status:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error); 
