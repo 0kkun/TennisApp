@@ -39,7 +39,7 @@ class FavoritePlayerController extends Controller
         ApiServiceInterface $api_service
     )
     {
-        $this->logger = new BatchLogger('FavoritePlayerController');
+        $this->logger = new BatchLogger(__CLASS__);
         $this->response = config('api_template.response_format');
         $this->result_status = config('api_template.result_status');
         $this->players_repository = $players_repository;

@@ -29,7 +29,7 @@ class AnalysisController extends Controller
         ApiServiceInterface $api_service
     )
     {
-        $this->logger = new BatchLogger('FavoriteBrandController');
+        $this->logger = new BatchLogger(__CLASS__);
         $this->response = config('api_template.response_format');
         $this->result_status = config('api_template.result_status');
         $this->ranking_repository = $ranking_repository;
@@ -57,6 +57,7 @@ class AnalysisController extends Controller
     public function fetchAgeAnalysis(Request $request): JsonResponse
     {
         try {
+            dd(__CLASS__);
             // リクエストの中身をチェック
             $expected_key = ['num'];
             $status = $this->api_service->checkArgs($request, $expected_key);
