@@ -1999,8 +1999,9 @@ __webpack_require__.r(__webpack_exports__);
           user_id: this.user_id
         }
       }).then(function (response) {
-        _this.movies = response.data;
+        _this.movies = response.data.data;
         _this.loadStatus = true;
+        console.log('status:' + response.data.status);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2388,8 +2389,9 @@ __webpack_require__.r(__webpack_exports__);
           user_id: this.user_id
         }
       }).then(function (response) {
-        _this.movies = response.data;
+        _this.movies = response.data.data;
         _this.loadStatus = true;
+        console.log('status:' + response.data.status);
       })["catch"](function (error) {
         console.log(error);
       });
