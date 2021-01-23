@@ -82,7 +82,6 @@ export default {
             isActive: 'Ranking'
         }
     },
-    props:["user_id"],
     components: { 
         RankingChartComponent
     },
@@ -97,13 +96,13 @@ export default {
         fetchRankings: function() {
             axios.get('/api/v1/rankings', { 
                 params: {
-                    num: this.num,
-                    user_id: this.user_id
+                    num: this.num
                 }
             })
             .then((response) => {
-                this.rankings = response.data;
+                this.rankings = response.data.data;
                 this.loadStatus = true;
+                console.log('ranking-status:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error); 
@@ -117,7 +116,6 @@ export default {
             })
             .then((response) => {
                 this.analysisData = response.data;
-                console.log(this.analysisData.average_rank['10s']);
             })
             .catch((error) => {
                 console.log(error); 

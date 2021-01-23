@@ -2726,7 +2726,6 @@ __webpack_require__.r(__webpack_exports__);
       isActive: 'Ranking'
     };
   },
-  props: ["user_id"],
   components: {
     RankingChartComponent: _RankingChartComponent_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
@@ -2743,12 +2742,12 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get('/api/v1/rankings', {
         params: {
-          num: this.num,
-          user_id: this.user_id
+          num: this.num
         }
       }).then(function (response) {
-        _this.rankings = response.data;
+        _this.rankings = response.data.data;
         _this.loadStatus = true;
+        console.log('ranking-status:' + response.data.status);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2762,7 +2761,6 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this2.analysisData = response.data;
-        console.log(_this2.analysisData.average_rank['10s']);
       })["catch"](function (error) {
         console.log(error);
       });
