@@ -90,7 +90,10 @@ class MovieController extends Controller
                     $youtube_videos = $this->youtube_video_repository->getAll(self::MAX_MOVIE_NUM, $is_paginate);
                     $this->response = ['status' => $status, 'data' => $youtube_videos];
                 }
+            } else {
+                $this->response = ['status' => $status, 'data' => ''];
             }
+
 
             $this->logger->write('status code :' . $status, 'info');
             $this->logger->success();
@@ -145,6 +148,8 @@ class MovieController extends Controller
                     $youtube_videos = $this->brand_youtube_video_repository->getAll(self::MAX_MOVIE_NUM, $is_paginate);
                     $this->response = ['status' => $status, 'data' => $youtube_videos];
                 }
+            } else {
+                $this->response = ['status' => $status, 'data' => ''];
             }
 
             $this->logger->write('status code :' . $status, 'info');

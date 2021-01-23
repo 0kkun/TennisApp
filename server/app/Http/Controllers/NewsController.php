@@ -111,6 +111,8 @@ class NewsController extends Controller
 
                     $this->response = ['status' => $status, 'data' => $news_articles];
                 }
+            } else {
+                $this->response = ['status' => $status, 'data' => ''];
             }
 
             $this->logger->write('status code :' . $status, 'info');
@@ -166,6 +168,8 @@ class NewsController extends Controller
 
                     $this->response = ['status' => $status, 'data' => $brand_news];
                 }
+            } else {
+                $this->response = ['status' => $status, 'data' => ''];
             }
 
             $this->logger->write('status code :' . $status, 'info');
