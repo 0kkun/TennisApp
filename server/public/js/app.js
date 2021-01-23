@@ -2836,8 +2836,9 @@ __webpack_require__.r(__webpack_exports__);
           num: this.num
         }
       }).then(function (response) {
-        _this.tourSchedules = response.data;
+        _this.tourSchedules = response.data.data;
         _this.loadStatus = true;
+        console.log('tourSchedule status:' + response.data.status);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -23602,7 +23603,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* アニメーション */\n.fade-enter-active[data-v-dc5ba75a], .fade-leave-active[data-v-dc5ba75a] {\n    transition: opacity 1s;\n}\n.fade-enter[data-v-dc5ba75a], .fade-leave-to[data-v-dc5ba75a] /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n/* アニメーション */\n.fade-enter-active[data-v-dc5ba75a], .fade-leave-active[data-v-dc5ba75a] {\n    transition: opacity 1s;\n}\n.fade-enter[data-v-dc5ba75a], .fade-leave-to[data-v-dc5ba75a] /* .fade-leave-active below version 2.1.8 */ {\n    opacity: 0;\n}\n", ""]);
 
 // exports
 
