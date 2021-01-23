@@ -90,7 +90,7 @@ class FavoriteBrandController extends Controller
             } else {
                 $this->response = ['status' => $status,'data' => ''];
             }
-            
+
             $this->logger->write('status code :' . $status, 'info');
             $this->logger->success();
 

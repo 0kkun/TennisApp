@@ -5,10 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\RankingRepository;
 use Exception;
+use App\Modules\BatchLogger;
+use App\Services\Api\ApiServiceInterface;
+use Illuminate\Http\JsonResponse;
 
 class AnalysisController extends Controller
 {
     private $ranking_repository;
+    private $api_service;
+    private $logger;
+
+    // レスポンスのフォーマット
+    protected $response;
+    protected $result_status;
 
     /**
      * リポジトリをDI
@@ -16,10 +25,15 @@ class AnalysisController extends Controller
      * @param RankingRepository $ranking_repository
      */
     public function __construct(
-        RankingRepository $ranking_repository
+        RankingRepository $ranking_repository,
+        ApiServiceInterface $api_service
     )
     {
+        $this->logger = new BatchLogger('FavoriteBrandController');
+        $this->response = config('api_template.response_format');
+        $this->result_status = config('api_template.result_status');
         $this->ranking_repository = $ranking_repository;
+        $this->api_service = $api_service;
     }
 
 
@@ -38,36 +52,49 @@ class AnalysisController extends Controller
      * http://localhost:10080/api/v1/analysis_age
      *
      * @param Request $request
-     * @return Json
+     * @return JsonResponse
      */
-    public function fetchAgeAnalysis(Request $request)
+    public function fetchAgeAnalysis(Request $request): JsonResponse
     {
         try {
-            $num = $request->input('num');
+            // リクエストの中身をチェック
+            $expected_key = ['num'];
+            $status = $this->api_service->checkArgs($request, $expected_key);
 
-            $rankings = $this->ranking_repository->fetchRankings($num)->toArray();
+            if ($status === $this->result_status['success']) {
 
-            $data = $this->arrangeByAge($rankings);
+                $num = $request->input('num');
 
-            $average_rank['10s'] = $this->calcAveRank($data['10s']);
-            $average_rank['20s'] = $this->calcAveRank($data['20s']);
-            $average_rank['30s'] = $this->calcAveRank($data['30s']);
-            $average_rank['40s'] = $this->calcAveRank($data['40s']);
+                $rankings = $this->ranking_repository->fetchRankings($num)->toArray();
 
-            $count_player['10s'] = count($data['10s']);
-            $count_player['20s'] = count($data['20s']);
-            $count_player['30s'] = count($data['30s']);
-            $count_player['40s'] = count($data['40s']); 
+                $rankings_by_age = $this->arrangeByAge($rankings);
 
-            $response = [
-                'average_rank' => $average_rank,
-                'count_player' => $count_player
-            ];
+                $average_rank = $this->makeAverageRankByAge($rankings_by_age);
 
-            return response()->json($response, 200);
+                $count_player = $this->makeCountPlayer($rankings_by_age);
+
+                $analysis_data = [
+                    'average_rank' => $average_rank,
+                    'count_player' => $count_player
+                ];
+
+                $this->response = ['status' => $status, 'data' => $analysis_data];
+            } else {
+                $this->response = ['status' => $status, 'data' => ''];
+            }
+
+            $this->logger->write('status code :' . $status, 'info');
+            $this->logger->success();
+
+            return response()->json($this->response);
 
         } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500);
+            $this->logger->exception($e);
+            $status = $this->result_status['server_error'];
+            $error_info = $this->api_service->makeErrorInfo($e);
+            $this->response = ['status' => $status,'data' => $error_info];
+
+            return response()->json($this->response);
         }
     }
 
@@ -76,9 +103,9 @@ class AnalysisController extends Controller
      * 年代ごとにプレイヤーをまとめる
      *
      * @param array $rankings
-     * @return void
+     * @return array
      */
-    private function arrangeByAge(array $rankings)
+    private function arrangeByAge(array $rankings): array
     {
         $data = ['10s'=>[], '20s'=>[], '30s'=>[], '40s'=>[]];
 
@@ -95,6 +122,23 @@ class AnalysisController extends Controller
             }
         }
         return $data;
+    }
+
+
+    /**
+     * 年齢ごとのランキング平均値を作成する
+     *
+     * @param array $rankings_by_age
+     * @return array
+     */
+    private function makeAverageRankByAge(array $rankings_by_age): array
+    {
+        $average_rank['10s'] = $this->calcAveRank($rankings_by_age['10s']);
+        $average_rank['20s'] = $this->calcAveRank($rankings_by_age['20s']);
+        $average_rank['30s'] = $this->calcAveRank($rankings_by_age['30s']);
+        $average_rank['40s'] = $this->calcAveRank($rankings_by_age['40s']);
+
+        return $average_rank;
     }
 
 
@@ -117,5 +161,22 @@ class AnalysisController extends Controller
         } else {
             return 0;
         }
+    }
+
+
+    /**
+     * 年代ごとの選手の人数配列を作成する
+     *
+     * @param array $rankings_by_age
+     * @return array
+     */
+    private function makeCountPlayer(array $rankings_by_age): array
+    {
+        $count_player['10s'] = count($rankings_by_age['10s']);
+        $count_player['20s'] = count($rankings_by_age['20s']);
+        $count_player['30s'] = count($rankings_by_age['30s']);
+        $count_player['40s'] = count($rankings_by_age['40s']); 
+
+        return $count_player;
     }
 }
