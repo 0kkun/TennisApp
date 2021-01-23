@@ -2150,7 +2150,7 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         _this.brands = response.data.data;
         _this.loadStatus = true;
-        console.log(response.data);
+        console.log('load:' + response.data.status);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2162,8 +2162,9 @@ __webpack_require__.r(__webpack_exports__);
         favorite_brand_id: brand_id,
         user_id: this.user_id
       }).then(function (response) {
-        _this2.brands = response.data.data;
-        console.log(response.data);
+        _this2.fetchBrands(_this2.user_id);
+
+        console.log('create:' + response.data.status);
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2177,8 +2178,9 @@ __webpack_require__.r(__webpack_exports__);
           user_id: this.user_id
         }
       }).then(function (response) {
-        _this3.brands = response.data.data;
-        console.log(response.data);
+        _this3.fetchBrands(_this3.user_id);
+
+        console.log('delete:' + response.data.status);
       })["catch"](function (error) {
         console.log(error);
       });

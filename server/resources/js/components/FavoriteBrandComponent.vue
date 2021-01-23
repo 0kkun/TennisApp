@@ -65,7 +65,7 @@ export default {
             .then((response) => {
                 this.brands = response.data.data;
                 this.loadStatus = true;
-                console.log(response.data);
+                console.log('load:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error); 
@@ -77,8 +77,8 @@ export default {
                 user_id: this.user_id
             })
             .then((response) => {
-                this.brands = response.data.data;
-                console.log(response.data);
+                this.fetchBrands(this.user_id);
+                console.log('create:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error); 
@@ -92,8 +92,8 @@ export default {
                 }
             })
             .then((response) => {
-                this.brands = response.data.data;
-                console.log(response.data);
+                this.fetchBrands(this.user_id);
+                console.log('delete:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error); 
