@@ -33,6 +33,10 @@
             </div>
         </div>
 
+        {{-- MEMO: 要素の出現順でコンポーネントを上書きできるかが決まるのでここにハンバーガーを配置する --}}
+        <div id="hamburger-menu-vue">
+            <hamburger-menu-component></hamburger-menu-component>
+        </div>
 
         <script src="{{ mix('js/app.js') }}"></script>
         <script type="text/javascript" src="/js/common/nav_menu.js"></script>
