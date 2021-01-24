@@ -9,46 +9,39 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 use App\Modules\BatchLogger;
+use App\Services\Api\ApiServiceInterface;
+use Illuminate\Http\JsonResponse;
 
 class FavoriteBrandController extends Controller
 {
     private $brands_repository;
     private $favorite_brands_repository;
+    private $api_service;
     private $logger;
 
-    // ステータスコード
-    private $status;
-
     // レスポンスのフォーマット
-    protected $response = [
-        'status' => null,
-        'data'   => null
-    ];
-
-    // ステータスコード
-    const RESULT_STATUS = [
-        'success'      => 200,
-        'created'      => 201,
-        'deleted'      => 202,
-        'no_content'   => 204,
-        'bad_request'  => 400,
-        'server_error' => 500
-    ];
-
+    protected $response;
+    protected $result_status;
 
     /**
      * リポジトリをDI
      *
      * @param BrandsRepository $brands_repository
      * @param FavoriteBrandsRepository $favorite_brands_repository
+     * @param ApiServiceInterface $api_service
      */
     public function __construct(
         BrandsRepository $brands_repository,
-        FavoriteBrandsRepository $favorite_brands_repository
+        FavoriteBrandsRepository $favorite_brands_repository,
+        ApiServiceInterface $api_service
     )
     {
+        $this->logger = new BatchLogger(__CLASS__);
+        $this->response = config('api_template.response_format');
+        $this->result_status = config('api_template.result_status');
         $this->brands_repository = $brands_repository;
         $this->favorite_brands_repository = $favorite_brands_repository;
+        $this->api_service = $api_service;
     }
 
 
@@ -60,7 +53,7 @@ class FavoriteBrandController extends Controller
     public function top()
     {
         if (Auth::check()) {
-            $user_id = Auth::user()->id;
+            $user_id = Auth::id();
             return view('favorite_brand.top', compact('user_id'));
         } else {
             return view('top.index');
@@ -72,64 +65,43 @@ class FavoriteBrandController extends Controller
      * [API] ブランド一覧表示用メソッド
      *
      * @param Request $request
-     * @return Json
+     * @return JsonResponse
      */
-    public function fetchBrands(Request $request, ?bool $is_internal=false)
+    public function fetchBrands(Request $request, ?bool $is_internal=false): JsonResponse
     {
-        $this->logger = new BatchLogger('FavoriteBrandController');
-
         try {
-            // クラス内からメソッドが実行された場合はステータスを更新しない
-            if ( !$is_internal ) $this->status = self::RESULT_STATUS['success'];
-
             // リクエストの中身をチェック
-            $this->checkArgs($request);
+            $expected_key = ['user_id'];
+            $status = $this->api_service->checkArgs($request, $expected_key);
 
-            if ($this->status <= 299) {
+            if ($status === $this->result_status['success']) {
 
                 $user_id = $request->input('user_id');
 
                 $brands = $this->brands_repository->getAll();
-    
+
                 $favorite_brand_ids = $this->favorite_brands_repository
                     ->getAll($user_id)
                     ->pluck('brand_id');
-    
+
                 $brand_lists = $this->makeBrandLists($brands, $favorite_brand_ids);
-    
-                $this->response = [
-                    'status' => $this->status,
-                    'data'   => $brand_lists
-                ];
+                $this->response = ['status' => $status, 'data' => $brand_lists];
 
             } else {
-                $this->response = [
-                    'status' => $this->status,
-                    'data'   => ''
-                ];
+                $this->response = ['status' => $status,'data' => ''];
             }
-            
-            $this->logger->write('status code :' . $this->status, 'info');
+
+            $this->logger->write('status code :' . $status, 'info');
             $this->logger->success();
 
             return response()->json($this->response);
 
         } catch (Exception $e) {
             $this->logger->exception($e);
+            $status = $this->result_status['server_error'];
+            $error_info = $this->api_service->makeErrorInfo($e);
+            $this->response = ['status' => $status,'data' => $error_info];
 
-            $this->status = self::RESULT_STATUS['server_error'];
-
-            $error_info = [
-                'message'   => $e->getMessage(),
-                'exception' => get_class($e),
-                'file'      => $e->getFile(),
-                'line'      => $e->getLine()
-            ];
-
-            $this->response = [
-                'status' => $this->status,
-                'data'   => $error_info
-            ];
             return response()->json($this->response);
         }
     }
@@ -139,26 +111,34 @@ class FavoriteBrandController extends Controller
      * [API] お気に入りブランド登録メソッド
      *
      * @param Request $request
-     * @return Json
+     * @return JsonResponse
      */
-    public function addBrand(Request $request)
+    public function addBrand(Request $request): JsonResponse
     {
         try {
-            $data['user_id'] = $request->input('user_id');
-            $data['brand_id'] = $request->input('favorite_brand_id');
+            // リクエストの中身をチェック
+            $expected_key = ['user_id', 'favorite_brand_id'];
+            $status = $this->api_service->checkArgs($request, $expected_key);
 
-            // 保存処理
-            if ( !empty($data) ) $this->favorite_brands_repository->bulkInsertOrUpdate($data);
+            if ( $status === $this->result_status['success'] ) {
+                $data['user_id'] = $request->input('user_id');
+                $data['brand_id'] = $request->input('favorite_brand_id');
 
-            $is_internal = true;
-            $this->status = self::RESULT_STATUS['created'];
+                // 保存処理
+                if ( !empty($data) ) $this->favorite_brands_repository->bulkInsertOrUpdate($data);
+                $status = $this->result_status['created'];
+                $this->response = ['status' => $status, 'data' => ''];
+            }
 
-            $response = $this->fetchBrands($request, $is_internal);
-
-            return $response;
+            return response()->json($this->response);
 
         } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500);
+            $this->logger->exception($e);
+            $status = $this->result_status['server_error'];
+            $error_info = $this->api_service->makeErrorInfo($e);
+            $this->response = ['status' => $status,'data' => $error_info];
+
+            return response()->json($this->response);
         }
     }
 
@@ -167,39 +147,33 @@ class FavoriteBrandController extends Controller
      * [API] お気に入りブランド削除メソッド
      *
      * @param Request $request
-     * @return Json|Exception
+     * @return JsonResponse
      */
-    public function deleteBrand(Request $request)
+    public function deleteBrand(Request $request): JsonResponse
     {
         try {
-            $data['user_id'] = $request->input('user_id');
-            $data['brand_id'] = $request->input('favorite_brand_id');
-    
-            if ( !empty($data) ) $this->favorite_brands_repository->deleteRecord($data);
+            // リクエストの中身をチェック
+            $expected_key = ['user_id', 'favorite_brand_id'];
+            $status = $this->api_service->checkArgs($request, $expected_key);
 
-            $is_internal = true;
-            $this->status = self::RESULT_STATUS['deleted'];
+            if ( $status === $this->result_status['success'] ) {
+                $data['user_id'] = $request->input('user_id');
+                $data['brand_id'] = $request->input('favorite_brand_id');
 
-            $response = $this->fetchBrands($request, $is_internal);
+                if ( !empty($data) ) $this->favorite_brands_repository->deleteRecord($data);
+                $status = $this->result_status['success'];
+                $this->response = ['status' => $status, 'data' => ''];
+            }
 
-            return $response;
+            return response()->json($this->response);
 
         } catch (Exception $e) {
-            return response()->json($e->getMessage(), 500);
-        }
-    }
+            $this->logger->exception($e);
+            $status = $this->result_status['server_error'];
+            $error_info = $this->api_service->makeErrorInfo($e);
+            $this->response = ['status' => $status,'data' => $error_info];
 
-
-    /**
-     * APIリクエストの引数チェック
-     *
-     * @param Request $request
-     * @return void
-     */
-    private function checkArgs(Request $request): void
-    {
-        if (!$request->filled('user_id')) {
-            $this->status = self::RESULT_STATUS['bad_request'];
+            return response()->json($this->response);
         }
     }
 

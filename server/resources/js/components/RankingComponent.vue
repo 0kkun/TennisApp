@@ -1,6 +1,14 @@
 <template>
-    <div class="card mt-3 font-alegreya font-weight-bold">
-        <div class="text-center pt-3 h2 bg-secondary text-white">Ranking</div>
+<div class="mt-3">
+    <!-- タブ切り替え -->
+    <div class="tab d-flex">
+        <div @click="change('Ranking')" :class="{'active': isActive === 'Ranking'}" class="tab-btn border rounded-top pt-1 pb-1 pl-3 pr-3">Ranking</div>
+        <div @click="change('Chart')" :class="{'active': isActive === 'Chart'}" class="tab-btn border rounded-top pt-1 pb-1 pl-3 pr-3">Chart</div>
+    </div>
+
+    <!-- ランキングタブ -->
+    <div v-if="isActive === 'Ranking'" class="border font-alegreya font-weight-bold">
+        <div class="text-center pt-2 pb-2 h2 bg-secondary text-white">Ranking</div>
         <div class="card-body">
 
             <div v-if="loadStatus == false">
@@ -47,32 +55,68 @@
             </transition>
         </div>
     </div>
+
+    <!-- グラフタブ -->
+    <div v-else-if="isActive === 'Chart'" class="border font-alegreya font-weight-bold mb-2">
+        <div class="text-center pt-2 pb-2 h2 bg-secondary text-white">Analysis Chart</div>
+        <div class="border mb-2 mr-2 ml-2">
+            <RankingChartComponent :height="250" :analysisData="analysisData"></RankingChartComponent>
+        </div>
+    </div>
+
+</div>
 </template>
 
 <script>
+
+import RankingChartComponent from './RankingChartComponent.vue'
+
 export default {
-    data : function () {
+    data: function () {
         return {
             rankings: [],
+            analysisData: [],
             num: 100,
-            loadStatus: false
+            analysisNum: 100,
+            loadStatus: false,
+            isActive: 'Ranking'
         }
     },
-    props:["user_id"],
+    components: { 
+        RankingChartComponent
+    },
     mounted: function() {
         this.fetchRankings(this.num);
+        this.fetchAnalysis(this.num);
     },
     methods: {
+        change: function(tabName){
+            this.isActive = tabName
+        },
         fetchRankings: function() {
             axios.get('/api/v1/rankings', { 
                 params: {
-                    num: this.num,
-                    user_id: this.user_id
+                    num: this.num
                 }
             })
             .then((response) => {
-                this.rankings = response.data;
+                this.rankings = response.data.data;
                 this.loadStatus = true;
+                console.log('ranking-status:' + response.data.status);
+            })
+            .catch((error) => {
+                console.log(error); 
+            });
+        },
+        fetchAnalysis: function() {
+            axios.get('/api/v1/analysis_age', { 
+                params: {
+                    num: this.analysisNum,
+                }
+            })
+            .then((response) => {
+                this.analysisData = response.data.data;
+                console.log('chartData-status:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error); 
@@ -92,9 +136,16 @@ th, td {
 }
 /* アニメーション */
 .fade-enter-active, .fade-leave-active {
-    transition: opacity 1s;
+    transition: opacity 0.5s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
     opacity: 0;
+}
+.tab-btn {
+    cursor: pointer;
+}
+.tab div.active {
+    background-color: rgb(79, 81, 208);
+    color: white;
 }
 </style>

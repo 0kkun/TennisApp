@@ -55,8 +55,9 @@ export default {
                 }
             })
             .then((response) => {
-                this.tourSchedules = response.data;
+                this.tourSchedules = response.data.data;
                 this.loadStatus = true;
+                console.log('tourSchedule status:' + response.data.status);
             })
             .catch((error) => {
                 console.log(error); 

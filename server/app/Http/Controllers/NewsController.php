@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,6 +9,9 @@ use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Repositories\Contracts\PlayersNewsArticleRepository;
 use App\Repositories\Contracts\BrandNewsArticlesRepository;
 use App\Repositories\Contracts\FavoriteBrandsRepository;
+use Illuminate\Http\JsonResponse;
+use App\Services\Api\ApiServiceInterface;
+use App\Modules\BatchLogger;
 
 class NewsController extends Controller
 {
@@ -17,10 +19,14 @@ class NewsController extends Controller
     private $players_news_article_repository;
     private $favorite_brand_repository;
     private $brand_news_article_repository;
+    private $api_service;
+    private $logger;
 
+    // レスポンスのフォーマット
+    protected $response;
+    protected $result_status;
 
     const MAX_ARTICLE_NUM = 9;
-
 
     /**
      * リポジトリをDI
@@ -29,18 +35,24 @@ class NewsController extends Controller
      * @param PlayersNewsArticleRepository $players_news_article_repository
      * @param FavoriteBrandsRepository $favorite_brand_repository
      * @param BrandNewsArticlesRepository $brand_news_article_repository
+     * @param ApiServiceInterface $api_service
      */
     public function __construct(
         FavoritePlayersRepository $favorite_player_repository,
         PlayersNewsArticleRepository $players_news_article_repository,
         FavoriteBrandsRepository $favorite_brand_repository,
-        BrandNewsArticlesRepository $brand_news_article_repository
+        BrandNewsArticlesRepository $brand_news_article_repository,
+        ApiServiceInterface $api_service
     )
     {
+        $this->logger = new BatchLogger(__CLASS__);
+        $this->response = config('api_template.response_format');
+        $this->result_status = config('api_template.result_status');
         $this->favorite_player_repository = $favorite_player_repository;
         $this->players_news_article_repository = $players_news_article_repository;
         $this->favorite_brand_repository = $favorite_brand_repository;
         $this->brand_news_article_repository = $brand_news_article_repository;
+        $this->api_service = $api_service;
     }
 
 
@@ -50,7 +62,7 @@ class NewsController extends Controller
     public function top()
     {
         if (Auth::check()) {
-            $user_id = Auth::user()->id;
+            $user_id = Auth::id();
             return view('news.top', compact('user_id'));
         } else {
             return view('top.index');
@@ -62,35 +74,59 @@ class NewsController extends Controller
      * [API] お気に入りに基づいたテニスニュース記事を取得する
      *
      * @param Request $request
-     * @return Json|Exception
+     * @return JsonResponse
      */
-    public function fetchPlayersNews(Request $request)
+    public function fetchPlayersNews(Request $request): JsonResponse
     {
         try {
-            $user_id = $request->input('user_id');
-            $is_paginate = false;
-            
-            $favorite_players = $this->favorite_player_repository
-                ->getFavoritePlayers($user_id)
-                ->toArray();
+            // リクエストの中身をチェック
+            $expected_key = ['user_id'];
+            $status = $this->api_service->checkArgs($request, $expected_key);
 
-            // お気に入り選手が無い場合は全件取得にする
-            if ( empty($favorite_players) ) {
-                $response = $this->players_news_article_repository
-                    ->fetchArticles(self::MAX_ARTICLE_NUM, $is_paginate);
-                return request()->json(200, $response);
+            if ($status === $this->result_status['success']) {
+
+                $user_id = $request->input('user_id');
+                $is_paginate = false;
+                
+                // ログインユーザーのお気に入り選手を取得する
+                $favorite_players = $this->favorite_player_repository
+                    ->getFavoritePlayers($user_id)
+                    ->toArray();
+
+                // ファーストネームだけにする
+                $player_names = $this->getFirstName( $favorite_players );
+
+                // お気に入りが無い場合は全件取得
+                if ( empty($favorite_players) ) {
+                    $news_articles = $this->players_news_article_repository
+                        ->fetchArticles(self::MAX_ARTICLE_NUM, $is_paginate);
+
+                    $this->response = ['status' => $status, 'data' => $news_articles];
+
+                // お気に入りがある場合は絞る
+                } else {
+                    // お気に入り選手の名前で記事を検索し取得
+                    $news_articles = $this->players_news_article_repository
+                        ->fetchArticlesByPlayerNames($player_names, self::MAX_ARTICLE_NUM, $is_paginate);
+
+                    $this->response = ['status' => $status, 'data' => $news_articles];
+                }
+            } else {
+                $this->response = ['status' => $status, 'data' => ''];
             }
 
-            // ファーストネームだけにする
-            $player_names = $this->getFirstName( $favorite_players );
+            $this->logger->write('status code :' . $status, 'info');
+            $this->logger->success();
 
-            // お気に入り選手の名前で記事を検索し取得
-            $response = $this->players_news_article_repository
-                ->fetchArticlesByPlayerNames($player_names, self::MAX_ARTICLE_NUM, $is_paginate);
+            return response()->json($this->response);
 
-            return request()->json(200, $response);
         } catch ( Exception $e ) {
-            return response()->json($e->getMessage(), 500);
+            $this->logger->exception($e);
+            $status = $this->result_status['server_error'];
+            $error_info = $this->api_service->makeErrorInfo($e);
+            $this->response = ['status' => $status,'data' => $error_info];
+
+            return response()->json($this->response);
         }
     }
 
@@ -99,34 +135,55 @@ class NewsController extends Controller
      * [API] お気に入りブランドに基づいたニュースを取得する
      *
      * @param Request $request
-     * @return Json|Exception
+     * @return JsonResponse
      */
-    public function fetchBrandsNews(Request $request)
+    public function fetchBrandsNews(Request $request): JsonResponse
     {
         try {
-            $user_id = $request->input('user_id');
-            $is_paginate = false;
-            
-            $favorite_brand_names = $this->favorite_brand_repository
-                ->fetchFavoriteBrands($user_id)
-                ->pluck('name_en')
-                ->toArray();
+            // リクエストの中身をチェック
+            $expected_key = ['user_id'];
+            $status = $this->api_service->checkArgs($request, $expected_key);
 
-            // お気に入りが無い場合は全件取得
-            if ( empty($favorite_brand_names) ) {
-                $response = $this->brand_news_article_repository
-                    ->fetchArticles(self::MAX_ARTICLE_NUM, $is_paginate);
-                return request()->json(200, $response);
+            if ($status === $this->result_status['success']) {
 
-            // お気に入りがある場合はブランドを絞る
+                $user_id = $request->input('user_id');
+                $is_paginate = false;
+                
+                $favorite_brand_names = $this->favorite_brand_repository
+                    ->fetchFavoriteBrands($user_id)
+                    ->pluck('name_en')
+                    ->toArray();
+    
+                // お気に入りが無い場合は全件取得
+                if ( empty($favorite_brand_names) ) {
+                    $brand_news = $this->brand_news_article_repository
+                        ->fetchArticles(self::MAX_ARTICLE_NUM, $is_paginate);
+
+                    $this->response = ['status' => $status, 'data' => $brand_news];
+
+                // お気に入りがある場合は絞る
+                } else {
+                    $brand_news = $this->brand_news_article_repository
+                        ->fetchArticlesByBrandNames($favorite_brand_names, self::MAX_ARTICLE_NUM, $is_paginate);
+
+                    $this->response = ['status' => $status, 'data' => $brand_news];
+                }
             } else {
-                $response = $this->brand_news_article_repository
-                    ->fetchArticlesByBrandNames($favorite_brand_names, self::MAX_ARTICLE_NUM, $is_paginate);
-                return request()->json(200, $response);
+                $this->response = ['status' => $status, 'data' => ''];
             }
 
+            $this->logger->write('status code :' . $status, 'info');
+            $this->logger->success();
+
+            return response()->json($this->response);
+
         } catch ( Exception $e ) {
-            return response()->json($e->getMessage(), 500);
+            $this->logger->exception($e);
+            $status = $this->result_status['server_error'];
+            $error_info = $this->api_service->makeErrorInfo($e);
+            $this->response = ['status' => $status,'data' => $error_info];
+
+            return response()->json($this->response);
         }
     }
 

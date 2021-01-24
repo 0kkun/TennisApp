@@ -35,4 +35,5 @@ Route::middleware('throttle:60,1')->prefix('v1')->group(function () {
     Route::post('/add_player', 'FavoritePlayerController@addPlayer');
     Route::delete('/delete_player', 'FavoritePlayerController@deletePlayer');
     Route::get('/search_players', 'FavoritePlayerController@searchPlayers');
+    Route::get('/analysis_age', 'AnalysisController@fetchAgeAnalysis');
 });

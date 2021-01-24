@@ -14,6 +14,7 @@ class BasicServiceProvider extends ServiceProvider
     public $services = [
         'FavoritePlayer',
         'Top',
+        'Api',
     ];
 
 
