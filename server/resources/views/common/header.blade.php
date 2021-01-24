@@ -1,6 +1,6 @@
 <div class="site-header bg-dark" style="height: 100px; opacity:0.9;">
     <!------------ ハンバーガーメニュー ------------>
-    <nav class="global-nav">
+    {{-- <nav class="global-nav">
         <ul class="global-nav__list font-alegreya font-weight-bold">
         @if(Auth::check())
             <li class="global-nav__item"><a href="{{ route('home.index') }}">HOME</a></li>
@@ -18,7 +18,6 @@
                     @csrf
                 </form>
             </li>
-            {{-- <li class="global-nav__item"><a href="{{ route('analysis.index') }}">Player Analysis</a></li> --}}
         @else
             <li class="global-nav__item"><a href="{{ route('home.index') }}">HOME</a></li>
             <li class="global-nav__item"><a href="{{ route('register') }}">Register</a></li>
@@ -31,9 +30,11 @@
         <span class="hamburger__line hamburger__line--2"></span>
         <span class="hamburger__line hamburger__line--3"></span>
     </div>
-    <div class="black-bg" id="js-black-bg"></div>
+    <div class="black-bg" id="js-black-bg"></div> --}}
     <!------------------------------------------->
-    <a href="{{ route('home.index') }}" style="text-decoration: none;">
-        <div class="text-white h1 font-alegreya pt-3 pb-2 pl-5">Tennis App</div>
-    </a>
+    <div class="font-alegreya pt-3 pl-5">
+        <a href="{{ route('home.index') }}" class="text-white h1" style="text-decoration: none;">
+            Tennis App
+        </a>
+    </div>
 </div>

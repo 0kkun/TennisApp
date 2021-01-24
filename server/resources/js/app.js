@@ -8,6 +8,7 @@ import TourScheduleComponent from './components/TourScheduleComponent.vue'
 import PlayerMovieComponent from './components/PlayerMovieComponent.vue'
 import BrandMovieComponent from './components/BrandMovieComponent.vue'
 import FavoritePlayerComponent from './components/FavoritePlayerComponent.vue'
+import HamburgerMenuComponent from './components/HamburgerMenuComponent.vue'
 
 
 Vue.component('favorite-brand-component', require('./components/FavoriteBrandComponent.vue').default);
@@ -18,6 +19,7 @@ Vue.component('tour-schedule-component', require('./components/TourScheduleCompo
 Vue.component('player-movie-component', require('./components/PlayerMovieComponent.vue').default);
 Vue.component('brand-movie-component', require('./components/BrandMovieComponent.vue').default);
 Vue.component('favorite-player-component', require('./components/FavoritePlayerComponent.vue').default);
+Vue.component('hamburger-menu-component', require('./components/HamburgerMenuComponent.vue').default);
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -62,6 +64,14 @@ document.addEventListener('DOMContentLoaded', function() {
             el: '#favorite-player-vue',
             components: {
                 FavoritePlayerComponent
+            }
+        });
+    }
+    if (document.getElementById("hamburger-menu-vue")) {
+        const ranking = new Vue({
+            el: '#hamburger-menu-vue',
+            components: {
+                HamburgerMenuComponent
             }
         });
     }
