@@ -56,7 +56,7 @@ jobs:
             ssh -o StrictHostKeyChecking=no -t webapp@${HOST_NAME} "cd TennisApp/server && \
               git pull origin master && \
               composer install -n --no-dev --prefer-dist && \
-              npm ci && \
+              npm install && \
               npm run prod && \
               php artisan migrate --force && \
               php artisan config:cache"
