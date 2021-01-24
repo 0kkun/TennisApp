@@ -57,7 +57,6 @@ class AnalysisController extends Controller
     public function fetchAgeAnalysis(Request $request): JsonResponse
     {
         try {
-            dd(__CLASS__);
             // リクエストの中身をチェック
             $expected_key = ['num'];
             $status = $this->api_service->checkArgs($request, $expected_key);
