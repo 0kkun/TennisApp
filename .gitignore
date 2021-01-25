@@ -14,3 +14,5 @@
 /server/npm-debug.log
 /server/yarn-error.log
 /server/storage/debugbar/
+/server/public/js/app.js
+/server/public/css/app.css 
