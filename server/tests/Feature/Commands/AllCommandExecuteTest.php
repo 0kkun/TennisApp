@@ -12,18 +12,18 @@ class AllCommandExecuteTest extends TestCase
     /**
      * @test
      */
-    public function command_getBrandsYoutubeが実行できるか()
+    public function command_getBrandMovieが実行できるか()
     {
-        $this->artisan('command:getBrandsYoutube');
+        $this->artisan('command:getBrandMovie');
         $this->assertTrue(true);
     }
 
     /**
      * @test
      */
-    public function command_getPlayersYoutubeが実行できるか()
+    public function command_getPlayerMovieが実行できるか()
     {
-        $this->artisan('command:getPlayersYoutube');
+        $this->artisan('command:getPlayerMovie');
         $this->assertTrue(true);
     }
 
