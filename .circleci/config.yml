@@ -42,6 +42,7 @@ jobs:
           command: |
             php ./server/artisan --env=testing
             php ./server/artisan migrate
+            php ./server/artisan optimize
             php ./server/vendor/bin/phpunit --configuration=./server/phpunit.xml
 
 #  == デプロイ用のジョブ ==
