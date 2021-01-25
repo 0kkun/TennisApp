@@ -30,7 +30,7 @@ class UserRegisterTest extends TestCase
     /**
      * @test
      */
-    public function ユーザー登録できる()
+    public function ユーザー登録できるか()
     {
         $user_inputs = [
             'name'                  => $this->user->name,
