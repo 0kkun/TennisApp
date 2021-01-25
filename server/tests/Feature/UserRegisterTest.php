@@ -5,24 +5,47 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Models\User;
+use Illuminate\Support\Facades\Artisan;
 
 class UserRegisterTest extends TestCase
 {
-    use RefreshDatabase;
+    private $user;
+
+    public function SetUp()
+    {
+        parent::setUp();
+        Artisan::call('cache:clear');
+        Artisan::call('config:clear');
+        Artisan::call('optimize:clear');
+        Artisan::call('route:clear');
+        $this->makeTestUser();
+    }
 
     /**
      * @test
      */
     public function ユーザー登録できる()
     {
-        $email = 'email@example.com';
-        $this->post(route('register'), [
-            'name' => 'user',
-            'email' => $email,
-            'password' => 'password',
-            'password_confirmation' => 'password'
-        ])
+        $user_inputs = [
+            'name'                  => $this->user->name,
+            'email'                 => $this->user->email,
+            'password'              => $this->user->password,
+            'password_confirmation' => $this->user->password,
+        ];
+
+        $this->post(route('register'), $user_inputs)
             ->assertStatus(302);
-        $this->assertDatabaseHas('users', ['email' => $email]);
+    }
+
+    /**
+     * Userを作成する
+     * ログイン後の画面を確認する為
+     *
+     * @return void
+     */
+    private function makeTestUser()
+    {
+        $this->user = factory(User::class)->make();
     }
 }
