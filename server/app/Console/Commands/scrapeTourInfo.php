@@ -9,6 +9,9 @@ use Exception;
 use Carbon\Carbon;
 use App\Repositories\Contracts\TourInformationsRepository;
 
+/**
+ * MEMO: 現在は使用していない
+ */
 class scrapeTourInfo extends Command
 {
     protected $signature = 'command:scrapeTourInfo';
