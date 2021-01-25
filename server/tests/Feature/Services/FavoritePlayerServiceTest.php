@@ -14,25 +14,16 @@ use Illuminate\Support\Facades\Artisan;
 
 class FavoritePlayerServiceTest extends TestCase
 {
-    use RefreshDatabase;
-
     private $players_repository_mock;
     private $favorite_player_service;
 
     public function setUp()
     {
         parent::setUp();
-
-        Artisan::call('cache:clear');
-        Artisan::call('config:clear');
-        Artisan::call('optimize:clear');
-        Artisan::call('route:clear');
-
         // リポジトリをモック
         $this->setMockery();
         // インスタンスを指定
         $this->setMockInstance();
-
         // テストするサービスを指定
         $this->favorite_player_service = app(FavoritePlayerService::class);
     }
@@ -40,8 +31,8 @@ class FavoritePlayerServiceTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown(); 
         Mockery::close();
+        parent::tearDown(); 
     }
 
     private function setMockery()

@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class makeRepositoryCommand extends Command
+class MakeRepositoryCommand extends Command
 {
     protected $signature = 'make:repository {model_name : モデル名}';
     protected $description = 'リポジトリファイルを作成する';

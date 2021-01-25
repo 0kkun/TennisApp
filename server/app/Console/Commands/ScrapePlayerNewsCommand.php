@@ -10,12 +10,13 @@ use Carbon\Carbon;
 use Symfony\Component\Console\Helper\ProgressBar;
 use App\Repositories\Contracts\PlayersNewsArticleRepository;
 
-class ScrapeNewsCommand extends Command
+class ScrapePlayerNewsCommand extends Command
 {
-    protected $signature = 'command:scrapeNews';
+    protected $signature = 'command:scrapePlayerNews';
 
-    protected $description = 'テニスのニュースをスクレイピングするコマンド';
+    protected $description = '選手のニュースをスクレイピングするコマンド';
 
+    const LOOP_COUNT = 701;
     const URL = [
         'https://news.livedoor.com/article/category/527/',
         'https://news.livedoor.com/article/category/527/?p=2',
@@ -25,7 +26,6 @@ class ScrapeNewsCommand extends Command
         'https://news.livedoor.com/article/category/527/?p=6',
         'https://news.livedoor.com/article/category/527/?p=7'
     ];
-    const LOOP_COUNT = 701;
 
     private $players_news_article_repository;
 
@@ -43,6 +43,11 @@ class ScrapeNewsCommand extends Command
     }
 
 
+    /**
+     * Execute the console command.
+     *
+     * @return mixed
+     */
     public function handle()
     {
         $this->info("【実行開始】");

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\old;
 
 use Illuminate\Console\Command;
 use Weidner\Goutte\GoutteFacade;
@@ -10,6 +10,8 @@ use App\Repositories\Contracts\PlayersRepository;
 use Carbon\Carbon;
 
 /**
+ * MEMO: 現在は使用していない
+ * 
  * [2020-09-17 02:52:18] local.INFO: [START] scrapePlayers  
  * [2020-09-17 02:52:18] local.INFO: [scrapePlayers] 取得開始 : 0.074466943740845秒  
  * [2020-09-17 02:53:44] local.INFO: [scrapePlayers] 取得完了 : 86.893354177475秒  

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\old;
 
 use Illuminate\Console\Command;
 use Weidner\Goutte\GoutteFacade;
@@ -9,6 +9,9 @@ use Exception;
 use Carbon\Carbon;
 use App\Repositories\Contracts\AtpRankingsRepository;
 
+/**
+ * MEMO: 現在は使用していない
+ */
 class scrapeATPRanking extends Command
 {
 

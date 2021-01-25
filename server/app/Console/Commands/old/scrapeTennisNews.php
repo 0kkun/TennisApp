@@ -1,28 +1,32 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\old;
 
 use Illuminate\Console\Command;
 use Weidner\Goutte\GoutteFacade;
 use App\Modules\BatchLogger;
 use Exception;
 use Carbon\Carbon;
-use App\Jobs\ScrapeBrandNewsJob;
+use Illuminate\Support\Facades\Log;
+use App\Jobs\ScrapeTennisNewsJob;
 
-class scrapeBrandNews extends Command
+/**
+ * MEMO: 現在は使用していない
+ */
+class scrapeTennisNews extends Command
 {
-    protected $signature = 'command:scrapeBrandNews {--sync : 同期処理}';
-    protected $description = 'ブランドのニュースをスクレイピングで取得し保存するコマンド';
+    protected $signature = 'command:scrapeTennisNews {--sync : 同期処理}';
+    protected $description = 'テニスのニュースをスクレイピングで取得し保存するコマンド';
 
 
-    public function __construct()
+    public function __construct(
+    )
     {
         parent::__construct();
     }
 
 
     /**
-     * Execute the console command.
      *
      * @return mixed
      */
@@ -33,10 +37,10 @@ class scrapeBrandNews extends Command
         // 同期実行か非同期実行か判定
         if ($is_sync) {
             $this->info('同期実行開始');
-            dispatch_now(new ScrapeBrandNewsJob);
+            dispatch_now(new ScrapeTennisNewsJob);
         } else {
             $this->info('非同期実行開始');
-            dispatch(new ScrapeBrandNewsJob);
+            dispatch(new ScrapeTennisNewsJob);
         }
 
         $this->info('実行完了');

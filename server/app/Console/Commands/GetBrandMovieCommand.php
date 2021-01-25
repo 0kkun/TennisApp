@@ -13,11 +13,11 @@ use Google_Exception;
 use App\Modules\BatchLogger;
 use Exception;
 
-class getBrandsYoutube extends Command
+class GetBrandMovieCommand extends Command
 {
-
-    protected $signature = 'command:getBrandsYoutube';
+    protected $signature = 'command:getBrandMovie';
     protected $description = 'ブランドのyoutube動画を取得する';
+
     const MAX_COUNT = 5;
     private $brands_repository;
     private $brand_youtube_videos_repository;
@@ -35,6 +35,7 @@ class getBrandsYoutube extends Command
     )
     {
         parent::__construct();
+        $this->logger = new BatchLogger(__CLASS__);
         $this->brands_repository = $brands_repository;
         $this->brand_youtube_videos_repository = $brand_youtube_videos_repository;
     }
@@ -48,7 +49,6 @@ class getBrandsYoutube extends Command
     public function handle()
     {
         $this->info( "実行開始" );
-        $this->logger = new BatchLogger( 'getBrandsYoutube' );
 
         try {
             $client = new Google_Client();
@@ -96,6 +96,9 @@ class getBrandsYoutube extends Command
 
     /**
      * youtube api v3 で動画取得
+     * 
+     * リファレンス
+     * https://developers.google.com/youtube/v3/docs/search/list?hl=ja
      *
      * @param [type] $youtube
      * @param [type] $search_duration
@@ -106,7 +109,6 @@ class getBrandsYoutube extends Command
     {
         $videos = [];
 
-        // リファレンス：https://developers.google.com/youtube/v3/docs/search/list?hl=ja
         $params = [
             'q'                 => $keyword,
             'type'              => 'video',
