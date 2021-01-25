@@ -22,6 +22,11 @@ class UserRegisterTest extends TestCase
         $this->makeTestUser();
     }
 
+    public function tearDown()
+    {
+        parent::tearDown();
+    }
+
     /**
      * @test
      */
