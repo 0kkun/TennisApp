@@ -31,8 +31,8 @@ class ScrapeTennisNewsJobTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown(); 
         Mockery::close();
+        parent::tearDown(); 
     }
 
     private function setMockery()
@@ -50,7 +50,7 @@ class ScrapeTennisNewsJobTest extends TestCase
      * 処理の中でリポジトリメソッドの返り値を必要としない場合はメソッドをセットしなくて良いみたい。書くとエラー。
      * @test
      */
-    public function Handleのテスト()
+    public function Job_scrapeTennisNewsが正常にディスパッチできるか()
     {
         Bus::fake();
 

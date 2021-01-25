@@ -53,8 +53,8 @@ class TopServiceTest extends TestCase
 
     public function tearDown()
     {
-        parent::tearDown(); 
         Mockery::close();
+        parent::tearDown(); 
     }
 
     private function setMockery()
