@@ -43,9 +43,9 @@ class AllCommandExecuteTest extends TestCase
     /**
      * @test
      */
-    public function command_scrapeNewsが実行できるか()
+    public function command_scrapePlayerNewsが実行できるか()
     {
-        $this->artisan('command:scrapeNews');
+        $this->artisan('command:scrapePlayerNews');
         $this->assertTrue(true);
     }
 
@@ -55,16 +55,6 @@ class AllCommandExecuteTest extends TestCase
     public function command_scrapeRankingが実行できるか()
     {
         $this->artisan('command:scrapeRanking');
-        $this->assertTrue(true);
-    }
-
-
-    /**
-     * @test
-     */
-    public function command_scrapeTennisNewsが実行できるか()
-    {
-        $this->artisan('command:scrapeTennisNews');
         $this->assertTrue(true);
     }
 
