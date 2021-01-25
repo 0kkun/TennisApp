@@ -25,6 +25,11 @@ class FrontAccessTest extends TestCase
         $this->makeTestUser();
     }
 
+    public function tearDown()
+    {
+        parent::tearDown(); 
+    }
+
     /**
      * @test
      */
