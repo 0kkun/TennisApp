@@ -10,9 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use App\Jobs\ScrapeTennisNewsJob;
 
-/**
- * MEMO: 現在は使用していない
- */
+
 class scrapeTennisNews extends Command
 {
     protected $signature = 'command:scrapeTennisNews {--sync : 同期処理}';

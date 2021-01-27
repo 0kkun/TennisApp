@@ -13,16 +13,15 @@ use Google_Exception;
 use App\Modules\BatchLogger;
 use Exception;
 
-class GetPlayerMovieCommand extends Command
+class getPlayersYoutube extends Command
 {
-    protected $signature = 'command:getPlayerMovie';
+    protected $signature = 'command:getPlayersYoutube';
     protected $description = '選手のyoutube動画を取得する';
 
     private $players_repository;
     private $youtube_videos_repository;
 
     const MAX_COUNT = 5;
-
 
     /**
      * リポジトリのコンストラクタ
@@ -36,7 +35,6 @@ class GetPlayerMovieCommand extends Command
     )
     {
         parent::__construct();
-        $this->logger = new BatchLogger(__CLASS__);
         $this->players_repository = $players_repository;
         $this->youtube_videos_repository = $youtube_videos_repository;
     }
@@ -50,6 +48,7 @@ class GetPlayerMovieCommand extends Command
     public function handle()
     {
         $this->info( "【実行開始】" );
+        $this->logger = new BatchLogger( 'getPlayersYoutube' );
 
         try {
             // Googleへの接続情報のインスタンスを作成と設定

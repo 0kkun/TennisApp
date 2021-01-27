@@ -10,7 +10,7 @@ use Carbon\Carbon;
 use App\Repositories\Contracts\RankingRepository;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-class ScrapeRankingCommand extends Command
+class scrapeRankingCommand extends Command
 {
     protected $signature = 'command:scrapeRanking';
     protected $description = 'テニスのランキングデータをスクレイピングで取得するコマンド';

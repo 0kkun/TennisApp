@@ -3,16 +3,24 @@
 namespace Tests\Feature\Fronts;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\User;
-use Illuminate\Support\Facades\Artisan;
 
-/**
- * MEMO: logクラスが無いというエラーが出たら「php artisan optimize」を行う事
- */
 class FrontAccessTest extends TestCase
 {
+    private $user;
+
+    public function setUp()
+    {
+        parent::setUp();
+        $this->user = $this->makeTestUser();
+    }
+
+
+    public function tearDown()
+    {
+        parent::tearDown(); 
+    }
+
     /**
      * @test
      */
@@ -40,73 +48,11 @@ class FrontAccessTest extends TestCase
      */
     public function homeにアクセスできるか()
     {
-        $user = $this->makeTestUser();
         $this->withoutExceptionHandling();
         // ログイン状態でhome画面にアクセスする
-        $response = $this->actingAs($user)->get(route('home.index'));
+        $response = $this->actingAs($this->user)->get(route('home.index'));
         $response->assertStatus(200)
             ->assertViewIs('home.index');
-    }
-
-    // /**
-    //  * @test
-    //  */
-    public function newsにアクセスできるか()
-    {
-        // $user = User::first();
-        $user = $this->makeTestUser();
-        // $this->withoutExceptionHandling();
-        // ログイン状態でnews画面にアクセスする
-        $response = $this->actingAs($user)->get(route('news.top'));
-
-        $response->assertStatus(200)
-            ->assertViewIs('news.top')
-            ->assertSee('News');
-    }
-
-    // /**
-    //  * @test
-    //  */
-    public function rankingにアクセスできるか()
-    {
-        $user = $this->makeTestUser();
-        $this->withoutExceptionHandling();
-        // ログイン状態でnews画面にアクセスする
-        $response = $this->actingAs($user)->get(route('ranking.top'));
-
-        $response->assertStatus(200)
-            ->assertViewIs('ranking.top')
-            ->assertSee('Ranking');
-    }
-
-    // /**
-    //  * @test
-    //  */
-    public function favorite_brandにアクセスできるか()
-    {
-        $user = $this->makeTestUser();
-        $this->withoutExceptionHandling();
-        // ログイン状態でnews画面にアクセスする
-        $response = $this->actingAs($user)->get(route('favorite_brand.top'));
-
-        $response->assertStatus(200)
-            ->assertViewIs('favorite_brand.top')
-            ->assertSee('Brand');
-    }
-
-    // /**
-    //  * @test
-    //  */
-    public function favorite_playerにアクセスできるか()
-    {
-        $user = User::first();
-        $this->withoutExceptionHandling();
-        // ログイン状態でnews画面にアクセスする
-        $response = $this->actingAs($user)->get(route('favorite_player.top'));
-
-        $response->assertStatus(200)
-            ->assertViewIs('favorite_player.top')
-            ->assertSee('Player');
     }
 
 
