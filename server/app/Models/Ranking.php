@@ -36,6 +36,7 @@ class Ranking extends Model
             'pre_tour_result_jp',
             'next_point',
             'max_point',
+            'ymd',
             'updated_at',
         ];
     }
