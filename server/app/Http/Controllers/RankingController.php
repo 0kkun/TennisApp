@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\RankingRepository;
-use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\JsonResponse;
 use App\Services\Api\ApiServiceInterface;
@@ -67,8 +66,13 @@ class RankingController extends Controller
 
             if ($status === $this->result_status['success']) {
 
-                $num = $request->input('num');
+                $num = $request->num;
                 $rankings = $this->ranking_repository->fetchRankings($num);
+
+                if ($rankings->isEmpty()) {
+                    $status =  $this->result_status['no_content'];
+                    $rankings = '';
+                }
 
                 $this->response = ['status' => $status, 'data' => $rankings];
 
@@ -81,7 +85,7 @@ class RankingController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);

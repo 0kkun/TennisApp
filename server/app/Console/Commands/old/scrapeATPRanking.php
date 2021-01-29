@@ -9,9 +9,6 @@ use Exception;
 use Carbon\Carbon;
 use App\Repositories\Contracts\AtpRankingsRepository;
 
-/**
- * MEMO: 現在は使用していない
- */
 class scrapeATPRanking extends Command
 {
 
