@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Exception;
 use App\Repositories\Contracts\YoutubeVideosRepository;
 use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Repositories\Contracts\BrandYoutubeVideosRepository;
@@ -28,7 +27,7 @@ class MovieController extends Controller
     const MAX_MOVIE_NUM = 6;
 
     /**
-     * リポジトリをDI
+     * Constructor
      *
      * @param YoutubeVideosRepository $youtube_video_repository
      * @param FavoritePlayersRepository $favorite_player_repository
@@ -100,7 +99,7 @@ class MovieController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);
@@ -157,7 +156,7 @@ class MovieController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);
