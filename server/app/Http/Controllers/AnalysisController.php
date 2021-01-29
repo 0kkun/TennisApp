@@ -20,9 +20,10 @@ class AnalysisController extends Controller
     protected $result_status;
 
     /**
-     * リポジトリをDI
+     * Constructor
      *
      * @param RankingRepository $ranking_repository
+     * @param ApiServiceInterface $api_service
      */
     public function __construct(
         RankingRepository $ranking_repository,
