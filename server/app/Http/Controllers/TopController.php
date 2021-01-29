@@ -12,7 +12,8 @@ class TopController extends Controller
     public function index()
     {
         if ( Auth::check()) {
-            return view('home.index');
+            $user_id = Auth::id();
+            return view('home.index', compact('user_id'));
         } else {
             return view('top.index');
         }
