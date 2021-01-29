@@ -81,7 +81,7 @@ export default {
             });
         },
         createPlayer: function(player_id) {
-            axios.post('/api/v1/add_player', {
+            axios.post('/api/v1/players/add', {
                 favorite_player_id: player_id,
                 user_id: this.user_id
             })
@@ -94,7 +94,7 @@ export default {
             });
         },
         deletePlayer: function(player_id) {
-            axios.delete('/api/v1/delete_player', {
+            axios.delete('/api/v1/players/delete', {
                 params: {
                     favorite_player_id: player_id,
                     user_id: this.user_id
@@ -109,10 +109,10 @@ export default {
             });
         },
         searchPlayers() {
-            axios.get('/api/v1/search_players', {
+            axios.get('/api/v1/players/search', {
                 params: {
                     keyword: this.keyword,
-                    user_id: this.user_id
+                    user_id: this.user_id,
                 } 
             })
             .then(response => {

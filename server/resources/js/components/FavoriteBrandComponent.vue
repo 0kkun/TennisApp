@@ -72,7 +72,7 @@ export default {
             });
         },
         addBrand: function(brand_id) {
-            axios.post('/api/v1/brands/create', {
+            axios.post('/api/v1/brands/add', {
                 favorite_brand_id: brand_id,
                 user_id: this.user_id
             })
