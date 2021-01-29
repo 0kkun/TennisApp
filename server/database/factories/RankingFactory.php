@@ -2,6 +2,7 @@
 
 use Faker\Generator as Faker;
 use App\Models\Ranking;
+use Carbon\Carbon;
 
 $factory->define(Ranking::class, function (Faker $faker) {
     return [
@@ -20,6 +21,7 @@ $factory->define(Ranking::class, function (Faker $faker) {
         'pre_tour_result_jp'        => $faker->realText($maxNbChars = 50, $indexSize = 2),
         'next_point'                => $faker->numberBetween($min=1, $max=1500),
         'max_point'                 => $faker->numberBetween($min=150, $max=1500),
+        'ymd'                       => Carbon::parse(now())->format('Y-m-d'),
         'updated_at'                => now(),
     ];
 });
