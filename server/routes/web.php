@@ -32,18 +32,21 @@ Route::middleware('throttle:60,1', 'auth:web')->prefix('/api/v1')->group(functio
         Route::get('/search', 'FavoritePlayerController@searchPlayers')->name('search');
     });
 
+    Route::prefix('/news')->name('news.')->group(function () {
+        Route::get('/players', 'NewsController@fetchPlayersNews')->name('players');
+        Route::get('/brands', 'NewsController@fetchBrandsNews')->name('brands');
+    });
+
+    Route::prefix('/movies')->name('movies.')->group(function () {
+        Route::get('/player', 'MovieController@fetchPlayerMovies')->name('player');
+        Route::get('/brand', 'MovieController@fetchBrandMovies')->name('brand');
+    });
+
     Route::get('/rankings', 'RankingController@fetchRankings');
-
-    Route::get('/players_news', 'NewsController@fetchPlayersNews');
-    Route::get('/brands_news', 'NewsController@fetchBrandsNews');
-
-    Route::get('/player_movies', 'MovieController@fetchPlayerMovies');
-    Route::get('/brand_movies', 'MovieController@fetchBrandMovies');
-
     Route::get('/tour_schedules', 'TourScheduleController@fetchTourSchedules');
-
     Route::get('/analysis_age', 'AnalysisController@fetchAgeAnalysis');
 });
+
 
 /* 以下ルートは使用停止中 */
 // Route::prefix('favorite_player')->group(function () {
