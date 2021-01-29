@@ -39,8 +39,6 @@
         </div>
 
         <script src="{{ mix('js/app.js') }}"></script>
-        <script type="text/javascript" src="/js/common/nav_menu.js"></script>
-        <script type="text/javascript" src="/js/top/scroll.js"></script>
     </body>
 
 </html>
