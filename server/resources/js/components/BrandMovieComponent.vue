@@ -36,7 +36,7 @@ export default {
     },
     methods: {
         fetchMovies: function() {
-            axios.get('/api/v1/brand_movies', {
+            axios.get('/api/v1/movies/brand', {
                 params: {
                     user_id: this.user_id
                 }

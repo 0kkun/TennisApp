@@ -37,7 +37,7 @@ export default {
     },
     methods: {
         fetchBrandsNews: function() {
-            axios.get('/api/v1/brands_news', {
+            axios.get('/api/v1/news/brands', {
                 params: {
                     user_id: this.user_id,
                 }
