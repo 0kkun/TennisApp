@@ -1,29 +1,32 @@
 <template>
     <div class="font-alegreya">
         <!--ハンバーガーメニューのリンク-->
-        <div class="hamburger_btn" v-on:click='ActiveBtn=!ActiveBtn'>
-            <span class="line line_01" v-bind:class="{'btn_line01':ActiveBtn}"></span>
-            <span class="line line_02" v-bind:class="{'btn_line02':ActiveBtn}"></span>
-            <span class="line line_03" v-bind:class="{'btn_line03':ActiveBtn}"></span>
+        <div class="hamburger_btn" v-on:click="naviOpen">
+            <span class="line line_01" v-bind:class="{'btn_line01':active}"></span>
+            <span class="line line_02" v-bind:class="{'btn_line02':active}"></span>
+            <span class="line line_03" v-bind:class="{'btn_line03':active}"></span>
         </div>
         <!--サイドバー-->
         <transition name="menu">
-            <div class="menu" v-show="ActiveBtn">
-                <ul>
-                    <li><a href="/home">HOME</a></li>
-                    <li><a href="/news">News</a></li>
-                    <li><a href="/ranking">Ranking</a></li>
-                    <li><a href="/favorite_brand">Favorite  Brand</a></li>
-                    <li><a href="/favorite_player">Favorite Player</a></li>
-                    <li>
-                        <a href="/logout" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                            Logout
-                        </a>
-                        <form id="logout-form" action="/logout" method="POST" style="display: none;">
-                            <input type="hidden" name="_token" :value="csrf_token">
-                        </form>
-                    </li>
-                </ul>
+            <div v-show="active">
+                <div class="menu-bg"></div>
+                <div class="menu">
+                    <ul>
+                        <li><a href="/home">HOME</a></li>
+                        <li><a href="/news">News</a></li>
+                        <li><a href="/ranking">Ranking</a></li>
+                        <li><a href="/favorite_brand">Favorite  Brand</a></li>
+                        <li><a href="/favorite_player">Favorite Player</a></li>
+                        <li>
+                            <a href="/logout" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                            <form id="logout-form" action="/logout" method="POST" style="display: none;">
+                                <input type="hidden" name="_token" :value="csrf_token">
+                            </form>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </transition>
     </div>
@@ -36,9 +39,14 @@ export default {
     data() {
         return {
             csrf_token: csrf_token,
-            ActiveBtn: false
+            active: false
         }
     },
+    methods: {
+        naviOpen: function() {
+            this.active = !this.active;
+        }
+    }
 }
 </script>
 
@@ -133,5 +141,14 @@ transition: 0.4s ease;
 }
 .menu ul{
     padding-top: 35px;
+}
+.menu-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    opacity: 0.6;
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
 }
 </style>
