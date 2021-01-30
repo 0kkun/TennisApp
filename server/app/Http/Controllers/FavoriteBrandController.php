@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\BrandsRepository;
 use App\Repositories\Contracts\FavoriteBrandsRepository;
-use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 use App\Modules\BatchLogger;
@@ -24,7 +23,7 @@ class FavoriteBrandController extends Controller
     protected $result_status;
 
     /**
-     * リポジトリをDI
+     * Constructor
      *
      * @param BrandsRepository $brands_repository
      * @param FavoriteBrandsRepository $favorite_brands_repository
@@ -47,8 +46,6 @@ class FavoriteBrandController extends Controller
 
     /**
      * ブランド登録トップ画面
-     *
-     * @return void
      */
     public function top()
     {
@@ -96,7 +93,7 @@ class FavoriteBrandController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);
@@ -132,7 +129,7 @@ class FavoriteBrandController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);
@@ -167,7 +164,7 @@ class FavoriteBrandController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);
@@ -254,59 +251,59 @@ class FavoriteBrandController extends Controller
     /**
      * ブランドトップ画面
      */
-    public function index()
-    {
-        $brands = $this->brands_repository->getAll();
+    // public function index()
+    // {
+    //     $brands = $this->brands_repository->getAll();
 
-        $favorite_brand_ids = $this->favorite_brands_repository->getAll()->pluck('brand_id');
+    //     $favorite_brand_ids = $this->favorite_brands_repository->getAll()->pluck('brand_id');
         
-        $brand_lists = $this->makeBrandLists($brands, $favorite_brand_ids);
+    //     $brand_lists = $this->makeBrandLists($brands, $favorite_brand_ids);
 
-        $user_id = Auth::user()->id;
+    //     $user_id = Auth::user()->id;
 
-        return view('favorite_brand.index',compact('brand_lists','user_id'));
-    }
+    //     return view('favorite_brand.index',compact('brand_lists','user_id'));
+    // }
 
     /**
      * お気に入りブランド登録メソッド
      */
-    public function add( Request $request )
-    {
-        try {
-            $data['brand_id'] = $request->favorite_brand_id;
-            $data['user_id'] = Auth::user()->id;
+    // public function add( Request $request )
+    // {
+    //     try {
+    //         $data['brand_id'] = $request->favorite_brand_id;
+    //         $data['user_id'] = Auth::user()->id;
 
-            // バルクインサートで保存
-            if ( !empty($data) ) {
-                $this->favorite_brands_repository->bulkInsertOrUpdate($data);
-            }
-            session()->flash('flash_success', 'You added brand!');
-            return redirect()->route('favorite_brand.top');
+    //         // バルクインサートで保存
+    //         if ( !empty($data) ) {
+    //             $this->favorite_brands_repository->bulkInsertOrUpdate($data);
+    //         }
+    //         session()->flash('flash_success', 'You added brand!');
+    //         return redirect()->route('favorite_brand.top');
 
-        } catch (Exception $e) {
-            session()->flash('flash_danger', 'You have an error!');
-            return redirect()->route('favorite_brand.top');
-        }
-    }
+    //     } catch (Exception $e) {
+    //         session()->flash('flash_danger', 'You have an error!');
+    //         return redirect()->route('favorite_brand.top');
+    //     }
+    // }
 
     /**
      * お気に入りブランド削除メソッド
      */
-    public function remove( Request $request )
-    {
-        try {
-            $data['brand_id'] = $request->favorite_brand_id;
-            $data['user_id'] = Auth::user()->id;
+    // public function remove( Request $request )
+    // {
+    //     try {
+    //         $data['brand_id'] = $request->favorite_brand_id;
+    //         $data['user_id'] = Auth::user()->id;
 
-            if ( !empty($data) ) {
-                $this->favorite_brands_repository->deleteRecord($data);
-            }
-            session()->flash('flash_alert', 'You removed brand.');
-            return redirect()->route('favorite_brand.index');
+    //         if ( !empty($data) ) {
+    //             $this->favorite_brands_repository->deleteRecord($data);
+    //         }
+    //         session()->flash('flash_alert', 'You removed brand.');
+    //         return redirect()->route('favorite_brand.index');
 
-        } catch (Exception $e) {
-            session()->flash('flash_danger', 'You have an error!');
-            return redirect()->route('favorite_brand.index');
-        }
-    }
+    //     } catch (Exception $e) {
+    //         session()->flash('flash_danger', 'You have an error!');
+    //         return redirect()->route('favorite_brand.index');
+    //     }
+    // }
 }

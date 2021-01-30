@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\TourScheduleRepository;
-use Exception;
 use Illuminate\Http\JsonResponse;
 use App\Services\Api\ApiServiceInterface;
 use App\Modules\BatchLogger;
@@ -20,7 +19,7 @@ class TourScheduleController extends Controller
     protected $result_status;
 
     /**
-     * リポジトリをDI
+     * Constructor
      *
      * @param TourScheduleRepository $tour_schedule_repository
      * @param ApiServiceInterface $api_service
@@ -69,7 +68,7 @@ class TourScheduleController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);

@@ -61,7 +61,7 @@ export default {
         //     this.showContent = false;
         // },
         fetchPlayersNews: function() {
-            axios.get('/api/v1/players_news', {
+            axios.get('/api/v1/news/players', {
                 params: {
                     user_id: this.user_id
                 }

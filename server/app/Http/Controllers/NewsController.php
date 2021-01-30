@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Repositories\Contracts\FavoritePlayersRepository;
@@ -29,7 +28,7 @@ class NewsController extends Controller
     const MAX_ARTICLE_NUM = 9;
 
     /**
-     * リポジトリをDI
+     * Constructor
      *
      * @param FavoritePlayersRepository $favorite_player_repository
      * @param PlayersNewsArticleRepository $players_news_article_repository
@@ -120,7 +119,7 @@ class NewsController extends Controller
 
             return response()->json($this->response);
 
-        } catch ( Exception $e ) {
+        } catch ( \Exception $e ) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);
@@ -177,7 +176,7 @@ class NewsController extends Controller
 
             return response()->json($this->response);
 
-        } catch ( Exception $e ) {
+        } catch ( \Exception $e ) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);

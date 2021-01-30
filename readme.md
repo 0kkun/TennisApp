@@ -17,7 +17,7 @@
 
 ## 本番環境
 - デプロイ先：AWS 
-- リンク：http://13.115.44.27/
+- リンク：http://tennis-application.com/
 - テストユーザーアカウント
 
 > **ID :** test@gmail.com <br>

@@ -7,7 +7,6 @@ use App\Repositories\Contracts\PlayersRepository;
 use App\Repositories\Contracts\FavoritePlayersRepository;
 use App\Services\FavoritePlayer\FavoritePlayerServiceInterface;
 use Illuminate\Support\Facades\Auth;
-use Exception;
 use Illuminate\Support\Collection;
 use App\Services\Api\ApiServiceInterface;
 use App\Modules\BatchLogger;
@@ -17,7 +16,6 @@ class FavoritePlayerController extends Controller
 {
     private $players_repository;
     private $favorite_players_repository;
-    private $favorite_player_service;
     private $api_service;
     private $logger;
 
@@ -26,11 +24,12 @@ class FavoritePlayerController extends Controller
     protected $result_status;
 
     /**
-     * リポジトリをDI
+     * Constructor
      *
      * @param PlayersRepository $players_repository
      * @param FavoritePlayersRepository $favorite_players_repository
      * @param FavoritePlayerServiceInterface $favorite_player_service
+     * @param ApiServiceInterface $api_service
      */
     public function __construct(
         PlayersRepository $players_repository,
@@ -99,7 +98,7 @@ class FavoritePlayerController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);
@@ -140,7 +139,7 @@ class FavoritePlayerController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);
@@ -180,7 +179,7 @@ class FavoritePlayerController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);
@@ -224,7 +223,7 @@ class FavoritePlayerController extends Controller
 
             return response()->json($this->response);
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->logger->exception($e);
             $status = $this->result_status['server_error'];
             $error_info = $this->api_service->makeErrorInfo($e);
@@ -314,27 +313,27 @@ class FavoritePlayerController extends Controller
      *
      * @return void
      */
-    public function index( Request $request )
-    {
-        // 入力された検索パラメータ取得
-        $inputs = $request->all();
+    // public function index( Request $request )
+    // {
+    //     // 入力された検索パラメータ取得
+    //     $inputs = $request->all();
 
-        $params = [
-            'name'    => $inputs['name'] ?? '',
-            'country' => $inputs['country'] ?? '',
-            'age'     => $inputs['age'] ?? '',
-        ];
+    //     $params = [
+    //         'name'    => $inputs['name'] ?? '',
+    //         'country' => $inputs['country'] ?? '',
+    //         'age'     => $inputs['age'] ?? '',
+    //     ];
 
-        $players = $this->favorite_player_service->searchPlayers($inputs);
+    //     $players = $this->favorite_player_service->searchPlayers($inputs);
 
-        $favorite_player_ids = $this->favorite_players_repository->getAll()->pluck('player_id');
+    //     $favorite_player_ids = $this->favorite_players_repository->getAll()->pluck('player_id');
 
-        $player_lists = $this->makePlayerLists( $players, $favorite_player_ids );
+    //     $player_lists = $this->makePlayerLists( $players, $favorite_player_ids );
 
-        $country_names = $this->players_repository->getAllCountryNames();
+    //     $country_names = $this->players_repository->getAllCountryNames();
 
-        return view('favorite_player.index', compact('player_lists','params','country_names'));
-    }
+    //     return view('favorite_player.index', compact('player_lists','params','country_names'));
+    // }
 
 
     /**
@@ -343,20 +342,20 @@ class FavoritePlayerController extends Controller
      * @param Request $request
      * @return void
      */
-    public function add( Request $request )
-    {
-        $data['player_id'] = $request->favorite_player_id;
-        $data['user_id'] = Auth::user()->id;
+    // public function add( Request $request )
+    // {
+    //     $data['player_id'] = $request->favorite_player_id;
+    //     $data['user_id'] = Auth::user()->id;
 
-        // バルクインサートで保存
-        if ( !empty($data) ) {
-            $this->favorite_players_repository->bulkInsertOrUpdate( $data );
-        }
+    //     // バルクインサートで保存
+    //     if ( !empty($data) ) {
+    //         $this->favorite_players_repository->bulkInsertOrUpdate( $data );
+    //     }
 
-        session()->flash('flash_success', 'You added player!');
+    //     session()->flash('flash_success', 'You added player!');
 
-        return redirect()->route('favorite_player.index');
-    }
+    //     return redirect()->route('favorite_player.index');
+    // }
 
 
     /**
@@ -365,15 +364,15 @@ class FavoritePlayerController extends Controller
      * @param Request $request
      * @return void
      */
-    public function remove(Request $request)
-    {
-        $data['player_id'] = $request->favorite_player_id;
-        $data['user_id'] = Auth::user()->id;
+    // public function remove(Request $request)
+    // {
+    //     $data['player_id'] = $request->favorite_player_id;
+    //     $data['user_id'] = Auth::user()->id;
 
-        $this->favorite_players_repository->deleteRecord($data);
+    //     $this->favorite_players_repository->deleteRecord($data);
 
-        session()->flash('flash_alert', 'You removed player.');
+    //     session()->flash('flash_alert', 'You removed player.');
 
-        return redirect()->route('favorite_player.index');
-    }
+    //     return redirect()->route('favorite_player.index');
+    // }
 }
