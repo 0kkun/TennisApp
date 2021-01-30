@@ -10,6 +10,7 @@ use App\Repositories\Contracts\FavoriteBrandsRepository;
 use Illuminate\Http\JsonResponse;
 use App\Services\Api\ApiServiceInterface;
 use App\Modules\BatchLogger;
+use Illuminate\Support\Collection;
 
 class MovieController extends Controller
 {
@@ -82,11 +83,14 @@ class MovieController extends Controller
                     // idを使って動画を取得
                     $youtube_videos = $this->youtube_video_repository
                         ->getVideosByPlayerIds(self::MAX_MOVIE_NUM, $favorite_player_ids, $is_paginate);
-
+                    // スマホ対応させる為https削除
+                    $youtube_videos = $this->deleteHttpsFromUrl($youtube_videos);
                     $this->response = ['status' => $status, 'data' => $youtube_videos];
 
                 } else {
                     $youtube_videos = $this->youtube_video_repository->getAll(self::MAX_MOVIE_NUM, $is_paginate);
+                    // スマホ対応させる為https削除
+                    $youtube_videos = $this->deleteHttpsFromUrl($youtube_videos);
                     $this->response = ['status' => $status, 'data' => $youtube_videos];
                 }
             } else {
@@ -139,12 +143,15 @@ class MovieController extends Controller
                     // idを使って動画を取得
                     $youtube_videos = $this->brand_youtube_video_repository
                         ->getVideosByBrandIds(self::MAX_MOVIE_NUM, $favorite_brand_ids, $is_paginate);
-
+                    // スマホ対応させる為https削除
+                    $youtube_videos = $this->deleteHttpsFromUrl($youtube_videos);
                     $this->response = ['status' => $status, 'data' => $youtube_videos];
 
                 // お気に入りが無い場合
                 } else {
                     $youtube_videos = $this->brand_youtube_video_repository->getAll(self::MAX_MOVIE_NUM, $is_paginate);
+                    // スマホ対応させる為https削除
+                    $youtube_videos = $this->deleteHttpsFromUrl($youtube_videos);
                     $this->response = ['status' => $status, 'data' => $youtube_videos];
                 }
             } else {
@@ -164,5 +171,22 @@ class MovieController extends Controller
 
             return response()->json($this->response);
         }
+    }
+
+
+    /**
+     * 動画のURLから"https/:"を削除する
+     *
+     * @param Collection $youtube_videos
+     * @return Collection
+     */
+    private function deleteHttpsFromUrl(Collection $youtube_videos): Collection
+    {
+        $results = collect();
+        foreach ($youtube_videos as $video) {
+            $video->url = substr($video->url, 6, 1000);
+            $results->push($video);
+        }
+        return $results;
     }
 }

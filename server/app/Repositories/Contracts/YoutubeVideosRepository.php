@@ -33,7 +33,7 @@ interface YoutubeVideosRepository
      * @param integer $num
      * @param array $player_ids
      * @param bool $is_paginate
-     * @return LengthAwarePaginator|Collection
+     * @return mixed - Collection | LengthAwarePaginator
      */
     public function getVideosByPlayerIds(int $num, array $player_ids, bool $is_paginate);
 }
