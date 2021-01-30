@@ -11,7 +11,7 @@ interface BrandYoutubeVideosRepository
      *
      * @param integer $num
      * @param boolean $is_paginate
-     * @return Collection|LengthAwarePaginator
+     * @return mixed - Collection | LengthAwarePaginator
      */
     public function getAll(int $num, bool $is_paginate);
 
@@ -32,7 +32,7 @@ interface BrandYoutubeVideosRepository
      * @param integer $num
      * @param array $brand_ids
      * @param boolean $is_paginate
-     * @return Collection|LengthAwarePaginator
+     * @return mixed - Collection | LengthAwarePaginator
      */
     public function getVideosByBrandIds(int $num, array $brand_ids, bool $is_paginate);
 }
