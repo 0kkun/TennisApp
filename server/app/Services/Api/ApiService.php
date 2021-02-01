@@ -32,6 +32,17 @@ class ApiService implements ApiServiceInterface
 
 
     /**
+     * 処理にかかった時間を算出し桁数調整する
+     *
+     * @return float
+     */
+    public function calcTime($start, $end): float
+    {
+        return substr(($end - $start), 0 ,7);
+    }
+
+
+    /**
      * Exception発生時のエラーをレスポンスにまとめる
      *
      * @param \Exception $e
