@@ -65,7 +65,7 @@ class RankingApiTest extends TestCase
 
         $api_test_url = self::API_BASE_URL . 'rankings';
         $this->setRankingRepositoryMethod('fetchRankings', $rankings);
-        $this->setApiServiceMethod('checkArgs', 200);
+        $this->setApiServiceMethod('calcTime', 0.5);
     
         // GETリクエスト。ログイン状態で行う
         $json_response = $this->actingAs($this->login_user, 'web')->json('GET', $api_test_url, $api_request);
@@ -91,6 +91,8 @@ class RankingApiTest extends TestCase
     {
         $api_request = ['name' => 'taro']; // わざと間違ったリクエストパラメータ
         $api_test_url = self::API_BASE_URL . 'rankings';
+
+        $this->setApiServiceMethod('calcTime', 0.5);
 
         // GETリクエスト。ログイン状態で行う
         $json_response = $this->actingAs($this->login_user, 'web')->json('GET', $api_test_url, $api_request);
