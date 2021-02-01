@@ -10,7 +10,8 @@ use App\Repositories\Contracts\BrandNewsArticlesRepository;
 use App\Repositories\Contracts\FavoriteBrandsRepository;
 use Illuminate\Http\JsonResponse;
 use App\Services\Api\ApiServiceInterface;
-use App\Modules\BatchLogger;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class NewsController extends Controller
 {
@@ -19,7 +20,6 @@ class NewsController extends Controller
     private $favorite_brand_repository;
     private $brand_news_article_repository;
     private $api_service;
-    private $logger;
 
     // レスポンスのフォーマット
     protected $response;
@@ -44,7 +44,6 @@ class NewsController extends Controller
         ApiServiceInterface $api_service
     )
     {
-        $this->logger = new BatchLogger(__CLASS__);
         $this->response = config('api_template.response_format');
         $this->result_status = config('api_template.result_status');
         $this->favorite_player_repository = $favorite_player_repository;
@@ -78,9 +77,11 @@ class NewsController extends Controller
     public function fetchPlayersNews(Request $request): JsonResponse
     {
         try {
-            // リクエストの中身をチェック
-            $expected_key = ['user_id'];
-            $status = $this->api_service->checkArgs($request, $expected_key);
+            $start = microtime(true);
+            Log::info("[START] " . __FUNCTION__ );
+
+            $is_varidation_error = $this->checkValidationError(__FUNCTION__, $request->all());
+            $status = $this->getStatusCode($is_varidation_error);
 
             if ($status === $this->result_status['success']) {
 
@@ -114,17 +115,14 @@ class NewsController extends Controller
                 $this->response = ['status' => $status, 'data' => ''];
             }
 
-            $this->logger->write('status code :' . $status, 'info');
-            $this->logger->success();
-
+            $end = microtime(true);
+            $time = $this->api_service->calcTime($start, $end);
+            Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
             return response()->json($this->response);
 
         } catch ( \Exception $e ) {
-            $this->logger->exception($e);
-            $status = $this->result_status['server_error'];
-            $error_info = $this->api_service->makeErrorInfo($e);
-            $this->response = ['status' => $status,'data' => $error_info];
-
+            Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
+            $this->respose = $this->api_service->makeErrorResponse($e);
             return response()->json($this->response);
         }
     }
@@ -139,9 +137,11 @@ class NewsController extends Controller
     public function fetchBrandsNews(Request $request): JsonResponse
     {
         try {
-            // リクエストの中身をチェック
-            $expected_key = ['user_id'];
-            $status = $this->api_service->checkArgs($request, $expected_key);
+            $start = microtime(true);
+            Log::info("[START] " . __FUNCTION__ );
+
+            $is_varidation_error = $this->checkValidationError(__FUNCTION__, $request->all());
+            $status = $this->getStatusCode($is_varidation_error);
 
             if ($status === $this->result_status['success']) {
 
@@ -171,19 +171,53 @@ class NewsController extends Controller
                 $this->response = ['status' => $status, 'data' => ''];
             }
 
-            $this->logger->write('status code :' . $status, 'info');
-            $this->logger->success();
-
+            $end = microtime(true);
+            $time = $this->api_service->calcTime($start, $end);
+            Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
             return response()->json($this->response);
 
         } catch ( \Exception $e ) {
-            $this->logger->exception($e);
-            $status = $this->result_status['server_error'];
-            $error_info = $this->api_service->makeErrorInfo($e);
-            $this->response = ['status' => $status,'data' => $error_info];
-
+            Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
+            $this->respose = $this->api_service->makeErrorResponse($e);
             return response()->json($this->response);
         }
+    }
+
+
+    /**
+     * バリデーションエラーか判定する
+     *
+     * @param string $func_name
+     * @param array $check_keys
+     * @return boolean
+     */
+    private function checkValidationError(string $func_name, array $check_keys): bool
+    {
+        $func_and_keys_pattern = [
+            'fetchPlayersNews' => [
+                'user_id' => 'required|integer'
+            ],
+            'fetchBrandsNews' => [
+                'user_id' => 'required|integer'
+            ],
+        ];
+        $validator = Validator::make($check_keys, $func_and_keys_pattern[$func_name]);
+
+        $is_validation_error = !empty($validator->errors()->messages());
+
+        return $is_validation_error;
+    }
+
+
+    /**
+     * バリデーションチェックの結果に基づくステータスコードを取得
+     *
+     * @param boolean $is_validation_error
+     * @return integer
+     */
+    private function getStatusCode(bool $is_validation_error): int
+    {
+        return $is_validation_error ? $this->result_status['bad_request'] : $this->result_status['success'];
     }
 
 
