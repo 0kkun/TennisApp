@@ -30,13 +30,28 @@ class ApiService implements ApiServiceInterface
         }
     }
 
+
+    /**
+     * Exception発生時のエラーをレスポンスにまとめる
+     *
+     * @param \Exception $e
+     * @return array
+     */
+    public function makeErrorResponse(\Exception $e): array
+    {
+        $status = $this->result_status['server_error'];
+        $error_info = $this->makeErrorInfo($e);
+        return  ['status' => $status, 'data' => $error_info];
+    }
+
+
     /**
      * レスポンス用のエラー情報をまとめる
      *
      * @param Exception $e
      * @return array
      */
-    public function makeErrorInfo(Exception $e): array
+    private function makeErrorInfo(Exception $e): array
     {
         return [
             'message'   => $e->getMessage(),

@@ -22,5 +22,5 @@ interface ApiServiceInterface
      * @param Exception $e
      * @return array
      */
-    public function makeErrorInfo(Exception $e): array;
+    public function makeErrorResponse(Exception $e): array;
 }
