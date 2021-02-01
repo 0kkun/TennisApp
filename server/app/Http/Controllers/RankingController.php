@@ -82,7 +82,7 @@ class RankingController extends Controller
             }
 
             $end = microtime(true);
-            $time = $this->calcTime($start, $end);
+            $time = $this->api_service->calcTime($start, $end);
             Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
             return response()->json($this->response);
 
@@ -91,17 +91,6 @@ class RankingController extends Controller
             $this->respose = $this->api_service->makeErrorResponse($e);
             return response()->json($this->response);
         }
-    }
-
-
-    /**
-     * 処理にかかった時間を算出し桁数調整する
-     *
-     * @return void
-     */
-    private function calcTime($start, $end): float
-    {
-        return substr(($end - $start), 0 ,7);
     }
 
 
