@@ -54,10 +54,7 @@ class getPlayersYoutube extends Command
             // Googleへの接続情報のインスタンスを作成と設定
             $client = new Google_Client();
 
-            // $client->setDeveloperKey(config('app.google_api_key1'));
-            // $client->setDeveloperKey(config('app.google_api_key2')); // クォータが尽きた時用の予備
-            // $client->setDeveloperKey(config('app.google_api_key3')); // クォータが尽きた時用の予備
-            $client->setDeveloperKey(config('app.google_api_key4')); // クォータが尽きた時用の予備
+            $client->setDeveloperKey(config('app.google_api_key')); // クォータが尽きた時用の予備
 
             $youtube = new Google_Service_YouTube($client);
 
