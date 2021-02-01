@@ -22,18 +22,18 @@ class AllCommandExecuteTest extends TestCase
         Bus::assertDispatched(ScrapeBrandNewsJob::class);
     }
 
-    /**
-     * @test
-     */
+    // /**
+    //  * @test
+    //  */
     public function command_getBrandsYoutubeが実行できるか()
     {
         $this->artisan('command:getBrandsYoutube');
         $this->assertTrue(true);
     }
 
-    /**
-     * @test
-     */
+    // /**
+    //  * @test
+    //  */
     public function command_getPlayersYoutubeが実行できるか()
     {
         $this->artisan('command:getPlayersYoutube');
