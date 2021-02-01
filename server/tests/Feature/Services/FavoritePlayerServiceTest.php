@@ -17,7 +17,7 @@ class FavoritePlayerServiceTest extends TestCase
     private $players_repository_mock;
     private $favorite_player_service;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         // リポジトリをモック
@@ -29,7 +29,7 @@ class FavoritePlayerServiceTest extends TestCase
     }
 
 
-    public function tearDown()
+    protected function tearDown()
     {
         Mockery::close();
         parent::tearDown(); 

@@ -9,16 +9,16 @@ class FrontAccessTest extends TestCase
 {
     private $user;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->user = $this->makeTestUser();
     }
 
 
-    public function tearDown()
+    protected function tearDown()
     {
-        parent::tearDown(); 
+        parent::tearDown();
     }
 
     /**
