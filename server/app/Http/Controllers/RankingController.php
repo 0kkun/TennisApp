@@ -88,23 +88,9 @@ class RankingController extends Controller
 
         } catch (\Exception $e) {
             Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
-            $this->respose = $this->handlingException($e);
+            $this->respose = $this->api_service->makeErrorResponse($e);
             return response()->json($this->response);
         }
-    }
-
-
-    /**
-     * Exception発生時のエラーをレスポンスにまとめる
-     *
-     * @param \Exception $e
-     * @return array
-     */
-    private function handlingException(\Exception $e): array
-    {
-        $status = $this->result_status['server_error'];
-        $error_info = $this->api_service->makeErrorInfo($e);
-        return $this->response = ['status' => $status, 'data' => $error_info];
     }
 
 
