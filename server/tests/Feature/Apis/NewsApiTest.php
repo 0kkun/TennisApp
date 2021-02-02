@@ -91,6 +91,52 @@ class NewsApiTest extends TestCase
 
 
     /**
+     * @test
+     */
+    public function Api_fetchPlayersNews_不正なリクエストならバリデーションエラーになるか()
+    {
+        $api_request = ['name' => 'taro']; // わざと間違ったリクエストパラメータ
+        $api_test_url = self::API_BASE_URL . 'news/players';
+
+        $this->setApiServiceMethod('calcTime', 0.5);
+
+        // GETリクエスト。ログイン状態で行う
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', $api_test_url, $api_request);
+
+        // jsonの中身をチェックする為デコード
+        $decode_response = json_decode($json_response->content());
+
+        // デフォルトレスポンスの検証
+        $json_response->assertOk();
+
+        // オリジナル設定したステータスの確認
+        $this->assertEquals(400, $decode_response->status);
+
+        // レスポンスデータが空であるか確認
+        $this->assertEmpty($decode_response->data);
+
+        // バリデーションエラーのステータスコードになっているか
+        $this->assertEquals(400, $decode_response->status);
+    }
+
+
+    /**
+     * @test
+     */
+    public function Api_fetchPlayersNews_ログインしていない状態で実行すると認証エラーになるか()
+    {
+        $api_request = ['num' => 10];
+        $api_test_url = self::API_BASE_URL . 'news/players';
+
+        // GETリクエスト。未ログイン状態で行う
+        $json_response = $this->json('GET', $api_test_url, $api_request);
+
+        // 認証エラーのステータスコードになっているか
+        $json_response->assertStatus(401);
+    }
+
+
+    /**
      * PlayerNewsRepositoryのメソッドをセット
      *
      * @param string $method
