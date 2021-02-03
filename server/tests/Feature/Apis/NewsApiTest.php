@@ -24,8 +24,6 @@ use App\Services\Api\ApiService;
 
 class NewsApiTest extends TestCase
 {
-    const API_BASE_URL = '/api/v1/';
-
     private $favorite_player_repository_mock;
     private $player_news_article_repository_mock;
     private $favorite_brand_repository_mock;
@@ -82,14 +80,13 @@ class NewsApiTest extends TestCase
         $test_data = $this->makeTestDataForPlayerNews($player_num, $expected_news_num);
 
         $api_request = ['user_id' => $this->login_user->id];
-        $api_test_url = self::API_BASE_URL . 'news/players';
 
         $this->setFavoritePlayerRepositoryMethod('getFavoritePlayers', $test_data['favorite_players']);
         $this->setPlayerNewsArticleRepositoryMethod('fetchArticlesByPlayerNames', $test_data['players_news_articles']);
         $this->setApiServiceMethod('calcTime', 0.5);
 
         // GETリクエスト。ログイン状態で行う
-        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', $api_test_url, $api_request);
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('news.players'), $api_request);
 
         // jsonの中身をチェックする為デコード
         $decode_response = json_decode($json_response->content());
@@ -111,12 +108,11 @@ class NewsApiTest extends TestCase
     public function Api_fetchPlayersNews_不正なリクエストならバリデーションエラーになるか()
     {
         $api_request = ['name' => 'taro']; // わざと間違ったリクエストパラメータ
-        $api_test_url = self::API_BASE_URL . 'news/players';
 
         $this->setApiServiceMethod('calcTime', 0.5);
 
         // GETリクエスト。ログイン状態で行う
-        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', $api_test_url, $api_request);
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('news.players'), $api_request);
 
         // jsonの中身をチェックする為デコード
         $decode_response = json_decode($json_response->content());
@@ -141,10 +137,9 @@ class NewsApiTest extends TestCase
     public function Api_fetchPlayersNews_ログインしていない状態で実行すると認証エラーになるか()
     {
         $api_request = ['num' => 10];
-        $api_test_url = self::API_BASE_URL . 'news/players';
 
         // GETリクエスト。未ログイン状態で行う
-        $json_response = $this->json('GET', $api_test_url, $api_request);
+        $json_response = $this->json('GET', route('news.players'), $api_request);
 
         // 認証エラーのステータスコードになっているか
         $json_response->assertStatus(401);
@@ -162,14 +157,13 @@ class NewsApiTest extends TestCase
         $test_data = $this->makeTestDataForBrandNews($player_num, $expected_news_num);
 
         $api_request = ['user_id' => $this->login_user->id];
-        $api_test_url = self::API_BASE_URL . 'news/brands';
 
         $this->setFavoriteBrandRepositoryMethod('fetchFavoriteBrands', $test_data['favorite_brands']);
         $this->setBrandrNewsArticleRepositoryMethod('fetchArticlesByBrandNames', $test_data['brand_news_articles']);
         $this->setApiServiceMethod('calcTime', 0.5);
     
         // GETリクエスト。ログイン状態で行う
-        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', $api_test_url, $api_request);
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('news.brands'), $api_request);
 
         // jsonの中身をチェックする為デコード
         $decode_response = json_decode($json_response->content());
@@ -191,12 +185,11 @@ class NewsApiTest extends TestCase
     public function Api_fetchBrandNews_不正なリクエストならバリデーションエラーになるか()
     {
         $api_request = ['name' => 'taro']; // わざと間違ったリクエストパラメータ
-        $api_test_url = self::API_BASE_URL . 'news/brands';
 
         $this->setApiServiceMethod('calcTime', 0.5);
 
         // GETリクエスト。ログイン状態で行う
-        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', $api_test_url, $api_request);
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('news.brands'), $api_request);
 
         // jsonの中身をチェックする為デコード
         $decode_response = json_decode($json_response->content());
@@ -221,10 +214,9 @@ class NewsApiTest extends TestCase
     public function Api_fetchBrandNews_ログインしていない状態で実行すると認証エラーになるか()
     {
         $api_request = ['num' => 10];
-        $api_test_url = self::API_BASE_URL . 'news/brands';
 
         // GETリクエスト。未ログイン状態で行う
-        $json_response = $this->json('GET', $api_test_url, $api_request);
+        $json_response = $this->json('GET', route('news.brands'), $api_request);
 
         // 認証エラーのステータスコードになっているか
         $json_response->assertStatus(401);

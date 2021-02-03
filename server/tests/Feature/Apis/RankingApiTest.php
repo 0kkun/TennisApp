@@ -14,8 +14,6 @@ use App\Repositories\Eloquents\EloquentRankingRepository;
 
 class RankingApiTest extends TestCase
 {
-    const API_BASE_URL = '/api/v1/';
-
     private $ranking_repository_mock;
     private $api_service_mock;
     private $login_user;
@@ -60,15 +58,13 @@ class RankingApiTest extends TestCase
         // データをセット
         $num = 10;
         $rankings = factory(Ranking::class, $num)->make();
-
         $api_request = ['num' => $num];
 
-        $api_test_url = self::API_BASE_URL . 'rankings';
         $this->setRankingRepositoryMethod('fetchRankings', $rankings);
         $this->setApiServiceMethod('calcTime', 0.5);
     
         // GETリクエスト。ログイン状態で行う
-        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', $api_test_url, $api_request);
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('ranking.fetch'), $api_request);
 
         // jsonの中身をチェックする為デコード
         $decode_response = json_decode($json_response->content());
@@ -90,12 +86,11 @@ class RankingApiTest extends TestCase
     public function Api_fetchRankings_不正なリクエストならバリデーションエラーになるか()
     {
         $api_request = ['name' => 'taro']; // わざと間違ったリクエストパラメータ
-        $api_test_url = self::API_BASE_URL . 'rankings';
 
         $this->setApiServiceMethod('calcTime', 0.5);
 
         // GETリクエスト。ログイン状態で行う
-        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', $api_test_url, $api_request);
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('ranking.fetch'), $api_request);
 
         // jsonの中身をチェックする為デコード
         $decode_response = json_decode($json_response->content());
@@ -120,10 +115,9 @@ class RankingApiTest extends TestCase
     public function Api_fetchRankings_ログインしていない状態で実行すると認証エラーになるか()
     {
         $api_request = ['num' => 10];
-        $api_test_url = self::API_BASE_URL . 'rankings';
 
         // GETリクエスト。未ログイン状態で行う
-        $json_response = $this->json('GET', $api_test_url, $api_request);
+        $json_response = $this->json('GET', route('ranking.fetch'), $api_request);
 
         // 認証エラーのステータスコードになっているか
         $json_response->assertStatus(401);

@@ -3,8 +3,6 @@
 namespace Tests\Feature\Apis;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use App\Models\FavoritePlayer;
 use App\Models\FavoriteBrand;
