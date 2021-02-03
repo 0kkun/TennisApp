@@ -27,7 +27,7 @@ class NewsApiTest extends TestCase
     const API_BASE_URL = '/api/v1/';
 
     private $favorite_player_repository_mock;
-    private $player_news_repository_mock;
+    private $player_news_article_repository_mock;
     private $favorite_brand_repository_mock;
     private $brand_news_article_repository_mock;
     private $api_service_mock;
@@ -55,7 +55,7 @@ class NewsApiTest extends TestCase
     private function setMockery()
     {
         $this->favorite_player_repository_mock = \Mockery::mock(FavoritePlayersRepository::class);
-        $this->player_news_repository_mock = \Mockery::mock(PlayersNewsArticleRepository::class);
+        $this->player_news_article_repository_mock = \Mockery::mock(PlayersNewsArticleRepository::class);
         $this->favorite_brand_repository_mock = \Mockery::mock(FavoriteBrandsRepository::class);
         $this->brand_news_article_repository_mock = \Mockery::mock(BrandNewsArticlesRepository::class);
         $this->api_service_mock = \Mockery::mock(ApiServiceInterface::class);
@@ -64,7 +64,7 @@ class NewsApiTest extends TestCase
     private function setMockInstance()
     {
         $this->app->instance(EloquentFavoritePlayersRepository::class, $this->favorite_player_repository_mock);
-        $this->app->instance(EloquentPlayersNewsArticleRepository::class, $this->player_news_repository_mock);
+        $this->app->instance(EloquentPlayersNewsArticleRepository::class, $this->player_news_article_repository_mock);
         $this->app->instance(EloquentFavoriteBrandsRepository::class, $this->favorite_brand_repository_mock);
         $this->app->instance(EloquentBrandNewsArticlesRepository::class, $this->brand_news_article_repository_mock);
         $this->app->instance(ApiService::class, $this->api_service_mock);
@@ -85,7 +85,7 @@ class NewsApiTest extends TestCase
         $api_test_url = self::API_BASE_URL . 'news/players';
 
         $this->setFavoritePlayerRepositoryMethod('getFavoritePlayers', $test_data['favorite_players']);
-        $this->setPlayerNewsRepositoryMethod('fetchArticlesByPlayerNames', $test_data['players_news_articles']);
+        $this->setPlayerNewsArticleRepositoryMethod('fetchArticlesByPlayerNames', $test_data['players_news_articles']);
         $this->setApiServiceMethod('calcTime', 0.5);
     
         // GETリクエスト。ログイン状態で行う
@@ -232,15 +232,15 @@ class NewsApiTest extends TestCase
 
 
     /**
-     * PlayerNewsRepositoryのメソッドをセット
+     * PlayerNewsArticleRepositoryのメソッドをセット
      *
      * @param string $method
      * @param Collection $return
      * @return void
      */
-    private function setPlayerNewsRepositoryMethod(string $method, Collection $return)
+    private function setPlayerNewsArticleRepositoryMethod(string $method, Collection $return)
     {
-        $this->player_news_repository_mock
+        $this->player_news_article_repository_mock
             ->shouldReceive($method)
             ->andReturn($return);
     }
