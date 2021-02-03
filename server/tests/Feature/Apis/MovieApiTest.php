@@ -7,7 +7,9 @@ use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Collection;
 use App\Models\FavoritePlayer;
+use App\Models\FavoriteBrand;
 use App\Models\Player;
+use App\Models\Brand;
 use App\Models\User;
 use App\Services\Api\ApiServiceInterface;
 use App\Services\Api\ApiService;
@@ -148,6 +150,83 @@ class MovieApiTest extends TestCase
 
 
     /**
+     * @test
+     */
+    public function Api_fetchBrandMovies_正しいリクエストが来たら正しくレスポンスを返すか()
+    {
+        // データをセット
+        $brand_num = 10;
+        $expected_movie_num = 1;
+        $test_data = $this->makeTestDataForBrandMovie($brand_num, $expected_movie_num);
+        $api_request = ['user_id' => $this->login_user->id];
+
+        // モックにメソッドをセット
+        $this->setFavoriteBrandRepositoryMethod('fetchFavoriteBrands', $test_data['favorite_brands']);
+        $this->setBrandYoutubeVideoRepositoryMethod('getVideosByBrandIds', $test_data['brands_youtube_movies']);
+        $this->setApiServiceMethod('calcTime', 0.5);
+
+        // GETリクエスト。ログイン状態で行う
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('movies.brand'), $api_request);
+
+        // jsonの中身をチェックする為デコード
+        $decode_response = json_decode($json_response->content());
+
+        // デフォルトレスポンスの検証
+        $json_response->assertOk();
+
+        // オリジナル設定したステータスの確認
+        $this->assertEquals(200, $decode_response->status);
+
+        // データの取得件数は合っているか
+        $this->assertEquals($expected_movie_num, count($decode_response->data));
+    }
+
+
+    /**
+     * @test
+     */
+    public function Api_fetchBrandMovies_不正なリクエストならバリデーションエラーになるか()
+    {
+        $api_request = ['user_id' => 'taro']; // わざと間違ったリクエストパラメータ
+
+        $this->setApiServiceMethod('calcTime', 0.5);
+
+        // GETリクエスト。ログイン状態で行う
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('movies.brand'), $api_request);
+
+        // jsonの中身をチェックする為デコード
+        $decode_response = json_decode($json_response->content());
+
+        // デフォルトレスポンスの検証
+        $json_response->assertOk();
+
+        // オリジナル設定したステータスの確認
+        $this->assertEquals(400, $decode_response->status);
+
+        // レスポンスデータが空であるか確認
+        $this->assertEmpty($decode_response->data);
+
+        // バリデーションエラーのステータスコードになっているか
+        $this->assertEquals(400, $decode_response->status);
+    }
+
+
+    /**
+     * @test
+     */
+    public function Api_fetchBrandMovies_ログインしていない状態で実行すると認証エラーになるか()
+    {
+        $api_request = ['user_id' => $this->login_user->id];
+
+        // GETリクエスト。未ログイン状態で行う
+        $json_response = $this->json('GET', route('movies.brand'), $api_request);
+
+        // 認証エラーのステータスコードになっているか
+        $json_response->assertStatus(401);
+    }
+
+
+    /**
      * FavoritePlayerRepositoryのメソッドをセット
      *
      * @param string $method
@@ -171,6 +250,34 @@ class MovieApiTest extends TestCase
     private function setPlayerYoutubeVideoRepositoryMethod(string $method, Collection $return)
     {
         $this->player_youtube_repository_mock
+            ->shouldReceive($method)
+            ->andReturn($return);
+    }
+
+    /**
+     * FavoriteBrandRepositoryのメソッドをセット
+     *
+     * @param string $method
+     * @param Collection $return
+     * @return void
+     */
+    private function setFavoriteBrandRepositoryMethod(string $method, Collection $return)
+    {
+        $this->favorite_brand_repository_mock
+            ->shouldReceive($method)
+            ->andReturn($return);
+    }
+
+    /**
+     * BrandYoutubeRepositoryのメソッドをセット
+     *
+     * @param string $method
+     * @param Collection $return
+     * @return void
+     */
+    private function setBrandYoutubeVideoRepositoryMethod(string $method, Collection $return)
+    {
+        $this->brand_youtube_repository_mock
             ->shouldReceive($method)
             ->andReturn($return);
     }
@@ -220,6 +327,40 @@ class MovieApiTest extends TestCase
         return [
             'favorite_players' => $favorite_players,
             'players_youtube_movies' => $players_youtube_movies
+        ];
+    }
+
+    /**
+     * brand movie apiテスト用のテストデータ作成
+     *
+     * @param integer $brand_num
+     * @param integer $expected_movie_num
+     * @return array
+     */
+    private function makeTestDataForBrandMovie(int $brand_num, int $expected_movie_num): array
+    {
+        $brands = factory(Brand::class, $brand_num)->make();
+
+        $favorite_brands = collect();
+
+        foreach ($brands as $brand) {
+            $favorite_brands = $favorite_brands->concat(
+                factory(FavoriteBrand::class, 1)->make([
+                    'user_id' => $this->login_user->id,
+                    'player_id' => $brand->id,
+                    'name_jp'   => $brand->name_jp,
+                    'country'   => $brand->country
+                ])
+            );
+        }
+
+        $brands_youtube_movies = factory(BrandYoutubeVideo::class, $expected_movie_num)->make([
+            'brand_id' => $brands->first()->id
+        ]);
+
+        return [
+            'favorite_brands' => $favorite_brands,
+            'brands_youtube_movies' => $brands_youtube_movies
         ];
     }
 }
