@@ -87,7 +87,7 @@ class NewsApiTest extends TestCase
         $this->setFavoritePlayerRepositoryMethod('getFavoritePlayers', $test_data['favorite_players']);
         $this->setPlayerNewsArticleRepositoryMethod('fetchArticlesByPlayerNames', $test_data['players_news_articles']);
         $this->setApiServiceMethod('calcTime', 0.5);
-    
+
         // GETリクエスト。ログイン状態で行う
         $json_response = $this->actingAs($this->login_user, 'web')->json('GET', $api_test_url, $api_request);
 
