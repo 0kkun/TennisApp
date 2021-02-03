@@ -180,7 +180,7 @@ class FavoriteBrandController extends Controller
     }
 
 
-        /**
+    /**
      * バリデーションエラーか判定する
      *
      * @param string $func_name
