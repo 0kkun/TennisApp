@@ -24,7 +24,7 @@ class FrontAccessTest extends TestCase
     /**
      * @test
      */
-    public function loginにアクセスできるか()
+    public function Front_loginにアクセスできるか()
     {
         // 例外処理を抑止
         // phpunitの出力にエラーがそのまま出てくるようになる
@@ -36,7 +36,7 @@ class FrontAccessTest extends TestCase
     /**
      * @test
      */
-    public function Topにアクセスできるか()
+    public function Front_topにアクセスできるか()
     {
         $this->withoutExceptionHandling();
         $response = $this->get(route('top.index'));
@@ -46,7 +46,7 @@ class FrontAccessTest extends TestCase
     /**
      * @test
      */
-    public function homeにアクセスできるか()
+    public function Front_homeにアクセスできるか()
     {
         $this->withoutExceptionHandling();
         // ログイン状態でhome画面にアクセスする
@@ -55,6 +55,49 @@ class FrontAccessTest extends TestCase
             ->assertViewIs('home.index');
     }
 
+    /**
+     * @test
+     */
+    public function Front_newsにアクセスできるか()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->actingAs($this->user)->get(route('news.top'));
+        $response->assertStatus(200)
+            ->assertViewIs('news.top');
+    }
+
+    /**
+     * @test
+     */
+    public function Front_rankingにアクセスできるか()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->actingAs($this->user)->get(route('ranking.top'));
+        $response->assertStatus(200)
+            ->assertViewIs('ranking.top');
+    }
+
+    /**
+     * @test
+     */
+    public function Front_favorite_brandにアクセスできるか()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->actingAs($this->user)->get(route('favorite_brand.top'));
+        $response->assertStatus(200)
+            ->assertViewIs('favorite_brand.top');
+    }
+
+    /**
+     * @test
+     */
+    public function Front_favorite_playerにアクセスできるか()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->actingAs($this->user)->get(route('favorite_player.top'));
+        $response->assertStatus(200)
+            ->assertViewIs('favorite_player.top');
+    }
 
     /**
      * Userを作成する
