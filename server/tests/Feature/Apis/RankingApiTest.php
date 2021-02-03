@@ -5,10 +5,10 @@ namespace Tests\Feature\Apis;
 use App\Models\Ranking;
 use App\Models\User;
 use Tests\TestCase;
-use App\Repositories\Contracts\RankingRepository;
-use App\Services\Api\ApiServiceInterface;
 use Illuminate\Support\Collection;
+use App\Services\Api\ApiServiceInterface;
 use App\Services\Api\ApiService;
+use App\Repositories\Contracts\RankingRepository;
 use App\Repositories\Eloquents\EloquentRankingRepository;
 
 

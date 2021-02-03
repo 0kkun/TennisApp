@@ -1,21 +1,22 @@
 <?php
 
-namespace Tests\Feature\Apis;
+namespace Tests\Feature;
 
 use Tests\TestCase;
 use Illuminate\Support\Collection;
 use App\Models\User;
+use App\Models\Ranking;
 use App\Services\Api\ApiServiceInterface;
 use App\Services\Api\ApiService;
-use App\Models\TourSchedule;
-use App\Repositories\Contracts\TourScheduleRepository;
-use App\Repositories\Eloquents\EloquentTourScheduleRepository;
+use App\Repositories\Contracts\RankingRepository;
+use App\Repositories\Eloquents\EloquentRankingRepository;
 
-class TourScheduleApiTest extends TestCase
+
+class AnalysisApiTest extends TestCase
 {
     const API_BASE_URL = '/api/v1/';
 
-    private $tour_schedule_repository_mock;
+    private $ranking_repository_mock;
     private $api_service_mock;
     private $login_user;
 
@@ -40,13 +41,13 @@ class TourScheduleApiTest extends TestCase
 
     private function setMockery()
     {
-        $this->tour_schedule_repository_mock = \Mockery::mock(TourScheduleRepository::class);
+        $this->ranking_repository_mock = \Mockery::mock(RankingRepository::class);
         $this->api_service_mock = \Mockery::mock(ApiServiceInterface::class);
     }
 
     private function setMockInstance()
     {
-        $this->app->instance(EloquentTourScheduleRepository::class, $this->tour_schedule_repository_mock);
+        $this->app->instance(EloquentRankingRepository::class, $this->ranking_repository_mock);
         $this->app->instance(ApiService::class, $this->api_service_mock);
     }
 
@@ -54,16 +55,16 @@ class TourScheduleApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchTourSchedules_正しいリクエストが来たら正しくレスポンスを返すか()
+    public function Api_fetchAgeAnalysis_正しいリクエストが来たら正しくレスポンスを返すか()
     {
         // データをセット
         $num = 10;
-        $tour_schedules = factory(TourSchedule::class, $num)->make();
+        $rankings = factory(Ranking::class, $num)->make();
 
         $api_request = ['num' => $num];
 
-        $api_test_url = self::API_BASE_URL . 'tour_schedules';
-        $this->setTourScheduleRepositoryMethod('getAll', $tour_schedules);
+        $api_test_url = self::API_BASE_URL . 'analysis_age';
+        $this->setRankingRepositoryMethod('fetchRankings', $rankings);
         $this->setApiServiceMethod('calcTime', 0.5);
     
         // GETリクエスト。ログイン状態で行う
@@ -78,18 +79,18 @@ class TourScheduleApiTest extends TestCase
         // オリジナル設定したステータスの確認
         $this->assertEquals(200, $decode_response->status);
 
-        // データの取得件数は合っているか
-        $this->assertEquals($num, count($decode_response->data));
+        // レスポンスデータが入っているか
+        $this->assertNotEmpty($decode_response->data);
     }
 
 
     /**
      * @test
      */
-    public function Api_fetchTourSchedules_不正なリクエストならバリデーションエラーになるか()
+    public function Api_fetchAgeAnalysis_不正なリクエストならバリデーションエラーになるか()
     {
         $api_request = ['name' => 'taro']; // わざと間違ったリクエストパラメータ
-        $api_test_url = self::API_BASE_URL . 'tour_schedules';
+        $api_test_url = self::API_BASE_URL . 'analysis_age';
 
         $this->setApiServiceMethod('calcTime', 0.5);
 
@@ -116,10 +117,10 @@ class TourScheduleApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchTourSchedules_ログインしていない状態で実行すると認証エラーになるか()
+    public function Api_fetchAgeAnalysis_ログインしていない状態で実行すると認証エラーになるか()
     {
         $api_request = ['num' => 10];
-        $api_test_url = self::API_BASE_URL . 'tour_schedules';
+        $api_test_url = self::API_BASE_URL . 'analysis_age';
 
         // GETリクエスト。未ログイン状態で行う
         $json_response = $this->json('GET', $api_test_url, $api_request);
@@ -145,15 +146,15 @@ class TourScheduleApiTest extends TestCase
 
 
     /**
-     * TourScheduleRepositoryのメソッドをセット
+     * RankingRepositoryのメソッドをセット
      *
      * @param string $method
      * @param Collection $return
      * @return void
      */
-    private function setTourScheduleRepositoryMethod(string $method, Collection $return): void
+    private function setRankingRepositoryMethod(string $method, Collection $return): void
     {
-        $this->tour_schedule_repository_mock
+        $this->ranking_repository_mock
             ->shouldReceive($method)
             ->andReturn($return);
     }

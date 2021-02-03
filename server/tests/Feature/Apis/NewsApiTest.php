@@ -19,6 +19,8 @@ use App\Repositories\Eloquents\EloquentBrandNewsArticlesRepository;
 use App\Models\Brand;
 use App\Models\FavoriteBrand;
 use App\Models\BrandNewsArticle;
+use App\Services\Api\ApiServiceInterface;
+use App\Services\Api\ApiService;
 
 class NewsApiTest extends TestCase
 {
