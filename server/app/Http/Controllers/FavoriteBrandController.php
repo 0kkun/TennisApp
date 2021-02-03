@@ -7,16 +7,16 @@ use App\Repositories\Contracts\BrandsRepository;
 use App\Repositories\Contracts\FavoriteBrandsRepository;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
-use App\Modules\BatchLogger;
 use App\Services\Api\ApiServiceInterface;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
 
 class FavoriteBrandController extends Controller
 {
     private $brands_repository;
     private $favorite_brands_repository;
     private $api_service;
-    private $logger;
 
     // レスポンスのフォーマット
     protected $response;
@@ -35,7 +35,6 @@ class FavoriteBrandController extends Controller
         ApiServiceInterface $api_service
     )
     {
-        $this->logger = new BatchLogger(__CLASS__);
         $this->response = config('api_template.response_format');
         $this->result_status = config('api_template.result_status');
         $this->brands_repository = $brands_repository;
@@ -67,9 +66,12 @@ class FavoriteBrandController extends Controller
     public function fetchBrands(Request $request, ?bool $is_internal=false): JsonResponse
     {
         try {
+            $start = microtime(true);
+            Log::info("[START] " . __FUNCTION__ );
+
             // リクエストの中身をチェック
-            $expected_key = ['user_id'];
-            $status = $this->api_service->checkArgs($request, $expected_key);
+            $is_varidation_error = $this->checkValidationError(__FUNCTION__, $request->all());
+            $status = $this->getStatusCode($is_varidation_error);
 
             if ($status === $this->result_status['success']) {
 
@@ -88,17 +90,14 @@ class FavoriteBrandController extends Controller
                 $this->response = ['status' => $status,'data' => ''];
             }
 
-            $this->logger->write('status code :' . $status, 'info');
-            $this->logger->success();
-
+            $end = microtime(true);
+            $time = $this->api_service->calcTime($start, $end);
+            Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
             return response()->json($this->response);
 
         } catch (\Exception $e) {
-            $this->logger->exception($e);
-            $status = $this->result_status['server_error'];
-            $error_info = $this->api_service->makeErrorInfo($e);
-            $this->response = ['status' => $status,'data' => $error_info];
-
+            Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
+            $this->respose = $this->api_service->makeErrorResponse($e);
             return response()->json($this->response);
         }
     }
@@ -113,9 +112,12 @@ class FavoriteBrandController extends Controller
     public function addBrand(Request $request): JsonResponse
     {
         try {
+            $start = microtime(true);
+            Log::info("[START] " . __FUNCTION__ );
+
             // リクエストの中身をチェック
-            $expected_key = ['user_id', 'favorite_brand_id'];
-            $status = $this->api_service->checkArgs($request, $expected_key);
+            $is_varidation_error = $this->checkValidationError(__FUNCTION__, $request->all());
+            $status = $this->getStatusCode($is_varidation_error);
 
             if ( $status === $this->result_status['success'] ) {
                 $data['user_id'] = $request->input('user_id');
@@ -127,14 +129,14 @@ class FavoriteBrandController extends Controller
                 $this->response = ['status' => $status, 'data' => ''];
             }
 
+            $end = microtime(true);
+            $time = $this->api_service->calcTime($start, $end);
+            Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
             return response()->json($this->response);
 
         } catch (\Exception $e) {
-            $this->logger->exception($e);
-            $status = $this->result_status['server_error'];
-            $error_info = $this->api_service->makeErrorInfo($e);
-            $this->response = ['status' => $status,'data' => $error_info];
-
+            Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
+            $this->respose = $this->api_service->makeErrorResponse($e);
             return response()->json($this->response);
         }
     }
@@ -149,9 +151,12 @@ class FavoriteBrandController extends Controller
     public function deleteBrand(Request $request): JsonResponse
     {
         try {
+            $start = microtime(true);
+            Log::info("[START] " . __FUNCTION__ );
+
             // リクエストの中身をチェック
-            $expected_key = ['user_id', 'favorite_brand_id'];
-            $status = $this->api_service->checkArgs($request, $expected_key);
+            $is_varidation_error = $this->checkValidationError(__FUNCTION__, $request->all());
+            $status = $this->getStatusCode($is_varidation_error);
 
             if ( $status === $this->result_status['success'] ) {
                 $data['user_id'] = $request->input('user_id');
@@ -162,16 +167,58 @@ class FavoriteBrandController extends Controller
                 $this->response = ['status' => $status, 'data' => ''];
             }
 
+            $end = microtime(true);
+            $time = $this->api_service->calcTime($start, $end);
+            Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
             return response()->json($this->response);
 
         } catch (\Exception $e) {
-            $this->logger->exception($e);
-            $status = $this->result_status['server_error'];
-            $error_info = $this->api_service->makeErrorInfo($e);
-            $this->response = ['status' => $status,'data' => $error_info];
-
+            Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
+            $this->respose = $this->api_service->makeErrorResponse($e);
             return response()->json($this->response);
         }
+    }
+
+
+        /**
+     * バリデーションエラーか判定する
+     *
+     * @param string $func_name
+     * @param array $check_keys
+     * @return boolean
+     */
+    private function checkValidationError(string $func_name, array $check_keys): bool
+    {
+        $func_and_keys_pattern = [
+            'fetchBrands' => [
+                'user_id' => 'required|integer'
+            ],
+            'addBrand' => [
+                'user_id'            => 'required|integer',
+                'favorite_brand_id'  => 'required|integer',
+            ],
+            'deleteBrand' => [
+                'user_id'            => 'required|integer',
+                'favorite_brand_id'  => 'required|integer',
+            ],
+        ];
+        $validator = Validator::make($check_keys, $func_and_keys_pattern[$func_name]);
+
+        $is_validation_error = !empty($validator->errors()->messages());
+
+        return $is_validation_error;
+    }
+
+
+    /**
+     * バリデーションチェックの結果に基づくステータスコードを取得
+     *
+     * @param boolean $is_validation_error
+     * @return integer
+     */
+    private function getStatusCode(bool $is_validation_error): int
+    {
+        return $is_validation_error ? $this->result_status['bad_request'] : $this->result_status['success'];
     }
 
 
