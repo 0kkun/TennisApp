@@ -87,19 +87,19 @@ class FavoriteBrandController extends Controller
                 $this->response = ['status' => $status, 'data' => $brand_lists];
 
             } else {
-                $this->response = ['status' => $status,'data' => ''];
+                $this->response = ['status' => $status, 'data' => ''];
             }
 
             $end = microtime(true);
             $time = $this->api_service->calcTime($start, $end);
             Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
-            return response()->json($this->response);
 
         } catch (\Exception $e) {
             Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
             $this->respose = $this->api_service->makeErrorResponse($e);
-            return response()->json($this->response);
         }
+
+        return response()->json($this->response);
     }
 
 
@@ -127,18 +127,20 @@ class FavoriteBrandController extends Controller
                 if ( !empty($data) ) $this->favorite_brands_repository->bulkInsertOrUpdate($data);
                 $status = $this->result_status['created'];
                 $this->response = ['status' => $status, 'data' => ''];
+            } else {
+                $this->response = ['status' => $status, 'data' => ''];
             }
 
             $end = microtime(true);
             $time = $this->api_service->calcTime($start, $end);
             Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
-            return response()->json($this->response);
 
         } catch (\Exception $e) {
             Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
             $this->respose = $this->api_service->makeErrorResponse($e);
-            return response()->json($this->response);
         }
+
+        return response()->json($this->response);
     }
 
 
@@ -163,20 +165,24 @@ class FavoriteBrandController extends Controller
                 $data['brand_id'] = $request->input('favorite_brand_id');
 
                 if ( !empty($data) ) $this->favorite_brands_repository->deleteRecord($data);
-                $status = $this->result_status['success'];
+                $status = $this->result_status['deleted'];
+                $this->response = ['status' => $status, 'data' => ''];
+
+            } else {
                 $this->response = ['status' => $status, 'data' => ''];
             }
 
             $end = microtime(true);
             $time = $this->api_service->calcTime($start, $end);
             Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
-            return response()->json($this->response);
+
 
         } catch (\Exception $e) {
             Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
             $this->respose = $this->api_service->makeErrorResponse($e);
-            return response()->json($this->response);
         }
+
+        return response()->json($this->response);
     }
 
 

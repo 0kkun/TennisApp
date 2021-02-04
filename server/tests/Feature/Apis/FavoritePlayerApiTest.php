@@ -3,8 +3,6 @@
 namespace Tests\Feature\Apis;
 
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\FavoritePlayer;
 use App\Models\Player;
 use App\Models\User;
@@ -108,9 +106,6 @@ class FavoritePlayerApiTest extends TestCase
         // デフォルトレスポンスの検証
         $json_response->assertOk();
 
-        // オリジナル設定したステータスの確認
-        $this->assertEquals(400, $decode_response->status);
-
         // レスポンスデータが空であるか確認
         $this->assertEmpty($decode_response->data);
 
@@ -124,7 +119,7 @@ class FavoritePlayerApiTest extends TestCase
      */
     public function Api_fetchPlayers_ログインしていない状態で実行すると認証エラーになるか()
     {
-        $api_request = ['num' => 10];
+        $api_request = ['user_id' => $this->login_user->id];
 
         // GETリクエスト。未ログイン状態で行う
         $json_response = $this->json('GET', route('players.fetch'), $api_request);
@@ -183,9 +178,6 @@ class FavoritePlayerApiTest extends TestCase
 
         // デフォルトレスポンスの検証
         $json_response->assertOk();
-
-        // オリジナル設定したステータスの確認
-        $this->assertEquals(400, $decode_response->status);
 
         // レスポンスデータが空であるか確認
         $this->assertEmpty($decode_response->data);
@@ -263,9 +255,6 @@ class FavoritePlayerApiTest extends TestCase
         // デフォルトレスポンスの検証
         $json_response->assertOk();
 
-        // オリジナル設定したステータスの確認
-        $this->assertEquals(400, $decode_response->status);
-
         // レスポンスデータが空であるか確認
         $this->assertEmpty($decode_response->data);
 
@@ -293,7 +282,7 @@ class FavoritePlayerApiTest extends TestCase
 
 
     /**
-     * player player apiテスト用のテストデータ作成
+     * favorite player apiテスト用のテストデータ作成
      *
      * @param integer $player_num
      * @param integer $expected_news_num
