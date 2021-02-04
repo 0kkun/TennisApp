@@ -135,6 +135,164 @@ class FavoritePlayerApiTest extends TestCase
 
 
     /**
+     * @test
+     */
+    public function Api_addPlayer_正しいリクエストを送れば正しくレスポンスを返すか()
+    {
+        $api_request = [
+            'user_id'            => $this->login_user->id,
+            'favorite_player_id' => 1
+        ];
+
+        // モックにメソッドをセット
+        $this->setFavoritePlayerRepositoryMethod('bulkInsertOrUpdate');
+        $this->setApiServiceMethod('calcTime', 0.5);
+
+        // GETリクエスト。ログイン状態で行う
+        $json_response = $this->actingAs($this->login_user, 'web')->json('POST', route('players.add'), $api_request);
+
+        // jsonの中身をチェックする為デコード
+        $decode_response = json_decode($json_response->content());
+
+        // デフォルトレスポンスの検証
+        $json_response->assertOk();
+
+        // オリジナル設定したステータスの確認
+        $this->assertEquals(201, $decode_response->status);
+    }
+
+
+    /**
+     * @test
+     */
+    public function Api_addPlayer_不正なリクエストならバリデーションエラーになるか()
+    {
+        // わざと間違ったリクエストパラメータ
+        $api_request = [
+            'user_id'            => $this->login_user->id,
+            'favorite_player_id' => 'taro'
+        ];
+
+        $this->setApiServiceMethod('calcTime', 0.5);
+
+        // GETリクエスト。ログイン状態で行う
+        $json_response = $this->actingAs($this->login_user, 'web')->json('POST', route('players.add'), $api_request);
+
+        // jsonの中身をチェックする為デコード
+        $decode_response = json_decode($json_response->content());
+
+        // デフォルトレスポンスの検証
+        $json_response->assertOk();
+
+        // オリジナル設定したステータスの確認
+        $this->assertEquals(400, $decode_response->status);
+
+        // レスポンスデータが空であるか確認
+        $this->assertEmpty($decode_response->data);
+
+        // バリデーションエラーのステータスコードになっているか
+        $this->assertEquals(400, $decode_response->status);
+    }
+
+
+    /**
+     * @test
+     */
+    public function Api_addPlayer_ログインしていない状態で実行すると認証エラーになるか()
+    {
+        $api_request = [
+            'user_id'            => $this->login_user->id,
+            'favorite_player_id' => 1
+        ];
+
+        // GETリクエスト。未ログイン状態で行う
+        $json_response = $this->json('POST', route('players.add'), $api_request);
+
+        // 認証エラーのステータスコードになっているか
+        $json_response->assertStatus(401);
+    }
+
+
+    /**
+     * @test
+     */
+    public function Api_deletePlayer_正しいリクエストを送れば正しくレスポンスを返すか()
+    {
+        $api_request = [
+            'user_id'            => $this->login_user->id,
+            'favorite_player_id' => 1
+        ];
+
+        // モックにメソッドをセット
+        $this->setFavoritePlayerRepositoryMethod('deleteRecord');
+        $this->setApiServiceMethod('calcTime', 0.5);
+
+        // GETリクエスト。ログイン状態で行う
+        $json_response = $this->actingAs($this->login_user, 'web')->json('DELETE', route('players.delete'), $api_request);
+
+        // jsonの中身をチェックする為デコード
+        $decode_response = json_decode($json_response->content());
+
+        // デフォルトレスポンスの検証
+        $json_response->assertOk();
+
+        // オリジナル設定したステータスの確認
+        $this->assertEquals(202, $decode_response->status);
+    }
+
+
+    /**
+     * @test
+     */
+    public function Api_deletePlayer_不正なリクエストならバリデーションエラーになるか()
+    {
+        // わざと間違ったリクエストパラメータ
+        $api_request = [
+            'user_id'            => $this->login_user->id,
+            'favorite_player_id' => 'taro'
+        ];
+
+        $this->setApiServiceMethod('calcTime', 0.5);
+
+        // GETリクエスト。ログイン状態で行う
+        $json_response = $this->actingAs($this->login_user, 'web')->json('DELETE', route('players.delete'), $api_request);
+
+        // jsonの中身をチェックする為デコード
+        $decode_response = json_decode($json_response->content());
+
+        // デフォルトレスポンスの検証
+        $json_response->assertOk();
+
+        // オリジナル設定したステータスの確認
+        $this->assertEquals(400, $decode_response->status);
+
+        // レスポンスデータが空であるか確認
+        $this->assertEmpty($decode_response->data);
+
+        // バリデーションエラーのステータスコードになっているか
+        $this->assertEquals(400, $decode_response->status);
+    }
+
+
+    /**
+     * @test
+     */
+    public function Api_deletePlayer_ログインしていない状態で実行すると認証エラーになるか()
+    {
+        $api_request = [
+            'user_id'            => $this->login_user->id,
+            'favorite_player_id' => 1
+        ];
+
+        // GETリクエスト。未ログイン状態で行う
+        $json_response = $this->json('DELETE', route('players.delete'), $api_request);
+
+        // 認証エラーのステータスコードになっているか
+        $json_response->assertStatus(401);
+    }
+
+
+    /**
      * player player apiテスト用のテストデータ作成
      *
      * @param integer $player_num
@@ -172,7 +330,7 @@ class FavoritePlayerApiTest extends TestCase
      * @param Collection $return
      * @return void
      */
-    private function setFavoritePlayerRepositoryMethod(string $method, Collection $return)
+    private function setFavoritePlayerRepositoryMethod(string $method, ?Collection $return=null)
     {
         $this->favorite_player_repository_mock
             ->shouldReceive($method)
