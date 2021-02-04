@@ -53,7 +53,7 @@ class RankingApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchRankings_正しいリクエストが来たら正しくレスポンスを返すか()
+    public function Api_fetchRankings_正しいリクエストを送れば正しくレスポンスを返すか()
     {
         // データをセット
         $num = 10;

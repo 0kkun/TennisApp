@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Repositories\Contracts\PlayersRepository;
 use App\Repositories\Contracts\FavoritePlayersRepository;
-use App\Services\FavoritePlayer\FavoritePlayerServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Collection;
 use App\Services\Api\ApiServiceInterface;
@@ -28,13 +27,11 @@ class FavoritePlayerController extends Controller
      *
      * @param PlayersRepository $players_repository
      * @param FavoritePlayersRepository $favorite_players_repository
-     * @param FavoritePlayerServiceInterface $favorite_player_service
      * @param ApiServiceInterface $api_service
      */
     public function __construct(
         PlayersRepository $players_repository,
         FavoritePlayersRepository $favorite_players_repository,
-        FavoritePlayerServiceInterface $favorite_player_service,
         ApiServiceInterface $api_service
     )
     {
@@ -42,7 +39,6 @@ class FavoritePlayerController extends Controller
         $this->result_status = config('api_template.result_status');
         $this->players_repository = $players_repository;
         $this->favorite_players_repository = $favorite_players_repository;
-        $this->favorite_player_service = $favorite_player_service;
         $this->api_service = $api_service;
     }
 

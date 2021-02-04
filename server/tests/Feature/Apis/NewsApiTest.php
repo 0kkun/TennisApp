@@ -72,7 +72,7 @@ class NewsApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchPlayersNews_正しいリクエストが来たら正しくレスポンスを返すか()
+    public function Api_fetchPlayersNews_正しいリクエストを送れば正しくレスポンスを返すか()
     {
         // データをセット
         $player_num = 10;
@@ -149,7 +149,7 @@ class NewsApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchBrandsNews_正しいリクエストが来たら正しくレスポンスを返すか()
+    public function Api_fetchBrandsNews_正しいリクエストを送れば正しくレスポンスを返すか()
     {
         // データをセット
         $player_num = 10;

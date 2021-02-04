@@ -53,7 +53,7 @@ class AnalysisApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchAgeAnalysis_正しいリクエストが来たら正しくレスポンスを返すか()
+    public function Api_fetchAgeAnalysis_正しいリクエストを送れば正しくレスポンスを返すか()
     {
         // データをセット
         $num = 10;

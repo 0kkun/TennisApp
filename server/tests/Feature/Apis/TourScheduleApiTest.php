@@ -52,7 +52,7 @@ class TourScheduleApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchTourSchedules_正しいリクエストが来たら正しくレスポンスを返すか()
+    public function Api_fetchTourSchedules_正しいリクエストを送れば正しくレスポンスを返すか()
     {
         // データをセット
         $num = 10;

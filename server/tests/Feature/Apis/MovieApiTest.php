@@ -73,7 +73,7 @@ class MovieApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchPlayerMovies_正しいリクエストが来たら正しくレスポンスを返すか()
+    public function Api_fetchPlayerMovies_正しいリクエストを送れば正しくレスポンスを返すか()
     {
         // データをセット
         $player_num = 10;
@@ -150,7 +150,7 @@ class MovieApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchBrandMovies_正しいリクエストが来たら正しくレスポンスを返すか()
+    public function Api_fetchBrandMovies_正しいリクエストを送れば正しくレスポンスを返すか()
     {
         // データをセット
         $brand_num = 10;
