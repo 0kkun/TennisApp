@@ -162,13 +162,13 @@ class MovieController extends Controller
             $end = microtime(true);
             $time = $this->api_service->calcTime($start, $end);
             Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
-            return response()->json($this->response);
 
         } catch (\Exception $e) {
             Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
             $this->respose = $this->api_service->makeErrorResponse($e);
-            return response()->json($this->response);
         }
+
+        return response()->json($this->response);
     }
 
 
