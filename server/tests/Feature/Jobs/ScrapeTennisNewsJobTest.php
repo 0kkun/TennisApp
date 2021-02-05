@@ -1,66 +1,66 @@
 <?php
+// NOTE: 今は使用していないのでテストをコメントアウト
+// namespace Tests\Feature\Jobs;
 
-namespace Tests\Feature\Jobs;
+// use App\Jobs\ScrapeBrandNewsJob;
+// use Tests\TestCase;
+// use Illuminate\Foundation\Testing\WithFaker;
+// use Illuminate\Foundation\Testing\RefreshDatabase;
+// use Mockery;
+// use App\Repositories\Contracts\NewsArticlesRepository;
+// use App\Jobs\ScrapeTennisNewsJob;
+// use Illuminate\Support\Facades\Bus;
 
-use App\Jobs\ScrapeBrandNewsJob;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Mockery;
-use App\Repositories\Contracts\NewsArticlesRepository;
-use App\Jobs\ScrapeTennisNewsJob;
-use Illuminate\Support\Facades\Bus;
+// class ScrapeTennisNewsJobTest extends TestCase
+// {
+//     // use RefreshDatabase; // DBアクセスが無いため除去
 
-class ScrapeTennisNewsJobTest extends TestCase
-{
-    // use RefreshDatabase; // DBアクセスが無いため除去
+//     /**
+//      * @var Application
+//      */
+//     private $news_articles_repository_mock;
 
-    /**
-     * @var Application
-     */
-    private $news_articles_repository_mock;
+//     protected function SetUp()
+//     {
+//         parent::setUp();
+//         // リポジトリをモック
+//         $this->setMockery();
+//         // インスタンスを指定
+//         $this->setMockInstance();
+//     }
 
-    public function SetUp()
-    {
-        parent::setUp();
-        // リポジトリをモック
-        $this->setMockery();
-        // インスタンスを指定
-        $this->setMockInstance();
-    }
+//     protected function tearDown()
+//     {
+//         Mockery::close();
+//         parent::tearDown(); 
+//     }
 
-    public function tearDown()
-    {
-        Mockery::close();
-        parent::tearDown(); 
-    }
+//     private function setMockery()
+//     {
+//         $this->news_articles_repository_mock = Mockery::mock(NewsArticlesRepository::class);
+//     }
 
-    private function setMockery()
-    {
-        $this->news_articles_repository_mock = Mockery::mock(NewsArticlesRepository::class);
-    }
+//     private function setMockInstance()
+//     {
+//         $this->app->instance(NewsArticlesRepository::class, $this->news_articles_repository_mock);
+//     }
 
-    private function setMockInstance()
-    {
-        $this->app->instance(NewsArticlesRepository::class, $this->news_articles_repository_mock);
-    }
+//     /**
+//      * Handleのテスト
+//      * 処理の中でリポジトリメソッドの返り値を必要としない場合はメソッドをセットしなくて良いみたい。書くとエラー。
+//      * @test
+//      */
+//     public function Job_scrapeTennisNewsが正常にディスパッチできるか()
+//     {
+//         Bus::fake();
 
-    /**
-     * Handleのテスト
-     * 処理の中でリポジトリメソッドの返り値を必要としない場合はメソッドをセットしなくて良いみたい。書くとエラー。
-     * @test
-     */
-    public function Job_scrapeTennisNewsが正常にディスパッチできるか()
-    {
-        Bus::fake();
+//         dispatch_now( new ScrapeTennisNewsJob );
 
-        dispatch_now( new ScrapeTennisNewsJob );
-
-        Bus::assertDispatched( ScrapeTennisNewsJob::class, function ($job) {
-            $job->handle(
-                $this->news_articles_repository_mock
-            );
-            return true;
-        });
-    }
-}
+//         Bus::assertDispatched( ScrapeTennisNewsJob::class, function ($job) {
+//             $job->handle(
+//                 $this->news_articles_repository_mock
+//             );
+//             return true;
+//         });
+//     }
+// }

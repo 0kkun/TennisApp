@@ -2,17 +2,17 @@
 
 namespace Tests\Feature\Apis;
 
-use App\Models\Ranking;
-use App\Models\User;
 use Tests\TestCase;
 use Illuminate\Support\Collection;
+use App\Models\User;
+use App\Models\Ranking;
 use App\Services\Api\ApiServiceInterface;
 use App\Services\Api\ApiService;
 use App\Repositories\Contracts\RankingRepository;
 use App\Repositories\Eloquents\EloquentRankingRepository;
 
 
-class RankingApiTest extends TestCase
+class AnalysisApiTest extends TestCase
 {
     private $ranking_repository_mock;
     private $api_service_mock;
@@ -53,7 +53,7 @@ class RankingApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchRankings_正しいリクエストを送れば正しくレスポンスを返すか()
+    public function Api_fetchAgeAnalysis_正しいリクエストを送れば正しくレスポンスを返すか()
     {
         // データをセット
         $num = 10;
@@ -64,7 +64,7 @@ class RankingApiTest extends TestCase
         $this->setApiServiceMethod('calcTime', 0.5);
     
         // GETリクエスト。ログイン状態で行う
-        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('ranking.fetch'), $api_request);
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('analysis.fetch_age'), $api_request);
 
         // jsonの中身をチェックする為デコード
         $decode_response = json_decode($json_response->content());
@@ -75,22 +75,22 @@ class RankingApiTest extends TestCase
         // オリジナル設定したステータスの確認
         $this->assertEquals(200, $decode_response->status);
 
-        // データの取得件数は合っているか
-        $this->assertEquals($num, count($decode_response->data));
+        // レスポンスデータが入っているか
+        $this->assertNotEmpty($decode_response->data);
     }
 
 
     /**
      * @test
      */
-    public function Api_fetchRankings_不正なリクエストならバリデーションエラーになるか()
+    public function Api_fetchAgeAnalysis_不正なリクエストならバリデーションエラーになるか()
     {
         $api_request = ['name' => 'taro']; // わざと間違ったリクエストパラメータ
 
         $this->setApiServiceMethod('calcTime', 0.5);
 
         // GETリクエスト。ログイン状態で行う
-        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('ranking.fetch'), $api_request);
+        $json_response = $this->actingAs($this->login_user, 'web')->json('GET', route('analysis.fetch_age'), $api_request);
 
         // jsonの中身をチェックする為デコード
         $decode_response = json_decode($json_response->content());
@@ -112,15 +112,30 @@ class RankingApiTest extends TestCase
     /**
      * @test
      */
-    public function Api_fetchRankings_ログインしていない状態で実行すると認証エラーになるか()
+    public function Api_fetchAgeAnalysis_ログインしていない状態で実行すると認証エラーになるか()
     {
         $api_request = ['num' => 10];
 
         // GETリクエスト。未ログイン状態で行う
-        $json_response = $this->json('GET', route('ranking.fetch'), $api_request);
+        $json_response = $this->json('GET', route('analysis.fetch_age'), $api_request);
 
         // 認証エラーのステータスコードになっているか
         $json_response->assertStatus(401);
+    }
+
+
+    /**
+     * ApiServiceのメソッドをセット
+     *
+     * @param string $method
+     * @param integer $return
+     * @return void
+     */
+    private function setApiServiceMethod(string $method, int $return): void
+    {
+        $this->api_service_mock
+            ->shouldReceive($method)
+            ->andReturn($return);
     }
 
 
@@ -134,20 +149,6 @@ class RankingApiTest extends TestCase
     private function setRankingRepositoryMethod(string $method, Collection $return): void
     {
         $this->ranking_repository_mock
-            ->shouldReceive($method)
-            ->andReturn($return);
-    }
-
-    /**
-     * ApiServiceのメソッドをセット
-     *
-     * @param string $method
-     * @param integer $return
-     * @return void
-     */
-    private function setApiServiceMethod(string $method, int $return): void
-    {
-        $this->api_service_mock
             ->shouldReceive($method)
             ->andReturn($return);
     }

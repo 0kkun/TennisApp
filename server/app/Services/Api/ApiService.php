@@ -30,13 +30,39 @@ class ApiService implements ApiServiceInterface
         }
     }
 
+
+    /**
+     * 処理にかかった時間を算出し桁数調整する
+     *
+     * @return float
+     */
+    public function calcTime($start, $end): float
+    {
+        return substr(($end - $start), 0 ,7);
+    }
+
+
+    /**
+     * Exception発生時のエラーをレスポンスにまとめる
+     *
+     * @param \Exception $e
+     * @return array
+     */
+    public function makeErrorResponse(\Exception $e): array
+    {
+        $status = $this->result_status['server_error'];
+        $error_info = $this->makeErrorInfo($e);
+        return  ['status' => $status, 'data' => $error_info];
+    }
+
+
     /**
      * レスポンス用のエラー情報をまとめる
      *
      * @param Exception $e
      * @return array
      */
-    public function makeErrorInfo(Exception $e): array
+    private function makeErrorInfo(Exception $e): array
     {
         return [
             'message'   => $e->getMessage(),

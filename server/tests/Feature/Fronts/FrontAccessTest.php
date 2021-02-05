@@ -9,22 +9,21 @@ class FrontAccessTest extends TestCase
 {
     private $user;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
         $this->user = $this->makeTestUser();
     }
 
-
-    public function tearDown()
+    protected function tearDown()
     {
-        parent::tearDown(); 
+        parent::tearDown();
     }
 
     /**
      * @test
      */
-    public function loginにアクセスできるか()
+    public function Front_loginにアクセスできるか()
     {
         // 例外処理を抑止
         // phpunitの出力にエラーがそのまま出てくるようになる
@@ -36,17 +35,18 @@ class FrontAccessTest extends TestCase
     /**
      * @test
      */
-    public function Topにアクセスできるか()
+    public function Front_topにアクセスできるか()
     {
         $this->withoutExceptionHandling();
         $response = $this->get(route('top.index'));
-        $response->assertStatus(200);
+        $response->assertStatus(200)
+            ->assertViewIs('top.index');
     }
 
     /**
      * @test
      */
-    public function homeにアクセスできるか()
+    public function Front_homeにアクセスできるか()
     {
         $this->withoutExceptionHandling();
         // ログイン状態でhome画面にアクセスする
@@ -55,6 +55,94 @@ class FrontAccessTest extends TestCase
             ->assertViewIs('home.index');
     }
 
+    /**
+     * @test
+     */
+    public function Front_home_ログイン無しアクセスした場合、認証エラーステータスになるか()
+    {
+        $response = $this->get(route('home.index'));
+        $response->assertStatus(302);
+    }
+
+    /**
+     * @test
+     */
+    public function Front_newsにアクセスできるか()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->actingAs($this->user)->get(route('news.top'));
+        $response->assertStatus(200)
+            ->assertViewIs('news.top');
+    }
+
+    /**
+     * @test
+     */
+    public function Front_news_ログイン無しアクセスした場合、認証エラーステータスになるか()
+    {
+        $response = $this->get(route('news.top'));
+        $response->assertStatus(302);
+    }
+
+    /**
+     * @test
+     */
+    public function Front_rankingにアクセスできるか()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->actingAs($this->user)->get(route('ranking.top'));
+        $response->assertStatus(200)
+            ->assertViewIs('ranking.top');
+    }
+
+    /**
+     * @test
+     */
+    public function Front_ranking_ログイン無しアクセスした場合、認証エラーステータスになるか()
+    {
+        $response = $this->get(route('ranking.top'));
+        $response->assertStatus(302);
+    }
+
+    /**
+     * @test
+     */
+    public function Front_favorite_brandにアクセスできるか()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->actingAs($this->user)->get(route('favorite_brand.top'));
+        $response->assertStatus(200)
+            ->assertViewIs('favorite_brand.top');
+    }
+
+    /**
+     * @test
+     */
+    public function Front_favorite_brand_ログイン無しアクセスした場合、認証エラーステータスになるか()
+    {
+        $response = $this->get(route('favorite_brand.top'));
+        $response->assertStatus(302);
+    }
+
+    /**
+     * @test
+     */
+    public function Front_favorite_playerにアクセスできるか()
+    {
+        $this->withoutExceptionHandling();
+        $response = $this->actingAs($this->user)->get(route('favorite_player.top'));
+        $response->assertStatus(200)
+            ->assertViewIs('favorite_player.top');
+    }
+
+    /**
+     * @test
+     */
+    public function Front_favorite_player_ログイン無しアクセスした場合、認証エラーステータスになるか()
+    {
+        $response = $this->get(route('favorite_player.top'));
+        $response->assertStatus(302);
+    }
 
     /**
      * Userを作成する

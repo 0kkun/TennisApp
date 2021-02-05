@@ -37,7 +37,7 @@ class TopServiceTest extends TestCase
 
     private $top_service;
 
-    public function setUp()
+    protected function setUp()
     {
         parent::setUp();
 
@@ -51,7 +51,7 @@ class TopServiceTest extends TestCase
     }
 
 
-    public function tearDown()
+    protected function tearDown()
     {
         Mockery::close();
         parent::tearDown(); 

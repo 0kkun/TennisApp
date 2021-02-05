@@ -42,9 +42,9 @@ Route::middleware('throttle:60,1', 'auth:web')->prefix('/api/v1')->group(functio
         Route::get('/brand', 'MovieController@fetchBrandMovies')->name('brand');
     });
 
-    Route::get('/rankings', 'RankingController@fetchRankings');
-    Route::get('/tour_schedules', 'TourScheduleController@fetchTourSchedules');
-    Route::get('/analysis_age', 'AnalysisController@fetchAgeAnalysis');
+    Route::get('/rankings', 'RankingController@fetchRankings')->name('ranking.fetch');
+    Route::get('/tour_schedules', 'TourScheduleController@fetchTourSchedules')->name('tour_schedule.fetch');
+    Route::get('/analysis_age', 'AnalysisController@fetchAgeAnalysis')->name('analysis.fetch_age');
 });
 
 
