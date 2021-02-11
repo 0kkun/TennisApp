@@ -176,7 +176,6 @@ class FavoriteBrandController extends Controller
             $time = $this->api_service->calcTime($start, $end);
             Log::info("[ END ] " . __FUNCTION__ . ", STATUS:" . $status . ", 処理時間:" . $time . "秒");
 
-
         } catch (\Exception $e) {
             Log::info("[Exception]" . __FUNCTION__ . $e->getMessage());
             $this->respose = $this->api_service->makeErrorResponse($e);
