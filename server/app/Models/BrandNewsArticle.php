@@ -9,7 +9,6 @@ class BrandNewsArticle extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'brand_news_articles';
-    protected $guarded = [];
     protected $fillable = [
         'title',
         'url',

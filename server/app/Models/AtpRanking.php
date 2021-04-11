@@ -9,7 +9,6 @@ class AtpRanking extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'atp_rankings';
-    protected $guarded = [];
     protected $fillable = [
         'rank',
         'name',

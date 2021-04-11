@@ -9,7 +9,6 @@ class TourInformation extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'tour_informations';
-    protected $guarded = [];
     protected $fillable = [
         'name',
         'category',

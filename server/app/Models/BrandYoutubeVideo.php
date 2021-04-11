@@ -9,7 +9,6 @@ class BrandYoutubeVideo extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'brand_youtube_videos';
-    protected $guarded = [];
     protected $fillable = [
         'title',
         'url',

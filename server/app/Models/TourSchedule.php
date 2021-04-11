@@ -9,7 +9,7 @@ class TourSchedule extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'tour_schedules';
-    protected $guarded = array('id');
+    protected $guarded = ['id'];
 
     public $timestamps = true;
 
