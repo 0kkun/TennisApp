@@ -9,7 +9,6 @@ class FavoritePlayer extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'favorite_players';
-    protected $guarded = [];
     protected $fillable = [
         'player_id',
         'user_id',

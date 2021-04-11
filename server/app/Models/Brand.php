@@ -9,7 +9,6 @@ class Brand extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'brands';
-    protected $guarded = [];
     protected $fillable = [
         'name_jp',
         'name_en',

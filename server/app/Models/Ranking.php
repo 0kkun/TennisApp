@@ -9,7 +9,7 @@ class Ranking extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'rankings';
-    protected $guarded = array('id');
+    protected $guarded = ['id'];
 
     public $timestamps = true;
 

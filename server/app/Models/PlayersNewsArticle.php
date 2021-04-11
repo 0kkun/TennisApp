@@ -9,7 +9,7 @@ class PlayersNewsArticle extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'players_news_articles';
-    protected $guarded = array('id');
+    protected $guarded = ['id'];
 
     public $timestamps = true;
 

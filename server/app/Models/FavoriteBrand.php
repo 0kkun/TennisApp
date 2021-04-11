@@ -9,7 +9,6 @@ class FavoriteBrand extends Model
     use BulkInsertOrUpdateTrait;
 
     protected $table = 'favorite_brands';
-    protected $guarded = [];
     protected $fillable = [
         'brand_id',
         'user_id',

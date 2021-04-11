@@ -13,7 +13,13 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-      //
+        Commands\getBrandsYoutube::class,
+        Commands\getPlayersYoutube::class,
+        Commands\scrapeBrandNews::class,
+        Commands\ScrapeNewsCommand::class,
+        Commands\scrapeRankingCommand::class,
+        Commands\ScrapeTourScheduleCommand::class,
+        Commands\UpdatePlayersCommand::class,
     ];
 
     /**
@@ -24,20 +30,31 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('scrapeTennisNews')
-                ->dailyAt('23:30');
+        // 大会スケジュールのスクレイピング
+        $schedule->command('ScrapeTourScheduleCommand')
+            ->dailyAt('12:00');
 
+        // プレイヤーニュースのスクレイピング
+        $schedule->command('scrapeNewsCommand')
+            ->dailyAt('23:30');
+
+        // ブランドニュースのスクレイピング
         $schedule->command('scrapeBrandNews')
-                ->dailyAt('23:35');
+            ->dailyAt('23:30');
 
+        // Youtube APIで動画取得
         $schedule->command('getPlayersYoutube')
-                ->dailyAt('23:40');
-
+            ->dailyAt('22:00');
         $schedule->command('getBrandsYoutube')
-                ->dailyAt('23:45');
+            ->dailyAt('22:10');
 
-        $schedule->command('scrapeATPRanking')
-                ->weeklyOn(1, '23:00'); // 毎週月曜日
+        // ランキングのスクレイピング
+        $schedule->command('scrapeRankingCommand')
+            ->weeklyOn(1, '23:00'); // 毎週月曜日
+
+        // プレイヤー情報のアップデート
+        $schedule->command('UpdatePlayersCommand')
+            ->weeklyOn(1, '23:10'); // 毎週月曜日
     }
 
     /**
