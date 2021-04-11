@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
             ->dailyAt('23:30');
 
         // ブランドニュースのスクレイピング
-        $schedule->command('scrapeBrandNews')
+        $schedule->command('scrapeBrandNews --sync')
             ->dailyAt('23:30');
 
         // Youtube APIで動画取得

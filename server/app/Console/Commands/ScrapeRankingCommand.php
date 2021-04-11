@@ -17,8 +17,8 @@ class scrapeRankingCommand extends Command
 
     const URL_EN = 'https://live-tennis.eu/en/atp-live-ranking';
     const URL_JP = 'https://live-tennis.eu/ja/atp-live-ranking';
-    const CHUNK_SIZE = 14;
-    const LOOP_COUNT = 28142;
+    const CHUNK_SIZE = 16;
+    const LOOP_COUNT = 32195;
     const CHUNK_SIZE_FOR_INSERT = 100;
 
     private $ranking_repository;
@@ -106,18 +106,26 @@ class scrapeRankingCommand extends Command
     private function scrapeRanking(string $url, ProgressBar $progress_bar): array
     {
         $data = [];
+        $start_flag = false;
         $goutte = GoutteFacade::request('GET', $url);
         sleep(1);
 
-        $goutte->filter('tbody tr td')->each(function ($node) use (&$data, $progress_bar){
-            if ( $node->count() > 0) {
+        $goutte->filter('tbody tr td')->each(function ($node) use (&$data, $progress_bar, &$start_flag) {
+
+            // 1位のデータが来るまでは配列に格納しない
+            if ($node->text() === ' 1 ') $start_flag = true;
+
+            if ( $node->count() > 0 && $start_flag) {
                 array_push($data, $node->text());
-            } else {
-                $this->info("スクレイピング実行できませんでした。");
-                $this->logger->write('スクレイピングできませんでした。', 'info' ,true);
             }
             $progress_bar->advance(1);
         });
+
+        if ( empty($data) ) {
+            $this->info("スクレイピング実行できませんでした。");
+            $this->logger->write('スクレイピングできませんでした。', 'info' ,true);
+        }
+
         return $data;
     }
 
@@ -177,15 +185,15 @@ class scrapeRankingCommand extends Command
                     'name_jp'                => (string) $data_jp[$index][3],
                     'age'                    => (int) $datum[4],
                     'country'                => (string) substr($datum[5], 0, 3),
-                    'point'                  => (int) $datum[6],
-                    'rank_change'            => (int) $datum[7] ?? 0,
-                    'point_change'           => (int) $datum[8] ?? 0,
-                    'current_tour_result_en' => (string) $datum[9],
-                    'current_tour_result_jp' => (string) $data_jp[$index][9],
-                    'pre_tour_result_en'     => (string) $datum[10],
-                    'pre_tour_result_jp'     => (string) $data_jp[$index][10],
-                    'next_point'             => (int) $datum[12] ?? 0,
-                    'max_point'              => (int) $datum[13] ?? 0,
+                    'point'                  => (int) $datum[7],
+                    'rank_change'            => (int) $datum[8] ?? 0,
+                    'point_change'           => (int) $datum[9] ?? 0,
+                    'current_tour_result_en' => (string) $datum[11],
+                    'current_tour_result_jp' => (string) $data_jp[$index][11],
+                    'pre_tour_result_en'     => (string) $datum[12],
+                    'pre_tour_result_jp'     => (string) $data_jp[$index][12],
+                    'next_point'             => (int) $datum[14] ?? 0,
+                    'max_point'              => (int) $datum[15] ?? 0,
                     'ymd'                    => $today,
                     'created_at'             => $today,
                     'updated_at'             => $today
