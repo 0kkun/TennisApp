@@ -8,7 +8,7 @@
 
     <!-- ランキングタブ -->
     <div v-if="isActive === 'Ranking'" class="border font-alegreya font-weight-bold">
-        <div class="text-center pt-2 pb-2 h2 bg-secondary text-white">Ranking</div>
+        <div class="text-center pt-2 pb-2 h2 bg-secondary text-white">Ranking <small>( at {{ ymd }})</small></div>
         <div class="card-body">
 
             <div v-if="loadStatus == false">
@@ -28,8 +28,8 @@
                                 <th class="d-table-cell d-md-table-cell border border-light" scope="col">Name</th>　<!-- 常に表示 -->
                                 <th class="d-none d-md-table-cell border border-light" scope="col">Age</th>
                                 <th class="d-table-cell d-md-table-cell border border-light" scope="col">Country</th>
-                                <th class="d-none d-md-table-cell border border-light" scope="col">Current Tour</th>
-                                <th class="d-none d-md-table-cell border border-light" scope="col">Pre Tour</th>
+                                <th class="d-none d-md-table-cell border border-light tour" scope="col">Current Tour</th>
+                                <th class="d-none d-md-table-cell border border-light tour" scope="col">Pre Tour</th>
                                 <th class="d-none d-md-table-cell border border-light" scope="col">Next Pt</th>
                                 <th class="d-none d-md-table-cell border border-light" scope="col">Max Pt</th>
                             </tr>
@@ -79,7 +79,8 @@ export default {
             num: 100,
             analysisNum: 100,
             loadStatus: false,
-            isActive: 'Ranking'
+            isActive: 'Ranking',
+            ymd: '',
         }
     },
     components: { 
@@ -101,6 +102,7 @@ export default {
             })
             .then((response) => {
                 this.rankings = response.data.data;
+                this.ymd = response.data.data[0].ymd;
                 this.loadStatus = true;
                 console.log('ranking-status:' + response.data.status);
             })
@@ -133,6 +135,9 @@ td.break{
 th, td {
     text-align: center;
     padding: 5px;
+}
+td.tour, th.tour {
+    min-width:120px;
 }
 /* アニメーション */
 .fade-enter-active, .fade-leave-active {
